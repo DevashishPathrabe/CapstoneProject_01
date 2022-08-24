@@ -16,7 +16,7 @@ import com.wipro.cp.doconnect.entity.User;
 import com.wipro.cp.doconnect.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserServiceImp implements IUserService {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -38,7 +38,8 @@ public class UserService {
 	public StatusDTO<UserResponseDTO> getUserByUsername(String username) {
 		return convertOptionalUserToStatusDTOUserResponseDTO(userRepository.findByUsername(username), "User with username " + username + " does not exist.");
 	}
-	
+
+	@Override
 	public StatusDTO<UserResponseDTO> createUser(UserRegisterDTO userRegisterDTO) {
 		if (userRepository.existsByUsername(userRegisterDTO.getUsername())) {
 			return new StatusDTO<UserResponseDTO>("User with username " + userRegisterDTO.getUsername() + " already exists. Please create user with different username.", false, null);
@@ -52,15 +53,18 @@ public class UserService {
 		User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getName(), userRegisterDTO.getPassword(), userRegisterDTO.getEmail(), userRegisterDTO.getIsAdmin());
 		return new StatusDTO<UserResponseDTO>("", true, convertUserToUserResponseDTO(userRepository.save(user)));
 	}
-	
+
+	@Override
 	public List<UserResponseDTO> getAllUsers() {
 		return userRepository.findAll().stream().map(user -> convertUserToUserResponseDTO(user)).collect(Collectors.toList());
 	}
-	
+
+	@Override
 	public StatusDTO<UserResponseDTO> getUserById(Long id) {
 		return convertOptionalUserToStatusDTOUserResponseDTO(userRepository.findById(id), "User with ID " + id + " does not exist.");
 	}
-	
+
+	@Override
 	public StatusDTO<UserResponseDTO> updateUser(UserUpdateDTO userUpdateDTO, Long id) {
 		Optional<User> optionalUser = userRepository.findById(id);
 		if (optionalUser.isEmpty()) {
@@ -72,6 +76,7 @@ public class UserService {
 		return new StatusDTO<UserResponseDTO>("", true, convertUserToUserResponseDTO(userRepository.save(user)));
 	}
 
+	@Override
 	public boolean deleteUserById(Long id) {
 		Optional<User> optionalUser = userRepository.findById(id);
 		if (optionalUser.isEmpty()) {
@@ -80,7 +85,8 @@ public class UserService {
 		userRepository.deleteById(id);
 		return true;
 	}
-	
+
+	@Override
 	public void deleteAllUsers() {
 		userRepository.deleteAllInBatch();
 	}
