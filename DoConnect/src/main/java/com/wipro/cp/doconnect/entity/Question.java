@@ -1,6 +1,5 @@
 package com.wipro.cp.doconnect.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -51,10 +48,6 @@ public class Question {
 	private String approvedBy;
 	
 	private boolean isApproved;
-	
-	@OneToMany(orphanRemoval = true)
-	@JoinColumn(name="question_id")
-	private List<Answer> answers;
 
 	public String getQuestion() {
 		return question;
@@ -104,14 +97,6 @@ public class Question {
 		this.isApproved = isApproved;
 	}
 
-	public List<Answer> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -129,7 +114,6 @@ public class Question {
 		this.postedBy = postedBy;
 		this.approvedBy = null;
 		this.isApproved = false;
-		this.answers = new ArrayList<Answer>();
 	}
 
 	public Question() {
