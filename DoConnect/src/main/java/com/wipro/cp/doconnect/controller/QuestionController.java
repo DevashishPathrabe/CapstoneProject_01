@@ -52,7 +52,7 @@ public class QuestionController {
 	@PostMapping("/questions")
 	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionRequestDTO questionRequestDTO) {
 		// TODO: Read the postedBy value from Authorization Header
-		String postedBy = "";
+		String postedBy = "Dummy";
 		StatusDTO<QuestionResponseDTO> questionStatus = questionService.createQuestion(questionRequestDTO, postedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(questionStatus.getStatusMessage());
