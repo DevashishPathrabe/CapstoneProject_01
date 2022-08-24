@@ -43,6 +43,12 @@ public class UserService {
 		if (userRepository.existsByUsername(userRegisterDTO.getUsername())) {
 			return new StatusDTO<UserResponseDTO>("User with username " + userRegisterDTO.getUsername() + " already exists. Please create user with different username.", false, null);
 		}
+		if (userRepository.existsByEmail(userRegisterDTO.getEmail())) {
+			return new StatusDTO<UserResponseDTO>("User with email " + userRegisterDTO.getEmail() + " already exists. Please create user with different email.", false, null);
+		}
+		if (userRegisterDTO.getPassword().length() < 8) {
+			return new StatusDTO<UserResponseDTO>("Password should contain at least 8 characters.", false, null);
+		}
 		User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getName(), bcryptEncoder.encode(userRegisterDTO.getPassword()), userRegisterDTO.getEmail(), userRegisterDTO.getIsAdmin());
 		return new StatusDTO<UserResponseDTO>("", true, convertUserToUserResponseDTO(userRepository.save(user)));
 	}
