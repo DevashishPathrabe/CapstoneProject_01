@@ -6,25 +6,24 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wipro.cp.doconnect.util.ListToStringConverter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name="answers")
 public class Answer {
 	
@@ -51,6 +50,12 @@ public class Answer {
 	private String approvedBy;
 	
 	private boolean isApproved;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "question_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Question question;
 
 	public String getAnswer() {
 		return answer;
@@ -100,13 +105,24 @@ public class Answer {
 		return postedAt;
 	}
 
-	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy) {
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy,
+			Date postedAt, String approvedBy, boolean isApproved, Question question) {
 		super();
 		this.answer = answer;
 		this.images = images;
 		this.postedBy = postedBy;
-		this.approvedBy = null;
-		this.isApproved = false;
+		this.postedAt = postedAt;
+		this.approvedBy = approvedBy;
+		this.isApproved = isApproved;
+		this.question = question;
 	}
 
 	public Answer() {
