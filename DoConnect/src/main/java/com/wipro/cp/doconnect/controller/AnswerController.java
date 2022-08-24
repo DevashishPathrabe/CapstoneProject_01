@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,15 @@ public class AnswerController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(answerResponseDTOStatus.getStatusMessage());
 		}
 		return ResponseEntity.ok(answerResponseDTOStatus.getObject());
+	}
+	
+	@DeleteMapping("/questions/{questionId}/answers/{answerId}")
+	public ResponseEntity<?> deleteAnswerForQuestionById(@PathVariable(value="questionId") Long questionId, @PathVariable(value="answerId") Long answerId) {
+		StatusDTO<Boolean> deletionStatus = answerService.deleteAnswerForQuestionById(questionId, answerId);
+		if (!deletionStatus.getIsValid()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deletionStatus.getStatusMessage());
+		}
+		return ResponseEntity.ok("Answer for Question ID " + questionId + " deleted successfully.");
 	}
 
 }
