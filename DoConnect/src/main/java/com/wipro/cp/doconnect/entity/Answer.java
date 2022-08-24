@@ -1,5 +1,6 @@
 package com.wipro.cp.doconnect.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.wipro.cp.doconnect.util.ListToStringConverter;
 
@@ -41,8 +44,10 @@ public class Answer {
 	@NotEmpty
 	private String postedBy;
 	
-	@NotNull
-	@NotEmpty
+	@Column(nullable = false, updatable = false)
+	@CreationTimestamp
+	private Date postedAt;
+	
 	private String approvedBy;
 	
 	private boolean isApproved;
@@ -91,14 +96,17 @@ public class Answer {
 		return id;
 	}
 
-	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy,
-			@NotNull @NotEmpty String approvedBy, boolean isApproved) {
+	public Date getPostedAt() {
+		return postedAt;
+	}
+
+	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy) {
 		super();
 		this.answer = answer;
 		this.images = images;
 		this.postedBy = postedBy;
-		this.approvedBy = approvedBy;
-		this.isApproved = isApproved;
+		this.approvedBy = null;
+		this.isApproved = false;
 	}
 
 	public Answer() {
