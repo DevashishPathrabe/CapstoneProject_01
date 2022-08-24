@@ -1,5 +1,7 @@
 package com.wipro.cp.doconnect.entity;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.wipro.cp.doconnect.util.ListToStringConverter;
 
@@ -40,8 +44,10 @@ public class Question {
 	@NotEmpty
 	private String postedBy;
 	
-	@NotNull
-	@NotEmpty
+	@Column(nullable = false, updatable = false)
+	@CreationTimestamp
+	private Date postedAt;
+	
 	private String approvedBy;
 	
 	private boolean isApproved;
@@ -90,11 +96,11 @@ public class Question {
 		this.approvedBy = approvedBy;
 	}
 
-	public boolean isApproved() {
+	public boolean getIsApproved() {
 		return isApproved;
 	}
 
-	public void setApproved(boolean isApproved) {
+	public void setIsApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
 
@@ -110,17 +116,20 @@ public class Question {
 		return id;
 	}
 
+	public Date getPostedAt() {
+		return postedAt;
+	}
+
 	public Question(@NotNull @NotEmpty String question, @NotNull @NotEmpty String topic, List<String> images,
-			@NotNull @NotEmpty String postedBy, @NotNull @NotEmpty String approvedBy, boolean isApproved,
-			List<Answer> answers) {
+			@NotNull @NotEmpty String postedBy) {
 		super();
 		this.question = question;
 		this.topic = topic;
 		this.images = images;
 		this.postedBy = postedBy;
-		this.approvedBy = approvedBy;
-		this.isApproved = isApproved;
-		this.answers = answers;
+		this.approvedBy = null;
+		this.isApproved = false;
+		this.answers = new ArrayList<Answer>();
 	}
 
 	public Question() {
