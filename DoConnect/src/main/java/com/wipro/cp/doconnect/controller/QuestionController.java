@@ -60,24 +60,24 @@ public class QuestionController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(questionStatus.getObject());
 	}
 	
-	@PutMapping("/questions/{id}")
-	public ResponseEntity<?> updateQuestion(@Valid @RequestBody QuestionUpdateDTO questionUpdateDTO, @PathVariable Long id) {
+	@PutMapping("/questions/{questionId}")
+	public ResponseEntity<?> updateQuestion(@Valid @RequestBody QuestionUpdateDTO questionUpdateDTO, @PathVariable Long questionId) {
 		// TODO: Read the approvedBy value from Authorization Header
 		String approvedBy = "";
-		StatusDTO<QuestionResponseDTO> questionStatus = questionService.updateQuestion(questionUpdateDTO, id, approvedBy);
+		StatusDTO<QuestionResponseDTO> questionStatus = questionService.updateQuestion(questionUpdateDTO, questionId, approvedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(questionStatus.getStatusMessage());
 		}
 		return ResponseEntity.ok(questionStatus.getObject());
 	}
 	
-	@DeleteMapping("/questions/{id}")
-	public ResponseEntity<?> deleteQuestionById(@PathVariable @Min(1) Long id) {
-		boolean deleted = questionService.deleteQuestionById(id);
+	@DeleteMapping("/questions/{questionId}")
+	public ResponseEntity<?> deleteQuestionById(@PathVariable @Min(1) Long questionId) {
+		boolean deleted = questionService.deleteQuestionById(questionId);
 		if (deleted) {
 			return ResponseEntity.ok("Question deleted successfully.");
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question with ID " + id + " does not exist.");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question with ID " + questionId + " does not exist.");
 	}
 
 }
