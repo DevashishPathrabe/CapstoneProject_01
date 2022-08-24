@@ -22,14 +22,14 @@ import com.wipro.cp.doconnect.dto.AnswerRequestDTO;
 import com.wipro.cp.doconnect.dto.AnswerResponseDTO;
 import com.wipro.cp.doconnect.dto.AnswerUpdateDTO;
 import com.wipro.cp.doconnect.dto.StatusDTO;
-import com.wipro.cp.doconnect.service.AnswerService;
+import com.wipro.cp.doconnect.service.AnswerServiceImp;
 
 @RestController
 @CrossOrigin
 public class AnswerController {
 	
 	@Autowired
-	AnswerService answerService;
+	AnswerServiceImp answerServiceImp;
 	
 	@GetMapping("/answers")
 	public ResponseEntity<?> getAllAnswers(@RequestParam(name="status") Optional<String> optionalStatus) {
@@ -37,7 +37,7 @@ public class AnswerController {
 		if (optionalStatus.isPresent()) {
 			answerStatus = optionalStatus.get();
 		}
-		StatusDTO<List<AnswerResponseDTO>> answerResponseDTOStatus = answerService.getAllAnswers(answerStatus);
+		StatusDTO<List<AnswerResponseDTO>> answerResponseDTOStatus = answerServiceImp.getAllAnswers(answerStatus);
 		if (!answerResponseDTOStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(answerResponseDTOStatus.getStatusMessage());
 		}
@@ -50,7 +50,7 @@ public class AnswerController {
 		if (optionalStatus.isPresent()) {
 			answerStatus = optionalStatus.get();
 		}
-		StatusDTO<List<AnswerResponseDTO>> answerResponseDTOStatus = answerService.getAllAnswersForQuestionId(questionId, answerStatus);
+		StatusDTO<List<AnswerResponseDTO>> answerResponseDTOStatus = answerServiceImp.getAllAnswersForQuestionId(questionId, answerStatus);
 		if (!answerResponseDTOStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(answerResponseDTOStatus.getStatusMessage());
 		}
@@ -61,7 +61,7 @@ public class AnswerController {
 	public ResponseEntity<?> createAnswerForQuestionId(@PathVariable(value="questionId") Long questionId, @Valid @RequestBody AnswerRequestDTO answerRequestDTO) {
 		// TODO: Read the postedBy value from Authorization Header
 		String postedBy = "Dummy";
-		StatusDTO<AnswerResponseDTO> answerResponseDTOStatus = answerService.createAnswerForQuestionId(questionId, answerRequestDTO, postedBy);
+		StatusDTO<AnswerResponseDTO> answerResponseDTOStatus = answerServiceImp.createAnswerForQuestionId(questionId, answerRequestDTO, postedBy);
 		if (!answerResponseDTOStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(answerResponseDTOStatus.getStatusMessage());
 		}
@@ -72,7 +72,7 @@ public class AnswerController {
 	public ResponseEntity<?> updateAnswerForQuestionId(@Valid @RequestBody AnswerUpdateDTO answerUpdateDTO, @PathVariable(value="questionId") Long questionId, @PathVariable(value="answerId") Long answerId) {
 		// TODO: Read the approvedBy value from Authorization Header
 		String approvedBy = "";
-		StatusDTO<AnswerResponseDTO> answerResponseDTOStatus = answerService.updateAnswerForQuestionId(questionId, answerId, answerUpdateDTO, approvedBy);
+		StatusDTO<AnswerResponseDTO> answerResponseDTOStatus = answerServiceImp.updateAnswerForQuestionId(questionId, answerId, answerUpdateDTO, approvedBy);
 		if (!answerResponseDTOStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(answerResponseDTOStatus.getStatusMessage());
 		}
@@ -81,7 +81,7 @@ public class AnswerController {
 	
 	@DeleteMapping("/questions/{questionId}/answers/{answerId}")
 	public ResponseEntity<?> deleteAnswerForQuestionById(@PathVariable(value="questionId") Long questionId, @PathVariable(value="answerId") Long answerId) {
-		StatusDTO<Boolean> deletionStatus = answerService.deleteAnswerForQuestionById(questionId, answerId);
+		StatusDTO<Boolean> deletionStatus = answerServiceImp.deleteAnswerForQuestionById(questionId, answerId);
 		if (!deletionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deletionStatus.getStatusMessage());
 		}
