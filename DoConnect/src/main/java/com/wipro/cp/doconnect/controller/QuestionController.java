@@ -23,14 +23,14 @@ import com.wipro.cp.doconnect.dto.QuestionRequestDTO;
 import com.wipro.cp.doconnect.dto.QuestionResponseDTO;
 import com.wipro.cp.doconnect.dto.QuestionUpdateDTO;
 import com.wipro.cp.doconnect.dto.StatusDTO;
-import com.wipro.cp.doconnect.service.QuestionService;
+import com.wipro.cp.doconnect.service.QuestionServiceImp;
 
 @RestController
 @CrossOrigin
 public class QuestionController {
 	
 	@Autowired
-	private QuestionService questionService;
+	private QuestionServiceImp questionServiceImp;
 	
 	@GetMapping("/questions")
 	public ResponseEntity<?> getAllQuestions(@RequestParam(name="status") Optional<String> optionalStatus, @RequestParam(name="search") Optional<String> optionalSearch) {
@@ -42,7 +42,7 @@ public class QuestionController {
 		if (optionalSearch.isPresent()) {
 			search = optionalSearch.get();
 		}
-		StatusDTO<List<QuestionResponseDTO>> questionStatus = questionService.getAllQuestions(status, search);
+		StatusDTO<List<QuestionResponseDTO>> questionStatus = questionServiceImp.getAllQuestions(status, search);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(questionStatus.getStatusMessage());
 		}
@@ -53,7 +53,7 @@ public class QuestionController {
 	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionRequestDTO questionRequestDTO) {
 		// TODO: Read the postedBy value from Authorization Header
 		String postedBy = "Dummy";
-		StatusDTO<QuestionResponseDTO> questionStatus = questionService.createQuestion(questionRequestDTO, postedBy);
+		StatusDTO<QuestionResponseDTO> questionStatus = questionServiceImp.createQuestion(questionRequestDTO, postedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(questionStatus.getStatusMessage());
 		}
@@ -64,7 +64,7 @@ public class QuestionController {
 	public ResponseEntity<?> updateQuestion(@Valid @RequestBody QuestionUpdateDTO questionUpdateDTO, @PathVariable Long questionId) {
 		// TODO: Read the approvedBy value from Authorization Header
 		String approvedBy = "";
-		StatusDTO<QuestionResponseDTO> questionStatus = questionService.updateQuestion(questionUpdateDTO, questionId, approvedBy);
+		StatusDTO<QuestionResponseDTO> questionStatus = questionServiceImp.updateQuestion(questionUpdateDTO, questionId, approvedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(questionStatus.getStatusMessage());
 		}
@@ -73,7 +73,7 @@ public class QuestionController {
 	
 	@DeleteMapping("/questions/{questionId}")
 	public ResponseEntity<?> deleteQuestionById(@PathVariable @Min(1) Long questionId) {
-		boolean deleted = questionService.deleteQuestionById(questionId);
+		boolean deleted = questionServiceImp.deleteQuestionById(questionId);
 		if (deleted) {
 			return ResponseEntity.ok("Question deleted successfully.");
 		}
