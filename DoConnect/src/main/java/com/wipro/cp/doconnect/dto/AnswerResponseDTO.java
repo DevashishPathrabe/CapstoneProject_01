@@ -12,6 +12,7 @@ public class AnswerResponseDTO {
 	private Date postedAt;
 	private String approvedBy;
 	private boolean isApproved;
+	private QuestionResponseDTO questionResponseDTO;
 
 	public long getId() {
 		return id;
@@ -41,8 +42,12 @@ public class AnswerResponseDTO {
 		return isApproved;
 	}
 
+	public QuestionResponseDTO getQuestionResponseDTO() {
+		return questionResponseDTO;
+	}
+
 	public AnswerResponseDTO(long id, String answer, List<String> images, String postedBy, Date postedAt,
-			String approvedBy, boolean isApproved) {
+			String approvedBy, boolean isApproved, QuestionResponseDTO questionResponseDTO) {
 		super();
 		this.id = id;
 		this.answer = answer;
@@ -51,6 +56,7 @@ public class AnswerResponseDTO {
 		this.postedAt = postedAt;
 		this.approvedBy = approvedBy;
 		this.isApproved = isApproved;
+		this.questionResponseDTO = questionResponseDTO;
 	}
 
 	public AnswerResponseDTO() {
