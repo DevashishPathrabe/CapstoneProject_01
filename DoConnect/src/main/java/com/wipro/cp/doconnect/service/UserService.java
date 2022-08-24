@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wipro.cp.doconnect.dto.StatusDTO;
@@ -21,8 +21,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private PasswordEncoder bcryptEncoder;
+//	@Autowired
+//	private PasswordEncoder bcryptEncoder;
 	
 	private UserResponseDTO convertUserToUserResponseDTO(User user) {
 		return new UserResponseDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail(), user.getIsAdmin());
@@ -49,7 +49,7 @@ public class UserService {
 		if (userRegisterDTO.getPassword().length() < 8) {
 			return new StatusDTO<UserResponseDTO>("Password should contain at least 8 characters.", false, null);
 		}
-		User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getName(), bcryptEncoder.encode(userRegisterDTO.getPassword()), userRegisterDTO.getEmail(), userRegisterDTO.getIsAdmin());
+		User user = new User(userRegisterDTO.getUsername(), userRegisterDTO.getName(), userRegisterDTO.getPassword(), userRegisterDTO.getEmail(), userRegisterDTO.getIsAdmin());
 		return new StatusDTO<UserResponseDTO>("", true, convertUserToUserResponseDTO(userRepository.save(user)));
 	}
 	
