@@ -13,6 +13,9 @@ import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
+import { PostQuestionComponent } from './post-question/post-question.component';
+import { ChatComponent } from './chat/chat.component';
+import { QuestionComponent } from './question/question.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { HomeComponent } from './home/home.component';
     PageNotFoundComponent,
     RegisterComponent,
     HomeComponent,
+    PostQuestionComponent,
+    ChatComponent,
+    QuestionComponent,
   ],
   imports: [
     BrowserModule,

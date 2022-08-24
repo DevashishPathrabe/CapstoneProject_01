@@ -4,6 +4,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PostQuestionComponent } from './post-question/post-question.component';
+import { QuestionComponent } from './question/question.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
@@ -11,6 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'post-question', component: PostQuestionComponent },
+  { path: 'question/:id', component: QuestionComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

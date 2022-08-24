@@ -9,31 +9,17 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  data = [1, 2, 2, 2, 2, 2];
+  data: any;
   constructor(private _userService: UserService, private roter: Router) {}
 
   ngOnInit(): void {
-    // this._userService.getAllProducts().subscribe((data) => {
-    //   this.data = data;
-    //   console.log(this.data);
-    // });
+    this._userService.getApprovedQuestions().subscribe((res) => {
+      this.data = res;
+      console.log(res);
+    });
   }
 
-  // addToWishlist(product: any) {
-  //   if (this._userService.user.name !== '') {
-  //     this._userService.addTowishlist(product);
-  //   } else {
-  //     alert('Please Login');
-  //     this.roter.navigate(['/login']);
-  //   }
-  // }
-
-  // addToCart(product: any) {
-  //   if (this._userService.user.name !== '') {
-  //     this._userService.addToCart(product);
-  //   } else {
-  //     alert('Please Login');
-  //     this.roter.navigate(['/login']);
-  //   }
-  // }
+  openQuestion(id: any) {
+    this.roter.navigate([`/question/${id}`]);
+  }
 }

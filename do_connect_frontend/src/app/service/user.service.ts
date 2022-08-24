@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserService {
-  baseURL = 'http://localhost:8181/api/v1';
+  baseURL = 'http://localhost:3000';
   user: any = {
     id: 0,
     name: '',
@@ -26,28 +26,14 @@ export class UserService {
       email: user.email,
     };
   }
-  // addTowishlist(product: any) {
-  //   let currentWishlist = this.user.wishlist;
-  //   currentWishlist.push(product);
-  //   this.user = { ...this.user, wishlist: currentWishlist };
-  //   // console.log('wish', this.user);
-  // }
-  // addToCart(product: any) {
-  //   let currentCart = this.user.cart;
-  //   currentCart.push(product);
-  //   this.user = { ...this.user, cart: currentCart };
-  //   // console.log(this.user);
-  // }
 
-  // getAllProducts() {
-  //   return this.http.get('https://fakestoreapi.com/products');
-  // }
+  getQuestion(id: any) {
+    return this.http.get(this.baseURL + '/questions/' + id);
+  }
 
-  // getCartProducts() {
-  //   return this.user.cart;
-  // }
+  getApprovedQuestions() {
+    return this.http.get(this.baseURL + '/questions');
+  }
 
-  // getWishlistProducts() {
-  //   return this.user.wishlist;
-  // }
+  postQuestion(answer: any) {}
 }

@@ -1,0 +1,19 @@
+.chatbox {
+  height: 70vh;
+  width: 20vw;
+  background-color: aliceblue;
+  padding: 1rem 2rem;
+  position: absolute;
+  bottom: 100px;
+  right: 50px;
+  border-radius: 5px;
+}
+.inputbox {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+}
+.msgbox {
+  height: 80%;
+  padding: 1rem;
+}

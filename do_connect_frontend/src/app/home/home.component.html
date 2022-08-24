@@ -3,12 +3,11 @@
   <div class="row">
     <div *ngFor="let question of data" class="col-lg-4 p-3">
       <div class="bg-white text-dark p-3">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, sequi
-        ducimus sapiente, accusamus atque illum laborum cupiditate excepturi
-        animi, inventore temporibus itaque saepe. Fugit rem quaerat mollitia
-        possimus fugiat vero!
+        <p>{{ question.question }}</p>
         <div class="pt-4">
-          <button class="btn btn-warning">View Answers</button>
+          <button class="btn btn-warning" (click)="openQuestion(question.id)">
+            View Answers
+          </button>
         </div>
       </div>
     </div>

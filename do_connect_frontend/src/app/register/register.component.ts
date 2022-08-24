@@ -11,12 +11,14 @@ export class RegisterComponent implements OnInit {
   name = '';
   email = '';
   password = '';
+  role = 'User';
   warning = '';
   constructor(private _userService: UserService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onRegister() {
+    console.log(this.role);
     if (this.name === '' || this.email === '' || this.password === '') {
       this.warning = 'All field required';
       return;

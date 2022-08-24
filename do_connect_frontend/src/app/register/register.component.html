@@ -32,6 +32,13 @@
         required
       />
     </div>
+    <div class="form-group py-3">
+      <label for="password">Role</label>
+      <select [(ngModel)]="role" class="form-select">
+        <option selected>User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
 
     <div class="py-2">
       <button class="btn btn-success" (click)="onRegister()">Register</button>

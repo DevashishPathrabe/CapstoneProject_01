@@ -4,7 +4,69 @@
       "name": "Ravi Kant Prasad",
       "email": "rkprasad0818@gmail.com",
       "password": "admin",
+      "phone": 9872487324,
       "id": 1
+    },
+    {
+      "name": "Ravi Kant Prasad",
+      "email": "rkpr8@gmail.com",
+      "password": "admin",
+      "phone": 9872487324,
+      "id": 2
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Java Constructor?",
+      "postedBy": "Ravi",
+      "date": "24-08-2022",
+      "answers": [
+        {
+          "id": 1,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        },
+        {
+          "id": 2,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        },
+        {
+          "id": 3,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "What is Java Constructor?",
+      "postedBy": "Ravi",
+      "date": "24-08-2022",
+      "answers": [
+        {
+          "id": 1,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        },
+        {
+          "id": 2,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        },
+        {
+          "id": 3,
+          "answer": "this is answer",
+          "postedBy": "xyz",
+          "date": "24-08-2022"
+        }
+      ]
     }
   ]
 }
