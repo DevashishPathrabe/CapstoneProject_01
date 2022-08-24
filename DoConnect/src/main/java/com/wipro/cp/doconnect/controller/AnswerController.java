@@ -60,7 +60,7 @@ public class AnswerController {
 	@PostMapping("/questions/{questionId}/answers")
 	public ResponseEntity<?> createAnswerForQuestionId(@PathVariable(value="questionId") Long questionId, @Valid @RequestBody AnswerRequestDTO answerRequestDTO) {
 		// TODO: Read the postedBy value from Authorization Header
-		String postedBy = "";
+		String postedBy = "Dummy";
 		StatusDTO<AnswerResponseDTO> answerResponseDTOStatus = answerService.createAnswerForQuestionId(questionId, answerRequestDTO, postedBy);
 		if (!answerResponseDTOStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(answerResponseDTOStatus.getStatusMessage());
