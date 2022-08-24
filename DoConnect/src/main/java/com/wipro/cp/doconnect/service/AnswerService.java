@@ -1,12 +1,15 @@
 package com.wipro.cp.doconnect.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wipro.cp.doconnect.dto.AnswerRequestDTO;
 import com.wipro.cp.doconnect.dto.AnswerResponseDTO;
+import com.wipro.cp.doconnect.dto.AnswerUpdateDTO;
 import com.wipro.cp.doconnect.dto.QuestionResponseDTO;
 import com.wipro.cp.doconnect.dto.StatusDTO;
 import com.wipro.cp.doconnect.entity.Answer;
@@ -63,6 +66,30 @@ public class AnswerService {
 		else {
 			return new StatusDTO<List<AnswerResponseDTO>>("Provided invalid status. Should be one of 'all', 'approved' or 'unapproved'.", false, null);
 		}
+	}
+	
+	public StatusDTO<AnswerResponseDTO> createAnswerForQuestionId(Long questionId, AnswerRequestDTO answerRequestDTO, String postedBy) {
+		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+		if (optionalQuestion.isEmpty()) {
+			return new StatusDTO<AnswerResponseDTO>("Question with id " + questionId + " does not exist.", false, null);
+		}
+		Answer answer = new Answer(answerRequestDTO.getAnswer(), answerRequestDTO.getImages(), postedBy, optionalQuestion.get());
+		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
+	}
+	
+	public StatusDTO<AnswerResponseDTO> updateAnswerForQuestionId(Long questionId, Long answerId, AnswerUpdateDTO answerUpdateDTO, String approvedBy) {
+		boolean questionExists = questionRepository.existsById(questionId);
+		if (!questionExists) {
+			return new StatusDTO<AnswerResponseDTO>("Question with id " + questionId + " does not exist.", false, null);
+		}
+		Optional<Answer> optionalAnswer = answerRepository.findByIdAndQuestionId(answerId, questionId);
+		if (optionalAnswer.isEmpty()) {
+			return new StatusDTO<AnswerResponseDTO>("Answer with id " + answerId + " does not exist for question with id " + questionId + ".", false, null);
+		}
+		Answer answer = optionalAnswer.get();
+		answer.setIsApproved(answerUpdateDTO.getIsApproved());
+		answer.setApprovedBy(approvedBy);
+		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
 	}
 
 }
