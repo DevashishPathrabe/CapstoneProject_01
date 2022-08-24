@@ -21,23 +21,23 @@ import com.wipro.cp.doconnect.dto.StatusDTO;
 import com.wipro.cp.doconnect.dto.UserRegisterDTO;
 import com.wipro.cp.doconnect.dto.UserResponseDTO;
 import com.wipro.cp.doconnect.dto.UserUpdateDTO;
-import com.wipro.cp.doconnect.service.UserService;
+import com.wipro.cp.doconnect.service.UserServiceImp;
 
 @RestController
 @CrossOrigin
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserServiceImp userServiceImp;
 	
 	@GetMapping("/users")
 	public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-		return ResponseEntity.ok(userService.getAllUsers());
+		return ResponseEntity.ok(userServiceImp.getAllUsers());
 	}
 	
 	@GetMapping("/users/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable @Min(1) Long id) {
-		StatusDTO<UserResponseDTO> userStatus = userService.getUserById(id);
+		StatusDTO<UserResponseDTO> userStatus = userServiceImp.getUserById(id);
 		if (!userStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userStatus.getStatusMessage());
 		}
@@ -46,7 +46,7 @@ public class UserController {
 	
 	@PostMapping("/users")
 	public ResponseEntity<?> createUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
-		StatusDTO<UserResponseDTO> userStatus = userService.createUser(userRegisterDTO);
+		StatusDTO<UserResponseDTO> userStatus = userServiceImp.createUser(userRegisterDTO);
 		if (!userStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userStatus.getStatusMessage());
 		}
@@ -55,7 +55,7 @@ public class UserController {
 	
 	@PutMapping("/users/{id}")
 	public ResponseEntity<?> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO, @PathVariable Long id) {
-		StatusDTO<UserResponseDTO> userStatus = userService.updateUser(userUpdateDTO, id);
+		StatusDTO<UserResponseDTO> userStatus = userServiceImp.updateUser(userUpdateDTO, id);
 		if (!userStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userStatus.getStatusMessage());
 		}
@@ -64,7 +64,7 @@ public class UserController {
 	
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<?> deleteUserById(@PathVariable @Min(1) Long id) {
-		boolean deleted = userService.deleteUserById(id);
+		boolean deleted = userServiceImp.deleteUserById(id);
 		if (deleted) {
 			return ResponseEntity.ok("User deleted successfully.");
 		}
@@ -73,7 +73,7 @@ public class UserController {
 
 	@DeleteMapping("/users")
 	public ResponseEntity<?> deleteAllUser() {
-		userService.deleteAllUsers();
+		userServiceImp.deleteAllUsers();
 		return ResponseEntity.ok("All users deleted successfully.");
 	}
 
