@@ -10,6 +10,8 @@ import com.wipro.cp.doconnect.entity.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 	
+	boolean existsById(Long id);
+	
 	List<Question> findByIsApprovedTrue();
 	List<Question> findByIsApprovedFalse();
 	
