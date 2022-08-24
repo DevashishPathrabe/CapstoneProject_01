@@ -74,6 +74,7 @@ public class AnswerService {
 			return new StatusDTO<AnswerResponseDTO>("Question with id " + questionId + " does not exist.", false, null);
 		}
 		Answer answer = new Answer(answerRequestDTO.getAnswer(), answerRequestDTO.getImages(), postedBy, optionalQuestion.get());
+		// TODO: Send email to Admin that answer is created
 		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
 	}
 	
@@ -90,6 +91,19 @@ public class AnswerService {
 		answer.setIsApproved(answerUpdateDTO.getIsApproved());
 		answer.setApprovedBy(approvedBy);
 		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
+	}
+	
+	public StatusDTO<Boolean> deleteAnswerForQuestionById(Long questionId, Long answerId) {
+		boolean questionExists = questionRepository.existsById(questionId);
+		if (!questionExists) {
+			return new StatusDTO<Boolean>("Question with id " + questionId + " does not exist.", false, null);
+		}
+		Optional<Answer> optionalAnswer = answerRepository.findByIdAndQuestionId(answerId, questionId);
+		if (optionalAnswer.isEmpty()) {
+			return new StatusDTO<Boolean>("Answer with id " + answerId + " does not exist for question with id " + questionId + ".", false, null);
+		}
+		answerRepository.delete(optionalAnswer.get());
+		return new StatusDTO<Boolean>("", true, true);
 	}
 
 }
