@@ -28,7 +28,7 @@ import com.wipro.cp.doconnect.service.UserService;
 public class UserController {
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
 	@GetMapping("/users")
 	public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
