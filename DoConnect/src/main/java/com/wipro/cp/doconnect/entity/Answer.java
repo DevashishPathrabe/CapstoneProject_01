@@ -113,15 +113,13 @@ public class Answer {
 		this.question = question;
 	}
 
-	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy,
-			Date postedAt, String approvedBy, boolean isApproved, Question question) {
+	public Answer(@NotNull @NotEmpty String answer, List<String> images, @NotNull @NotEmpty String postedBy, Question question) {
 		super();
 		this.answer = answer;
 		this.images = images;
 		this.postedBy = postedBy;
-		this.postedAt = postedAt;
-		this.approvedBy = approvedBy;
-		this.isApproved = isApproved;
+		this.approvedBy = null;
+		this.isApproved = false;
 		this.question = question;
 	}
 
