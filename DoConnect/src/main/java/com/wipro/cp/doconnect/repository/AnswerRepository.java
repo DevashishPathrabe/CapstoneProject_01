@@ -11,7 +11,13 @@ import com.wipro.cp.doconnect.entity.Answer;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 	
+	List<Answer> findByIsApprovedTrue();
+	List<Answer> findByIsApprovedFalse();
+	
 	List<Answer> findByQuestionId(Long questionId);
 	Optional<Answer> findByIdAndQuestionId(Long answerId, Long questionId);
+	
+	List<Answer> findByQuestionIdAndIsApprovedTrue(Long questionId);
+	List<Answer> findByQuestionIdAndIsApprovedFalse(Long questionId);
 
 }
