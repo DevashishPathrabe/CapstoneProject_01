@@ -2,7 +2,6 @@ package com.wipro.cp.doconnect.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +9,14 @@ import org.springframework.stereotype.Service;
 import com.wipro.cp.doconnect.dto.AnswerRequestDTO;
 import com.wipro.cp.doconnect.dto.AnswerResponseDTO;
 import com.wipro.cp.doconnect.dto.AnswerUpdateDTO;
-import com.wipro.cp.doconnect.dto.QuestionResponseDTO;
+import com.wipro.cp.doconnect.dto.EmailDTO;
 import com.wipro.cp.doconnect.dto.StatusDTO;
 import com.wipro.cp.doconnect.entity.Answer;
 import com.wipro.cp.doconnect.entity.Question;
 import com.wipro.cp.doconnect.repository.AnswerRepository;
 import com.wipro.cp.doconnect.repository.QuestionRepository;
+import com.wipro.cp.doconnect.repository.UserRepository;
+import com.wipro.cp.doconnect.util.Utilities;
 
 @Service
 public class AnswerServiceImp implements IAnswerService {
@@ -26,28 +27,22 @@ public class AnswerServiceImp implements IAnswerService {
 	@Autowired
 	private QuestionRepository questionRepository;
 	
-	private QuestionResponseDTO convertQuestionToQuestionResponseDTO(Question question) {
-		return new QuestionResponseDTO(question.getId(), question.getQuestion(), question.getTopic(), question.getImages(), question.getPostedBy(), question.getPostedAt(), question.getApprovedBy(), question.getIsApproved());
-	}
+	@Autowired
+	private UserRepository userRepository;
 	
-	private AnswerResponseDTO convertAnswerToAnswerResponseDTO(Answer answer) {
-		return new AnswerResponseDTO(answer.getId(), answer.getAnswer(), answer.getImages(), answer.getPostedBy(), answer.getPostedAt(), answer.getApprovedBy(), answer.getIsApproved(), convertQuestionToQuestionResponseDTO(answer.getQuestion()));
-	}
-	
-	private List<AnswerResponseDTO> convertAnswerListToAnswerResponseDTOList(List<Answer> answerList) {
-		return answerList.stream().map(answer -> convertAnswerToAnswerResponseDTO(answer)).collect(Collectors.toList());
-	}
+	@Autowired
+	private EmailServiceImp emailServiceImp;
 	
 	@Override
 	public StatusDTO<List<AnswerResponseDTO>> getAllAnswers(String answerStatus) {
 		if (answerStatus.equalsIgnoreCase("all")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findAll()));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findAll()));
 		}
 		else if (answerStatus.equalsIgnoreCase("approved")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findByIsApprovedTrue()));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findByIsApprovedTrue()));
 		}
 		else if (answerStatus.equalsIgnoreCase("unapproved")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findByIsApprovedFalse()));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findByIsApprovedFalse()));
 		}
 		else {
 			return new StatusDTO<List<AnswerResponseDTO>>("Provided invalid status. Should be one of 'all', 'approved' or 'unapproved'.", false, null);
@@ -57,13 +52,13 @@ public class AnswerServiceImp implements IAnswerService {
 	@Override
 	public StatusDTO<List<AnswerResponseDTO>> getAllAnswersForQuestionId(Long questionId, String answerStatus) {
 		if (answerStatus.equalsIgnoreCase("all")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionId(questionId)));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionId(questionId)));
 		}
 		else if (answerStatus.equalsIgnoreCase("approved")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionIdAndIsApprovedTrue(questionId)));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionIdAndIsApprovedTrue(questionId)));
 		}
 		else if (answerStatus.equalsIgnoreCase("unapproved")) {
-			return new StatusDTO<List<AnswerResponseDTO>>("", true, convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionIdAndIsApprovedFalse(questionId)));
+			return new StatusDTO<List<AnswerResponseDTO>>("", true, Utilities.convertAnswerListToAnswerResponseDTOList(answerRepository.findByQuestionIdAndIsApprovedFalse(questionId)));
 		}
 		else {
 			return new StatusDTO<List<AnswerResponseDTO>>("Provided invalid status. Should be one of 'all', 'approved' or 'unapproved'.", false, null);
@@ -77,8 +72,12 @@ public class AnswerServiceImp implements IAnswerService {
 			return new StatusDTO<AnswerResponseDTO>("Question with id " + questionId + " does not exist.", false, null);
 		}
 		Answer answer = new Answer(answerRequestDTO.getAnswer(), answerRequestDTO.getImages(), postedBy, optionalQuestion.get());
-		// TODO: Send email to Admin that answer is created
-		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
+		Answer savedAnswer = answerRepository.save(answer);
+		String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
+		String subject = "Action Required: Approval needed for newly added answer";
+		String body = "Dear Admin,\n\nA new answer has been added to DoConnect application for question - '" + optionalQuestion.get().getQuestion() + "'. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
+		emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
+		return new StatusDTO<AnswerResponseDTO>("", true, Utilities.convertAnswerToAnswerResponseDTO(savedAnswer));
 	}
 	
 	@Override
@@ -94,7 +93,7 @@ public class AnswerServiceImp implements IAnswerService {
 		Answer answer = optionalAnswer.get();
 		answer.setIsApproved(answerUpdateDTO.getIsApproved());
 		answer.setApprovedBy(approvedBy);
-		return new StatusDTO<AnswerResponseDTO>("", true, convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
+		return new StatusDTO<AnswerResponseDTO>("", true, Utilities.convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
 	}
 	
 	@Override
