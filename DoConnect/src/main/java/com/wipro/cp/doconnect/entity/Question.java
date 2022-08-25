@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -27,6 +28,7 @@ public class Question {
 	
 	@NotNull
 	@NotEmpty
+	@Size(max = 1024)
 	private String question;
 	
 	@NotNull
