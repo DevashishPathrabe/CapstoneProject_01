@@ -78,13 +78,17 @@ public class QuestionServiceImp implements IQuestionService {
 	}
 	
 	@Override
-	public boolean deleteQuestionById(Long questionId) {
+	public StatusDTO<Boolean> deleteQuestionById(Long questionId) {
 		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
 		if (optionalQuestion.isEmpty()) {
-			return false;
+			return new StatusDTO<Boolean>("Question with id " + questionId + " does not exist.", false, null);
 		}
-		questionRepository.deleteById(questionId);
-		return true;
+		Question question = optionalQuestion.get();
+		if (question.getIsApproved()) {
+			return new StatusDTO<Boolean>("Cannot delete an approved question.", false, false);
+		}
+		questionRepository.delete(question);
+		return new StatusDTO<Boolean>("", true, true);
 	}
 
 }
