@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wipro.cp.doconnect.dto.AnswerRequestDTO;
@@ -20,6 +21,9 @@ import com.wipro.cp.doconnect.util.Utilities;
 
 @Service
 public class AnswerServiceImp implements IAnswerService {
+	
+	@Value("${enable-notification-emails:false}")
+	private boolean enableNotificationEmails;
 	
 	@Autowired
 	private AnswerRepository answerRepository;
@@ -73,10 +77,12 @@ public class AnswerServiceImp implements IAnswerService {
 		}
 		Answer answer = new Answer(answerRequestDTO.getAnswer(), answerRequestDTO.getImages(), postedBy, optionalQuestion.get());
 		Answer savedAnswer = answerRepository.save(answer);
-		String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
-		String subject = "Action Required: Approval needed for newly added answer";
-		String body = "Dear Admin,\n\nA new answer has been added to DoConnect application for question - '" + optionalQuestion.get().getQuestion() + "'. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
-		emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
+		if (enableNotificationEmails) {
+			String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
+			String subject = "Action Required: Approval needed for newly added answer";
+			String body = "Dear Admin,\n\nA new answer has been added to DoConnect application for question - '" + optionalQuestion.get().getQuestion() + "'. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
+			emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
+		}
 		return new StatusDTO<AnswerResponseDTO>("", true, Utilities.convertAnswerToAnswerResponseDTO(savedAnswer));
 	}
 	
