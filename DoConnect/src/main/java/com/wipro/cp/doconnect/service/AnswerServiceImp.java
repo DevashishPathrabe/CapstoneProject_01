@@ -106,7 +106,11 @@ public class AnswerServiceImp implements IAnswerService {
 		if (optionalAnswer.isEmpty()) {
 			return new StatusDTO<Boolean>("Answer with id " + answerId + " does not exist for question with id " + questionId + ".", false, null);
 		}
-		answerRepository.delete(optionalAnswer.get());
+		Answer answer = optionalAnswer.get();
+		if (answer.getIsApproved()) {
+			return new StatusDTO<Boolean>("Cannot delete an approved answer.", false, false);
+		}
+		answerRepository.delete(answer);
 		return new StatusDTO<Boolean>("", true, true);
 	}
 
