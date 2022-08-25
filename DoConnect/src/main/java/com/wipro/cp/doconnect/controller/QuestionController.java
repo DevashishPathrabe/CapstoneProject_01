@@ -75,11 +75,17 @@ public class QuestionController {
 	
 	@DeleteMapping("/questions/{questionId}")
 	public ResponseEntity<?> deleteQuestionById(@PathVariable @Min(1) Long questionId) {
-		boolean deleted = questionServiceImp.deleteQuestionById(questionId);
-		if (deleted) {
-			return ResponseEntity.ok("Question deleted successfully.");
+		StatusDTO<Boolean> deletionStatus = questionServiceImp.deleteQuestionById(questionId);
+		if (!deletionStatus.getIsValid()) {
+			Boolean status = deletionStatus.getObject();
+			if (status == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deletionStatus.getStatusMessage());
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(deletionStatus.getStatusMessage());
+			}
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question with ID " + questionId + " does not exist.");
+		return ResponseEntity.ok("Question deleted successfully.");
 	}
 
 }
