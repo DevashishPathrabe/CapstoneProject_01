@@ -41,8 +41,7 @@ public class ImageController {
 	@PostConstruct
 	public void ensureDirectoryExists() throws IOException {
 		if (!Files.exists(this.imageStorageDirectory)) {
-			Path path = Files.createDirectories(this.imageStorageDirectory);
-			System.out.println("****Hello****" + path.toString());
+			Files.createDirectories(this.imageStorageDirectory);
 		}
 	}
 	
@@ -68,7 +67,6 @@ public class ImageController {
 		final String fileExtension = Optional.ofNullable(imageFile.getOriginalFilename()).flatMap(ImageController::getFileExtension).orElse("");
 		final String targetFileName = generateFileName() + "." + fileExtension;
 		final Path targetPath = this.imageStorageDirectory.resolve(targetFileName);
-		System.out.println("****Hello****01" + targetPath.toString());
 		try (InputStream in = imageFile.getInputStream()) {
 			try (OutputStream out = Files.newOutputStream(targetPath, StandardOpenOption.CREATE)) {
 				in.transferTo(out);
