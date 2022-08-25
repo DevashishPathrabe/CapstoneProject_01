@@ -12,6 +12,6 @@ public interface IQuestionService {
 	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search);
 	public StatusDTO<QuestionResponseDTO> createQuestion(QuestionRequestDTO questionRequestDTO, String postedBy);
 	public StatusDTO<QuestionResponseDTO> updateQuestion(QuestionUpdateDTO questionUpdateDTO, Long questionId, String approvedBy);
-	public boolean deleteQuestionById(Long questionId);
+	public StatusDTO<Boolean> deleteQuestionById(Long questionId);
 
 }
