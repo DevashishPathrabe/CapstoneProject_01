@@ -32,17 +32,20 @@ public class QuestionServiceImp implements IQuestionService {
 	@Autowired
 	private EmailServiceImp emailServiceImp;
 	
+	@Autowired
+	private Utilities utilities;
+	
 	@Override
 	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search) {
 		if (search == null) {
 			if (status.equalsIgnoreCase("all")) {
-				return new StatusDTO<List<QuestionResponseDTO>>("", true, Utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findAll()));
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findAll()));
 			}
 			else if (status.equalsIgnoreCase("approved")) {
-				return new StatusDTO<List<QuestionResponseDTO>>("", true, Utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByIsApprovedTrue()));
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByIsApprovedTrue()));
 			}
 			else if (status.equalsIgnoreCase("unapproved")) {
-				return new StatusDTO<List<QuestionResponseDTO>>("", true, Utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByIsApprovedFalse()));
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByIsApprovedFalse()));
 			}
 			else {
 				return new StatusDTO<List<QuestionResponseDTO>>("Provided invalid status. Should be one of 'all', 'approved' or 'unapproved'.", false, null);
@@ -50,7 +53,7 @@ public class QuestionServiceImp implements IQuestionService {
 		}
 		else {
 			if (status.equalsIgnoreCase("approved")) {
-				return new StatusDTO<List<QuestionResponseDTO>>("", true, Utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByQuestionContainingIgnoreCaseAndIsApprovedTrue(search)));
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByQuestionContainingIgnoreCaseAndIsApprovedTrue(search)));
 			}
 			else {
 				return new StatusDTO<List<QuestionResponseDTO>>("Question search only works with 'approved' status.", false, null);
@@ -63,12 +66,12 @@ public class QuestionServiceImp implements IQuestionService {
 		Question question = new Question(questionRequestDTO.getQuestion(), questionRequestDTO.getTopic(), questionRequestDTO.getImages(), postedBy);
 		Question savedQuestion = questionRepository.save(question);
 		if (enableNotificationEmails) {
-			String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
+			String[] recipients = utilities.getUserEmails(userRepository.findByIsAdminTrue());
 			String subject = "Action Required: Approval needed for newly added question";
 			String body = "Dear Admin,\n\nA new question has been added to DoConnect application. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
 			emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
 		}
-		return new StatusDTO<QuestionResponseDTO>("", true, Utilities.convertQuestionToQuestionResponseDTO(savedQuestion));
+		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(savedQuestion));
 	}
 	
 	@Override
@@ -80,7 +83,7 @@ public class QuestionServiceImp implements IQuestionService {
 		Question question = optionalQuestion.get();
 		question.setIsApproved(questionUpdateDTO.getIsApproved());
 		question.setApprovedBy(approvedBy);
-		return new StatusDTO<QuestionResponseDTO>("", true, Utilities.convertQuestionToQuestionResponseDTO(questionRepository.save(question)));
+		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(questionRepository.save(question)));
 	}
 	
 	@Override
