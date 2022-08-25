@@ -7,14 +7,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.Clock;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.PathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
 	private final Path imageStorageDirectory;
+	private final String[] validExtensions = {"png", "jpeg"};
 	
 	/* The target path can be configured in the application.properties */
 	public ImageController(@Value("${image-storage-directory}") Path imageStorageDirectory) {
@@ -54,6 +56,13 @@ public class ImageController {
 		}
 	}
 	
+	private boolean isValidFileExtension(String fileExtension) {
+		if (fileExtension.isBlank()) {
+			return false;
+		}
+		return Arrays.stream(validExtensions).anyMatch(fileExtension::equals);
+	}
+	
 	private static String generateFileName() {
 		Random rnd = new Random();
 	    int number = rnd.nextInt(99999);
@@ -65,6 +74,9 @@ public class ImageController {
 	@PostMapping(value = "/images", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> uploadImage(@RequestPart(name = "image", required = true) MultipartFile imageFile) throws IOException {
 		final String fileExtension = Optional.ofNullable(imageFile.getOriginalFilename()).flatMap(ImageController::getFileExtension).orElse("");
+		if (!isValidFileExtension(fileExtension)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File extension is invalid. Should be either 'png' or 'jpeg'.");
+		}
 		final String targetFileName = generateFileName() + "." + fileExtension;
 		final Path targetPath = this.imageStorageDirectory.resolve(targetFileName);
 		try (InputStream in = imageFile.getInputStream()) {
@@ -76,12 +88,18 @@ public class ImageController {
 	}
 	
 	@GetMapping("/images/{fileName}")
-	public ResponseEntity<Resource> downloadImage(@PathVariable("fileName") String fileName) {
+	public ResponseEntity<?> downloadImage(@PathVariable("fileName") String fileName) throws IOException {
+		String fileExtension = Optional.ofNullable(fileName).flatMap(ImageController::getFileExtension).orElse("");
+		if (!isValidFileExtension(fileExtension)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File extension is invalid. Should be either 'png' or 'jpeg'.");
+		}
+		MediaType contentType = (fileExtension.equalsIgnoreCase("jpeg")) ? MediaType.IMAGE_JPEG : MediaType.IMAGE_PNG;
 		final Path targetPath = this.imageStorageDirectory.resolve(fileName);
 		if (!Files.exists(targetPath)) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(new PathResource(targetPath));
+		InputStream inputStream = Files.newInputStream(targetPath);
+		return ResponseEntity.ok().contentType(contentType).body(new InputStreamResource(inputStream));
 	}
 
 }
