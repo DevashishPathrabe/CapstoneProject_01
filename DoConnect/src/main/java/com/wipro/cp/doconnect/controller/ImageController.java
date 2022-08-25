@@ -32,13 +32,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1")
 public class ImageController {
 
-	private final Path imageStorageDirectory;
-	private final String[] validExtensions = {"png", "jpeg"};
-	
-	/* The target path can be configured in the application.properties */
-	public ImageController(@Value("${image-storage-directory}") Path imageStorageDirectory) {
-		this.imageStorageDirectory = imageStorageDirectory;
-	}
+	@Value("${image-storage-directory}")
+	private Path imageStorageDirectory;
+
+	@Value("${valid-image-extensions}")
+	private String[] validImageExtensions;
 	
 	@PostConstruct
 	public void ensureDirectoryExists() throws IOException {
@@ -60,7 +58,7 @@ public class ImageController {
 		if (fileExtension.isBlank()) {
 			return false;
 		}
-		return Arrays.stream(validExtensions).anyMatch(fileExtension::equals);
+		return Arrays.stream(validImageExtensions).anyMatch(fileExtension::equals);
 	}
 	
 	private static String generateFileName() {
