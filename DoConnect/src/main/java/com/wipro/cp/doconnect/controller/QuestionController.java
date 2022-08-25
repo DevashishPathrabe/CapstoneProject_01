@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,7 @@ import com.wipro.cp.doconnect.dto.QuestionResponseDTO;
 import com.wipro.cp.doconnect.dto.QuestionUpdateDTO;
 import com.wipro.cp.doconnect.dto.StatusDTO;
 import com.wipro.cp.doconnect.service.QuestionServiceImp;
+import com.wipro.cp.doconnect.util.Utilities;
 
 @RestController
 @CrossOrigin
@@ -33,6 +36,9 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionServiceImp questionServiceImp;
+	
+	@Autowired
+	private Utilities utilities;
 	
 	@GetMapping("/questions")
 	public ResponseEntity<?> getAllQuestions(@RequestParam(name="status") Optional<String> optionalStatus, @RequestParam(name="search") Optional<String> optionalSearch) {
@@ -52,9 +58,8 @@ public class QuestionController {
 	}
 	
 	@PostMapping("/questions")
-	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionRequestDTO questionRequestDTO) {
-		// TODO: Read the postedBy value from Authorization Header
-		String postedBy = "Dummy";
+	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionRequestDTO questionRequestDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+		String postedBy = utilities.getUsernameFromAuthorizationHeader(authorizationHeader);
 		StatusDTO<QuestionResponseDTO> questionStatus = questionServiceImp.createQuestion(questionRequestDTO, postedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(questionStatus.getStatusMessage());
@@ -63,9 +68,8 @@ public class QuestionController {
 	}
 	
 	@PutMapping("/questions/{questionId}")
-	public ResponseEntity<?> updateQuestion(@Valid @RequestBody QuestionUpdateDTO questionUpdateDTO, @PathVariable Long questionId) {
-		// TODO: Read the approvedBy value from Authorization Header
-		String approvedBy = "";
+	public ResponseEntity<?> updateQuestion(@Valid @RequestBody QuestionUpdateDTO questionUpdateDTO, @PathVariable Long questionId, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+		String approvedBy = utilities.getUsernameFromAuthorizationHeader(authorizationHeader);
 		StatusDTO<QuestionResponseDTO> questionStatus = questionServiceImp.updateQuestion(questionUpdateDTO, questionId, approvedBy);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(questionStatus.getStatusMessage());
