@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.wipro.cp.doconnect.dto.EmailDTO;
@@ -18,6 +19,9 @@ import com.wipro.cp.doconnect.util.Utilities;
 
 @Service
 public class QuestionServiceImp implements IQuestionService {
+	
+	@Value("${enable-notification-emails:false}")
+	private boolean enableNotificationEmails;
 	
 	@Autowired
 	private QuestionRepository questionRepository;
@@ -58,10 +62,12 @@ public class QuestionServiceImp implements IQuestionService {
 	public StatusDTO<QuestionResponseDTO> createQuestion(QuestionRequestDTO questionRequestDTO, String postedBy) {
 		Question question = new Question(questionRequestDTO.getQuestion(), questionRequestDTO.getTopic(), questionRequestDTO.getImages(), postedBy);
 		Question savedQuestion = questionRepository.save(question);
-		String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
-		String subject = "Action Required: Approval needed for newly added question";
-		String body = "Dear Admin,\n\nA new question has been added to DoConnect application. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
-		emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
+		if (enableNotificationEmails) {
+			String[] recipients = Utilities.getUserEmails(userRepository.findByIsAdminTrue());
+			String subject = "Action Required: Approval needed for newly added question";
+			String body = "Dear Admin,\n\nA new question has been added to DoConnect application. Please visit the application to either approve or delete the newly added question.\n\nDoConnect Bot\n\n\n\n\n\nAuto generated email. Please do not reply.";
+			emailServiceImp.sendNotificationEmail(new EmailDTO(recipients, subject, body));
+		}
 		return new StatusDTO<QuestionResponseDTO>("", true, Utilities.convertQuestionToQuestionResponseDTO(savedQuestion));
 	}
 	
