@@ -85,7 +85,13 @@ public class AnswerController {
 	public ResponseEntity<?> deleteAnswerForQuestionById(@PathVariable(value="questionId") Long questionId, @PathVariable(value="answerId") Long answerId) {
 		StatusDTO<Boolean> deletionStatus = answerServiceImp.deleteAnswerForQuestionById(questionId, answerId);
 		if (!deletionStatus.getIsValid()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deletionStatus.getStatusMessage());
+			Boolean status = deletionStatus.getObject();
+			if (status == null) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deletionStatus.getStatusMessage());
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(deletionStatus.getStatusMessage());
+			}
 		}
 		return ResponseEntity.ok("Answer for Question ID " + questionId + " deleted successfully.");
 	}
