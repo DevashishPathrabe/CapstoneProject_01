@@ -160,7 +160,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 					) {
 						return true;
 					}
-					else {
+					else if (uriParts[3].equalsIgnoreCase("questions") && HttpMethod.GET.matches(currentMethod)) {
+						return true;
+					}
+					else{
 						response.sendError(HttpStatus.FORBIDDEN.value());
 						return false;
 					}
