@@ -79,6 +79,13 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 				return true;
 			}
 			else if (
+				currentURI.equalsIgnoreCase("/api/v1/messages") &&
+				(HttpMethod.GET.matches(currentMethod) || HttpMethod.POST.matches(currentMethod)) &&
+				!isUserAdmin
+			) {
+				return true;
+			}
+			else if (
 				currentURI.toLowerCase().startsWith("/api/v1/users") &&
 				(HttpMethod.GET.matches(currentMethod) || HttpMethod.POST.matches(currentMethod) || HttpMethod.PUT.matches(currentMethod) || HttpMethod.DELETE.matches(currentMethod))
 			) {
