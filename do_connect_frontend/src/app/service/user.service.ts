@@ -24,7 +24,10 @@ export class UserService {
   setUser(user: any) {}
 
   getQuestion(id: any) {
-    return this.http.get(this.baseURL + '/questions/' + id);
+    const headers = getHeaders();
+    return this.http.get(this.baseURL + '/questions/' + id, {
+      headers
+    });
   }
 
   getApprovedQuestions() {
