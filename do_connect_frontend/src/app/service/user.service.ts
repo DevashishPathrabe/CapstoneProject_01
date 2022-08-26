@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConditionalExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
+import { BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  baseURL = 'http://localhost:8181/api/v1';
+  baseURL = BASE_URL;
 
   constructor(private http: HttpClient) {}
 
