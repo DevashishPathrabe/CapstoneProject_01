@@ -83,6 +83,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 				response.sendError(HttpStatus.FORBIDDEN.value());
 				return false;
 			}
+			else if (
+				currentURI.toLowerCase().startsWith("/api/v1/images") &&
+				(HttpMethod.GET.matches(currentMethod) || HttpMethod.POST.matches(currentMethod)) && !isUserAdmin
+			) {
+				return true;
+			}
 			else if (currentURI.toLowerCase().startsWith("/api/v1/questions")) {
 				String[] uriParts = currentURI.split("/");
 				if (uriParts.length == 4) {
