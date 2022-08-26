@@ -12,11 +12,15 @@ import com.wipro.cp.doconnect.component.JwtTokenUtilityComponent;
 import com.wipro.cp.doconnect.entity.LogoutToken;
 import com.wipro.cp.doconnect.service.LogoutTokenServiceImp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.jsonwebtoken.ExpiredJwtException;
 
 @Configuration
 @EnableScheduling
 public class LogoutTokenSchedulerConfig {
+
+	private final Logger log = LoggerFactory.getLogger(LogoutTokenSchedulerConfig.class);
 	
 	@Autowired
 	private LogoutTokenServiceImp logoutTokenServiceImp;
@@ -26,23 +30,23 @@ public class LogoutTokenSchedulerConfig {
 	
 	@Scheduled(fixedDelay = 15 * 60 * 1000) // 15 Minutes
 	public void deleteExpiredJwtTokens() {
-		System.out.println("deleteExpiredJwtTokens scheduled job started at " + System.currentTimeMillis());
+		log.info("deleteExpiredJwtTokens scheduled job started...");
 	    List<LogoutToken> logoutTokenList = logoutTokenServiceImp.getAllTokens();
 	    logoutTokenServiceImp.deleteAllTokens();
 	    List<LogoutToken> validLogoutTokenList = new ArrayList<>();
 	    for (LogoutToken logoutToken : logoutTokenList) {
 	    	try {
 	    		if (jwtTokenUtilityComponent.isTokenExpired(logoutToken.getToken())) {
-	    			System.out.println("JWT Token " + logoutToken.getToken() + " removed from logout_token table.");
+	    			log.info("JWT Token " + logoutToken.getToken() + " removed from logout_token table.");
 	    		} else {
 	    			validLogoutTokenList.add(logoutToken);
 	    		}
 	    	} catch (ExpiredJwtException e) {
-	    		System.out.println("Exception in deleteExpiredJwtTokens - " + e.toString());
+	    		log.warn("Exception in deleteExpiredJwtTokens - " + e.toString());
 	    	}
 	    }
 	    logoutTokenServiceImp.createTokens(validLogoutTokenList);
-	    System.out.println("deleteExpiredJwtTokens scheduled job finished at " + System.currentTimeMillis());
+	    log.info("deleteExpiredJwtTokens scheduled job finished.");
 	}
 
 }
