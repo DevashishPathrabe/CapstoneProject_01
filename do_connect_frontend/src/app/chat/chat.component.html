@@ -1,13 +1,19 @@
 <div class="chatbox">
   <h4 class="text-center">Chat Here</h4>
-  <div class="msgbox border">
-    <p>message 1</p>
-    <p>message 2</p>
+  <div class="msgbox border"
+  *ngFor="let message of chatList">
+    <p>{{message.postedBy}}</p>
+    <p>{{message.message}}</p>
+    <p style="text-align: right;">{{message.postAt}}</p>
+
+    <!-- <p>message 2</p>
     <p>message 3</p>
-    <p>message 4</p>
+    <p>message 4</p> -->
   </div>
   <div class="inputbox input-group text-center py-4">
-    <input class="form-control" type="text" name="" id="" />
-    <button class="btn btn-primary">send</button>
+    <input
+    [(ngModel)]="message"
+    class="form-control" type="text" name="" id="" />
+    <button class="btn btn-primary" (click)="onclick()">send</button>
   </div>
 </div>
