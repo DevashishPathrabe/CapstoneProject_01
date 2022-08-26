@@ -1,0 +1,18 @@
+/* nav {
+  background-color: rgba(61, 61, 61, 0.592);
+} */
+
+input,
+input:focus {
+  color: white;
+  outline: none !important;
+  box-shadow: none;
+  background-color: rgba(237, 234, 234, 0.358);
+  border: none;
+  border-radius: 5 5;
+  border-bottom: 2px solid white;
+}
+button {
+  color: antiquewhite;
+  border: 1px solid-white;
+}

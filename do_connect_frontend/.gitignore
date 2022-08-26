@@ -1,13 +1,13 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
-/do_connect_frontend/dist
-/do_connect_frontend/tmp
-/do_connect_frontend/out-tsc
-/do_connect_frontend/bazel-out
+/dist
+/tmp
+/out-tsc
+/bazel-out
 
 # Node
-/do_connect_frontend/node_modules
+/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -29,16 +29,14 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/do_connect_frontend/.angular/cache
+/.angular/cache
 .sass-cache/
-/do_connect_frontend/connect.lock
-/do_connect_frontend/coverage
-/do_connect_frontend/libpeerconnection.log
+/connect.lock
+/coverage
+/libpeerconnection.log
 testem.log
-/do_connect_frontend/typings
+/typings
 
 # System files
 .DS_Store
 Thumbs.db
-
-/.metadata/

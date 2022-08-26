@@ -1,0 +1,30 @@
+<div
+  style="
+    background-image: linear-gradient(
+      to right top,
+      #051937,
+      #0e2a6c,
+      #3d359f,
+      #7a35cd,
+      #c314f2
+    );
+    min-height: 100vh;
+  "
+>
+  <app-navbar></app-navbar>
+  <div [style.display]="searchbox">
+    <app-search></app-search>
+  </div>
+  <div class="px-5" style="min-height: 80vh">
+    <router-outlet></router-outlet>
+  </div>
+  <div [style.display]="chatbox">
+    <app-chat></app-chat>
+  </div>
+  <div class="container d-flex justify-content-end pb-5">
+    <button id="chatButton" class="btn btn-primary" (click)="toggleChatBox()">
+      Chat
+    </button>
+  </div>
+  <app-footer></app-footer>
+</div>

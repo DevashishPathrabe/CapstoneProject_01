@@ -1,0 +1,10 @@
+.search {
+  height: 70vh;
+  width: 90vw;
+  background-color: aliceblue;
+  padding: 1rem 2rem;
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  border-radius: 5px;
+}

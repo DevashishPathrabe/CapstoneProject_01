@@ -1,0 +1,107 @@
+<div class="container text-white pt-4">
+  <div class="row">
+    <div class="d-flex justify-content-around">
+      <button class="btn btn-primary" (click)="getUnapprovedQuestions()">
+        Unapproved Questions
+      </button>
+      <button class="btn btn-primary" (click)="getUnapprovedAnswers()">
+        Unapproved Answers
+      </button>
+      <button class="btn btn-primary" (click)="getUsers()">
+        All Users List
+      </button>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div *ngIf="mode === 'Questions'">
+      <table class="table table-dark text-center">
+        <thead>
+          <th>Id</th>
+          <th>Question</th>
+          <th>Topic</th>
+          <th>Posted By</th>
+          <th>Date</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let question of data">
+            <td>{{ question.id }}</td>
+            <td style="width: 40%">{{ question.question }}</td>
+            <td>{{ null }}</td>
+            <td>{{ question.postedBy }}</td>
+            <td>{{ question.date }}</td>
+            <td>
+              <button
+                class="btn btn-success mx-1"
+                (click)="onApproveQuestion(question)"
+              >
+                Approve
+              </button>
+              <button
+                class="btn btn-danger mx-1"
+                (click)="onRejectQuestion(question.id)"
+              >
+                Reject
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="mode === 'Answers'">
+      <table class="table table-dark text-center">
+        <thead>
+          <th>Id</th>
+          <th>Answer</th>
+          <th>Posted By</th>
+          <th>Date</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let answer of data[1].answers">
+            <td>{{ answer.id }}</td>
+            <td style="width: 40%">{{ answer.answer }}</td>
+            <td>{{ answer.postedBy }}</td>
+            <td>{{ answer.date }}</td>
+            <td>
+              <button
+                class="btn btn-success mx-1"
+                (click)="onApproveAnswer(answer)"
+              >
+                Approve
+              </button>
+              <button
+                class="btn btn-danger mx-1"
+                (click)="onRejectAnswer(answer.id)"
+              >
+                Reject
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="mode === 'Users'">
+      <table class="table table-dark text-center">
+        <thead>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of data">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>
+              <button class="btn btn-danger mx-1" (click)="onDelete(user.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
