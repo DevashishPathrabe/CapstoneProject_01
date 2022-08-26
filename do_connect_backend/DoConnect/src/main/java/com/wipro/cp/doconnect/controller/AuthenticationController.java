@@ -30,7 +30,6 @@ import com.wipro.cp.doconnect.service.LogoutTokenServiceImp;
 import com.wipro.cp.doconnect.service.UserServiceImp;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1")
 public class AuthenticationController {
 	
