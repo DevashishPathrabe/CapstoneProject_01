@@ -25,7 +25,6 @@ import com.wipro.cp.doconnect.dto.UserUpdateDTO;
 import com.wipro.cp.doconnect.service.UserServiceImp;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1")
 public class UserController {
 	
