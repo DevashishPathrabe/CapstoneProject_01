@@ -45,9 +45,6 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		}
-		else if (HttpMethod.GET.matches(currentMethod) && currentURI.toLowerCase().startsWith("/api/v1/questions/") && currentURI.toLowerCase().endsWith("/answers") && !parameterMap.containsKey("status")) {
-			return true;
-		}
         else if (currentURI.equalsIgnoreCase("/api/v1/register") || currentURI.equalsIgnoreCase("/api/v1/login")) {
         	if (HttpMethod.POST.matches(currentMethod)) {
         		return true;
