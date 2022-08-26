@@ -233,6 +233,38 @@
 			"response": []
 		},
 		{
+			"name": "Question by ID - User and Admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0VXNlciIsIm5hbWUiOiJUZXN0IFVzZXIiLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNjYxNTQ3NzcwLCJpYXQiOjE2NjE1MzY5NzAsImVtYWlsIjoidGVzdHVzZXIwMUBnbWFpbC5jb20ifQ.r0g3q6DqjWl7oEDI9m-9YUYsMDfAsInY7zpnSQchrb0WKjAd5eKqr_3wyYEdwyOHwyt8EYwWfu7nwq7QhcFKnA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/v1/questions/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"questions",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Question User",
 			"request": {
 				"auth": {
@@ -240,7 +272,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0VXNlciIsIm5hbWUiOiJUZXN0IFVzZXIiLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNjYxNTA3Nzc4LCJpYXQiOjE2NjE0OTY5NzgsImVtYWlsIjoidGVzdHVzZXIwMUBnbWFpbC5jb20ifQ.YAjl_dumDZ6I-Ih3zV6O5r3rR1mvBozQ3V0NU4gUJEV9BwYFy-mzs32TxpHvwQRBAy1f9vMJB_HjTi0r8al10A",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJUZXN0VXNlciIsIm5hbWUiOiJUZXN0IFVzZXIiLCJpc0FkbWluIjpmYWxzZSwiZXhwIjoxNjYxNTQ3NzcwLCJpYXQiOjE2NjE1MzY5NzAsImVtYWlsIjoidGVzdHVzZXIwMUBnbWFpbC5jb20ifQ.r0g3q6DqjWl7oEDI9m-9YUYsMDfAsInY7zpnSQchrb0WKjAd5eKqr_3wyYEdwyOHwyt8EYwWfu7nwq7QhcFKnA",
 							"type": "string"
 						}
 					]
@@ -249,7 +281,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"question\": \"What is your name?\",\r\n    \"topic\": \"General\",\r\n    \"images\": []\r\n}",
+					"raw": "{\r\n    \"question\": \"Which is tallest statue in the world?\",\r\n    \"topic\": \"General Knowledge\",\r\n    \"images\": []\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
