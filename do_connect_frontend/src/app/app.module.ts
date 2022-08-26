@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { PostQuestionComponent } from './post-question/post-question.component';
 import { ChatComponent } from './chat/chat.component';
 import { QuestionComponent } from './question/question.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { QuestionComponent } from './question/question.component';
     PostQuestionComponent,
     ChatComponent,
     QuestionComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  username = '';
   name = '';
   email = '';
   password = '';
@@ -23,13 +24,16 @@ export class RegisterComponent implements OnInit {
       this.warning = 'All field required';
       return;
     }
+    let isAdmin = this.role === 'User' ? false : true;
     this._userService
-      .registerUser({
+      .register({
         name: this.name,
         email: this.email,
         password: this.password,
+        username: this.username,
+        isAdmin: isAdmin,
       })
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         console.log(res);
         this.router.navigate(['/login']);
       });

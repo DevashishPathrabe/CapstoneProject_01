@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'angular-project';
   chatbox = 'none';
+  searchbox = 'none';
   toggleChatBox() {
     this.chatbox = this.chatbox === 'block' ? 'none' : 'block';
   }

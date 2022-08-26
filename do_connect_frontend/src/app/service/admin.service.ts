@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  baseURL = 'http://localhost:3000';
+  baseURL = BASE_URL;
 
   constructor(private http: HttpClient) {}
 
