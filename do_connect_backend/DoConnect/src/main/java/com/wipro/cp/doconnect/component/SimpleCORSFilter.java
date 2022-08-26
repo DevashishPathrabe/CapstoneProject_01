@@ -10,9 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.core.annotation.Order;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCORSFilter implements Filter {
 	
 	@Override
@@ -22,8 +25,8 @@ public class SimpleCORSFilter implements Filter {
 	    httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
 	    httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 	    httpResponse.setHeader("Access-Control-Max-Age", "3600");
-	    httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, remember-me");
-	    httpResponse.setHeader("Access-Control-Expose-Headers", "Location, Authorization");
+	    httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, remember-me, Authorization");
+	    httpResponse.setHeader("Access-Control-Expose-Headers", "Location");
 	    if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
 	    	httpResponse.setStatus(HttpServletResponse.SC_OK);
 	    } else {
