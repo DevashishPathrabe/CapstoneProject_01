@@ -49,16 +49,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onApproveQuestion(data: any) {
-    this._adminService.approveQuestion(data).subscribe();
+  onApproveQuestion(id: any) {
+    this._adminService.approveQuestion(id).subscribe();
   }
 
   onRejectQuestion(id: any) {
     this._adminService.deleteQuestion(id).subscribe();
   }
 
-  onApproveAnswer(data: any) {
-    this._adminService.approveAnswer(data).subscribe();
+  onApproveAnswer(id: any) {
+    this._adminService.approveAnswer(id).subscribe();
   }
 
   onRejectAnswer(id: any) {

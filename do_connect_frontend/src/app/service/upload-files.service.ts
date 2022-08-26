@@ -1,12 +1,13 @@
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadFilesService {
-  private baseURL = 'http://localhost:8181/api/v1';
+  private baseURL = BASE_URL;
   constructor(private http: HttpClient) {}
   // Returns an observable
   upload(file: any): Observable<any> {
