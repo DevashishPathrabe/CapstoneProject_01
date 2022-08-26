@@ -6,10 +6,14 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.wipro.cp.doconnect.dto.EmailDTO;
 
 @Service
 public class EmailServiceImp implements IEmailService {
+
+	private final Logger log = LoggerFactory.getLogger(EmailServiceImp.class);
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -29,7 +33,7 @@ public class EmailServiceImp implements IEmailService {
 			return true;
 		}
 		catch (Exception e) {
-			System.out.println(e.toString());
+			log.warn(e.toString());
 			return false;
 		}
 	}
