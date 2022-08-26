@@ -13,25 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wipro.doconnectchat.dto.MessageDTO;
+import com.wipro.doconnectchat.entity.Message;
 import com.wipro.doconnectchat.service.IMessageService;
 
 @RestController
-@RequestMapping("/chat")
+@RequestMapping("/api/v1/chats")
 @CrossOrigin
 public class MessageController {
 
 	@Autowired
 	private IMessageService messageService;
 
-	@PostMapping("/sendMessage")
+	@PostMapping("/addmessages")
 	public MessageDTO sendMessage(@Valid @RequestBody MessageDTO messageDTO) {
 		return messageService.sendMessage(messageDTO);
 	}
 
-	@GetMapping("/getMessage")
-	public List<MessageDTO> getMessage() {
+	@GetMapping("/getmessages")
+	public List<Message> getMessage() {
 		return messageService.getMessage();
 	}
 
+	
 }
 

@@ -5,11 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.wipro.doconnectchat.dto.MessageDTO;
+import com.wipro.doconnectchat.entity.Message;
 
 public interface IMessageService {
 
 	public MessageDTO sendMessage(@Valid MessageDTO messageDTO);
 
-	public List<MessageDTO> getMessage();
+	public List<Message> getMessage();
 
 }

@@ -24,29 +24,30 @@ public class IMessageServiceImpl implements IMessageService {
 		Message message = new Message();
 		message.setMessage(messageDTO.getMessage());
 		message.setFromUser(messageDTO.getFromUser());
-		message = messageRepo.save(message);
-
 		messageDTO.setFromUser(message.getFromUser());
 		messageDTO.setMessage(message.getMessage());
-
+		message = messageRepo.save(message);
 		return messageDTO;
 	}
 
 	@Override
-	public List<MessageDTO> getMessage() {
+	public List<Message> getMessage() {
 		List<MessageDTO> data = new ArrayList<MessageDTO>();
 
 		List<Message> messages = messageRepo.findAll();
-		for (Message message : messages) {
+//		if(messages.size()==0) {
+//			return new List<Mess>
+//		}
+//		for (Message message : messages) {
+//
+//			MessageDTO messageDTO = new MessageDTO();
+//			messageDTO.setFromUser(message.getFromUser());
+//			messageDTO.setMessage(message.getMessage());
+//			data.add(messageDTO);
+//
+//		}
 
-			MessageDTO messageDTO = new MessageDTO();
-			messageDTO.setFromUser(message.getFromUser());
-			messageDTO.setMessage(message.getMessage());
-			data.add(messageDTO);
-
-		}
-
-		return data;
+		return messages;
 	}
 
 }

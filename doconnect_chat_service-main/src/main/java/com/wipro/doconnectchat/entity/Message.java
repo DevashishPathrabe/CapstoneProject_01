@@ -1,5 +1,7 @@
 package com.wipro.doconnectchat.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Message {
 
 	@Id
@@ -21,12 +21,21 @@ public class Message {
 
 	// @NotBlank(message = "To which user u want to send")
 	private String message;
-	private String fromUser;
+	
+	// to do timestamp 
+	
+	private String username; 
+	
+	Long datetime = System.currentTimeMillis();
+	private Timestamp timestamp = new Timestamp(datetime);
+	
+	public Timestamp getTimestamp() {
+		
+		return  timestamp;
+	}
+	
 	public Long getId() {
 		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getMessage() {
 		return message;
@@ -35,16 +44,15 @@ public class Message {
 		this.message = message;
 	}
 	public String getFromUser() {
-		return fromUser;
+		return username;
 	}
 	public void setFromUser(String fromUser) {
-		this.fromUser = fromUser;
+		this.username = fromUser;
 	}
-	public Message(Long id, String message, String fromUser) {
+	public Message(String message, String fromUser) {
 		super();
-		this.id = id;
 		this.message = message;
-		this.fromUser = fromUser;
+		this.username = fromUser;
 	}
 	public Message() {
 		super();
