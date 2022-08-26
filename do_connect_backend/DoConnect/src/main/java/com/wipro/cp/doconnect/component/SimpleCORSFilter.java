@@ -23,7 +23,7 @@ public class SimpleCORSFilter implements Filter {
 	    httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 	    httpResponse.setHeader("Access-Control-Max-Age", "3600");
 	    httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, remember-me");
-	    httpResponse.setHeader("Access-Control-Expose-Headers", "Location");
+	    httpResponse.setHeader("Access-Control-Expose-Headers", "Location, Authorization");
 	    if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
 	    	httpResponse.setStatus(HttpServletResponse.SC_OK);
 	    } else {
