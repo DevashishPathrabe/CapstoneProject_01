@@ -26,8 +26,15 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
+bin/
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+### Misc ####
+mvnw
+mvnw.cmd
+maven-wrapper.jar
+maven-wrapper.properties
 
 ### VS Code ###
 .vscode/
