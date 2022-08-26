@@ -29,7 +29,6 @@ import com.wipro.cp.doconnect.service.AnswerServiceImp;
 import com.wipro.cp.doconnect.util.Utilities;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/v1")
 public class AnswerController {
 	
