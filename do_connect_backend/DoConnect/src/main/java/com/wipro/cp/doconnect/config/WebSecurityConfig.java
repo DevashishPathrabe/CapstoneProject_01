@@ -39,7 +39,7 @@ public class WebSecurityConfig {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 			// don't authenticate this particular request
-			.authorizeRequests().antMatchers("/api/v1/register", "/api/v1/login", "/api/v1/questions", "/api/v1/questions/{\\d+}/answers").permitAll()
+			.authorizeRequests().antMatchers("/api/v1/register", "/api/v1/login", "/api/v1/questions").permitAll()
 			// all other requests need to be authenticated
 			.anyRequest().authenticated().and()
 			// make sure we use state less session; session won't be used to store user's state.
