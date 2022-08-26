@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { UploadFilesService } from '../service/upload-files.service';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-post-question',
@@ -16,8 +17,9 @@ export class PostQuestionComponent implements OnInit {
   file: File = new File(['init'], 'init.txt');
 
   constructor(
-    private uploadService: UploadFilesService,
-    private sanitizer: DomSanitizer
+    private _uploadService: UploadFilesService,
+    private sanitizer: DomSanitizer,
+    private _userService: UserService
   ) {}
 
   ngOnInit(): void {}
@@ -29,7 +31,7 @@ export class PostQuestionComponent implements OnInit {
   }
   onUploadImage() {
     console.log(this.file);
-    this.uploadService.upload(this.file).subscribe(
+    this._uploadService.upload(this.file).subscribe(
       (res: any) => {
         console.warn(res);
       },
@@ -43,5 +45,10 @@ export class PostQuestionComponent implements OnInit {
     if (this.question === '') {
       this.warning = 'All fields are required!';
     }
+    this._userService
+      .postQuestion({ question: this.question, topic: this.topic })
+      .subscribe((res) => {
+        console.warn(res);
+      });
   }
 }
