@@ -9,7 +9,7 @@ import com.wipro.doconnectchat.entity.Message;
 
 public interface IMessageService {
 
-	public MessageDTO sendMessage(@Valid MessageDTO messageDTO);
+	public Message sendMessage(@Valid MessageDTO messageDTO);
 
 	public List<Message> getMessage();
 

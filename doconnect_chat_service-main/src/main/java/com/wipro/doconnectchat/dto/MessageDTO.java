@@ -10,9 +10,15 @@ public class MessageDTO {
 
 	@NotBlank(message = "provide the user Details")
 	private String fromUser;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	@NotBlank(message = "provide message")
 	private String message;
-	
+	private Long id;
 	Long datetime = System.currentTimeMillis();
     private Timestamp timestamp=new Timestamp(datetime);
 	
@@ -21,6 +27,8 @@ public class MessageDTO {
 		return  timestamp;
 	}
 	
+
+
 	public String getFromUser() {
 		return fromUser;
 	}

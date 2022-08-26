@@ -25,7 +25,7 @@ public class MessageController {
 	private IMessageService messageService;
 
 	@PostMapping("/addmessages")
-	public MessageDTO sendMessage(@Valid @RequestBody MessageDTO messageDTO) {
+	public Message sendMessage(@Valid @RequestBody MessageDTO messageDTO) {
 		return messageService.sendMessage(messageDTO);
 	}
 
