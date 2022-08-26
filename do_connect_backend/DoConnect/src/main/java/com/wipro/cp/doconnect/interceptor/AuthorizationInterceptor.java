@@ -15,7 +15,12 @@ import com.wipro.cp.doconnect.dto.StatusDTO;
 import com.wipro.cp.doconnect.dto.UserResponseDTO;
 import com.wipro.cp.doconnect.service.UserServiceImp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AuthorizationInterceptor implements HandlerInterceptor {
+
+	private final Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 	
 	@Autowired
 	private UserServiceImp userServiceImp;
@@ -56,7 +61,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 			try {
 				username = jwtTokenUtilityComponent.getUsernameFromToken(jwtToken);
 			} catch (Exception e) {
-				System.out.println("Exception " + e.toString());
+				log.warn("Exception " + e.toString());
 			}
 		}
 		if (username != null) {
