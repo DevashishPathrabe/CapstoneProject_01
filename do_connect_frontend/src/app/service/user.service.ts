@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserService {
-  baseURL = 'http://localhost:3000';
+  baseURL = 'http://localhost:8181/api/v1';
   user: any = {
     id: 0,
     name: '',
@@ -13,11 +13,11 @@ export class UserService {
   };
   constructor(private http: HttpClient) {}
 
-  registerUser(user: any) {
-    return this.http.post(`${this.baseURL}/auth/register`, user);
+  createUser(user: any) {
+    return this.http.post(`${this.baseURL}/users`, user);
   }
-  loginUser(user: any) {
-    return this.http.post(`${this.baseURL}/auth/login`, user);
+  getUsers() {
+    return this.http.get(`${this.baseURL}/users`);
   }
   setUser(user: any) {
     this.user = {
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   getQuestion(id: any) {
-    return this.http.get(this.baseURL + '/questions/' + id);
+    return this.http.get(this.baseURL + '/questions');
   }
 
   getApprovedQuestions() {

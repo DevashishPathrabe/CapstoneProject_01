@@ -8,6 +8,7 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  username = '';
   name = '';
   email = '';
   password = '';
@@ -24,10 +25,11 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this._userService
-      .registerUser({
+      .createUser({
         name: this.name,
         email: this.email,
         password: this.password,
+        username: this.username,
       })
       .subscribe((res) => {
         console.log(res);

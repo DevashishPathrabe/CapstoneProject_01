@@ -19,17 +19,15 @@ export class LoginComponent implements OnInit {
       this.warning = 'All field required';
       return;
     }
-    this._userService
-      .loginUser({ email: this.email, password: this.password })
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res !== null && res.password === this.password) {
+    this._userService.getUsers().subscribe((res: any) => {
+      res.forEach((user: any) => {
+        if (user.email === this.email && user.password === this.password) {
           this._userService.setUser(res);
           alert('Successfully Loggedin');
           this.roter.navigate(['/dashboard']);
-        } else {
-          alert('Invalid Credentials');
         }
       });
+      alert('Invalid Credentials');
+    });
   }
 }
