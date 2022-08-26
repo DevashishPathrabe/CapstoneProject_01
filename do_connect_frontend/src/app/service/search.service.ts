@@ -1,11 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
   searchActive = 'none';
-  constructor() {}
+  baseurl = BASE_URL
+  constructor(private http:HttpClient) {}
 
-  onOpen() {}
+  onOpen(data:any) {
+    return this.http.get(this.baseurl+`/questions/${data}`);
+  }
 }
