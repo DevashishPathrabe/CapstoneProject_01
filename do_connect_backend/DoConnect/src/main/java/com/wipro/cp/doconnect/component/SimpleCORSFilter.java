@@ -10,29 +10,25 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SimpleCORSFilter implements Filter {
-
-	private final Logger log = LoggerFactory.getLogger(SimpleCORSFilter.class);
-	
-	public SimpleCORSFilter() {
-	    log.info("SimpleCORSFilter init");
-	}
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-	    HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
 	    HttpServletResponse httpResponse = (HttpServletResponse) response;
 	    httpResponse.setHeader("Access-Control-Allow-Origin", httpRequest.getHeader("Origin"));
-	    httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-	    httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+	    httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
 	    httpResponse.setHeader("Access-Control-Max-Age", "3600");
-	    httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
-	    chain.doFilter(request, response);
+	    httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, remember-me");
+	    httpResponse.setHeader("Access-Control-Expose-Headers", "Location");
+	    if ("OPTIONS".equalsIgnoreCase(((HttpServletRequest) request).getMethod())) {
+	    	httpResponse.setStatus(HttpServletResponse.SC_OK);
+	    } else {
+        	chain.doFilter(request, response);
+	    }
 	}
 	
 	@Override
