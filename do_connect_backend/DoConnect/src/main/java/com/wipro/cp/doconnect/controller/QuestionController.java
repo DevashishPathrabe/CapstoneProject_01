@@ -57,6 +57,15 @@ public class QuestionController {
 		return ResponseEntity.ok(questionStatus.getObject());
 	}
 	
+	@GetMapping("/questions/{questionId}")
+	public ResponseEntity<?> getQuestionById(@PathVariable Long questionId) {
+		StatusDTO<QuestionResponseDTO> questionStatus = questionServiceImp.getQuestionById(questionId);
+		if (!questionStatus.getIsValid()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(questionStatus.getStatusMessage());
+		}
+		return ResponseEntity.ok(questionStatus.getObject());
+	}
+	
 	@PostMapping("/questions")
 	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionRequestDTO questionRequestDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
 		String postedBy = utilities.getUsernameFromAuthorizationHeader(authorizationHeader);

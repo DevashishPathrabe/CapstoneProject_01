@@ -10,6 +10,7 @@ import com.wipro.cp.doconnect.dto.StatusDTO;
 public interface IQuestionService {
 	
 	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search);
+	public StatusDTO<QuestionResponseDTO> getQuestionById(Long questionId);
 	public StatusDTO<QuestionResponseDTO> createQuestion(QuestionRequestDTO questionRequestDTO, String postedBy);
 	public StatusDTO<QuestionResponseDTO> updateQuestion(QuestionUpdateDTO questionUpdateDTO, Long questionId, String approvedBy);
 	public StatusDTO<Boolean> deleteQuestionById(Long questionId);

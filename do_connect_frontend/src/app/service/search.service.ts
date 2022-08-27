@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BASE_URL } from '../constants/constants';
+import { getHeaders } from '../utils/util';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class SearchService {
   constructor(private http:HttpClient) {}
 
   onOpen(data:any) {
-    return this.http.get(this.baseurl+`/questions/${data}`);
+    const headers = getHeaders();
+    return this.http.get(this.baseurl+`/questions/${data}`,{headers});
   }
 }

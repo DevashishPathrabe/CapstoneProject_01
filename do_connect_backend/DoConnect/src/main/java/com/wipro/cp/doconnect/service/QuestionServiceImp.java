@@ -62,6 +62,15 @@ public class QuestionServiceImp implements IQuestionService {
 	}
 	
 	@Override
+	public StatusDTO<QuestionResponseDTO> getQuestionById(Long questionId) {
+		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+		if (optionalQuestion.isEmpty()) {
+			return new StatusDTO<QuestionResponseDTO>("Question with ID " + questionId + " does not exist.", false, null);
+		}
+		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(optionalQuestion.get()));
+	}
+	
+	@Override
 	public StatusDTO<QuestionResponseDTO> createQuestion(QuestionRequestDTO questionRequestDTO, String postedBy) {
 		Question question = new Question(questionRequestDTO.getQuestion(), questionRequestDTO.getTopic(), questionRequestDTO.getImages(), postedBy);
 		Question savedQuestion = questionRepository.save(question);

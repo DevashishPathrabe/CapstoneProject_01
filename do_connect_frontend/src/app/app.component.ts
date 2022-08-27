@@ -11,5 +11,7 @@ export class AppComponent {
   searchbox = 'none';
   toggleChatBox() {
     this.chatbox = this.chatbox === 'block' ? 'none' : 'block';
+    var elem: any = document.getElementById('msgbox');
+    elem.scrollTop = elem.scrollHeight;
   }
 }

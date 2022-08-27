@@ -21,10 +21,15 @@ export class LoginComponent implements OnInit {
     }
     this._userService
       .login({ username: this.username, password: this.password })
-      .subscribe((res) => {
-        console.log(res);
-        this.roter.navigate(['/dashboard'])
-        // alert('Invalid Credentials');
-      });
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          localStorage.setItem('token', res.token);
+          this.roter.navigate(['/']);
+        },
+        (error: any) => {
+          alert('Invalid Credentials');
+        }
+      );
   }
 }

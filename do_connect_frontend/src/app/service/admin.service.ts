@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BASE_URL } from '../constants/constants';
+import { getHeaders } from '../utils/util';
 
 @Injectable({
   providedIn: 'root',
@@ -11,30 +12,63 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   getUnapprovedQuestions() {
-    return this.http.get(this.baseURL + '/questions');
+    const headers = getHeaders();
+    return this.http.get(this.baseURL + '/questions?status=unapproved', {
+      headers: headers,
+    });
   }
   getUnapprovedAnswers() {
-    return this.http.get(this.baseURL + '/questions');
+    const headers = getHeaders();
+    console.log(headers);
+    return this.http.get(this.baseURL + '/answers?status=unapproved', {
+      headers: headers,
+    });
   }
 
   getUsers() {
-    return this.http.get(this.baseURL + '/users');
+    const headers = getHeaders();
+    return this.http.get(this.baseURL + '/users', {
+      headers: headers,
+    });
   }
 
   deleteUser(id: any) {
-    return this.http.delete(this.baseURL + '/users/' + id);
+    const headers = getHeaders();
+    return this.http.delete(this.baseURL + '/users/' + id, {
+      headers: headers,
+    });
   }
 
-  approveQuestion(data: any) {
-    return this.http.put(this.baseURL + '/questions/' + data.id, data);
+  approveQuestion(id: any) {
+    const headers = getHeaders();
+    return this.http.put(
+      this.baseURL + '/questions/' + id,
+      {
+        isApproved: true,
+      },
+      { headers: headers }
+    );
   }
-  approveAnswer(data: any) {
-    return this.http.put(this.baseURL + '/questions/' + data.id, data);
+  approveAnswer(id: any) {
+    const headers = getHeaders();
+    return this.http.put(
+      this.baseURL + '/questions/' + id,
+      {
+        isApproved: true,
+      },
+      { headers: headers }
+    );
   }
   deleteQuestion(id: any) {
-    return this.http.delete(this.baseURL + '/questions/' + id);
+    const headers = getHeaders();
+    return this.http.delete(this.baseURL + '/questions/' + id, {
+      headers: headers,
+    });
   }
   deleteAnswer(id: any) {
-    return this.http.delete(this.baseURL + '/questions/' + id);
+    const headers = getHeaders();
+    return this.http.delete(this.baseURL + '/questions/' + id, {
+      headers: headers,
+    });
   }
 }
