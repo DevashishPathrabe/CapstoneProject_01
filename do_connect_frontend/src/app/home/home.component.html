@@ -1,5 +1,20 @@
 <div class="container text-white pt-4">
   <h2 class="text-center">All Questions</h2>
+
+  <div class="input-group">
+    <input
+    [(ngModel)]="searchedQuestion"
+      type="search"
+      class="form-control"
+      placeholder="Search"
+      aria-label="Search"
+      aria-describedby="search-addon"
+    />
+    <button class="btn btn-info" id="search-addon" (click)="onSearch()">
+      Search
+    </button>
+  </div>
+
   <div class="row">
     <div *ngFor="let question of data" class="col-lg-4 p-3">
       <div class="bg-white text-dark p-3">
@@ -8,6 +23,8 @@
           <button class="btn btn-warning" (click)="openQuestion(question.id)">
             View Ans
           </button>
+
+
         </div>
       </div>
     </div>

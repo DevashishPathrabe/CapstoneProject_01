@@ -12,7 +12,7 @@ export class ChatService {
   baseUrl = BASE_URL
   createChat(data:any){
     const headers = getHeaders();
-    return this.http.post(this.baseUrl+"/messages",data,{headers});
+    return this.http.post(this.baseUrl+'/messages',data,{headers});
   }
   getChatList(){
     const headers = getHeaders();

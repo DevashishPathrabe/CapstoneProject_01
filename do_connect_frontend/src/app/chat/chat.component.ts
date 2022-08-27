@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit {
     })
   }
   onclick(){
-    this._chatservice.createChat(this.message).subscribe(res=>{
+    this._chatservice.createChat({message:this.message}).subscribe(res=>{
       this.data = res;
       console.log(this.data)
     })
