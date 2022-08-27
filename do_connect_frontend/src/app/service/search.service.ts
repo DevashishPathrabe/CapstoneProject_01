@@ -13,6 +13,6 @@ export class SearchService {
 
   onOpen(data:any) {
     const headers = getHeaders();
-    return this.http.get(this.baseurl+`/questions/${data}`,{headers});
+    return this.http.get(this.baseurl+`/questions?search=${data}`, {headers});
   }
 }
