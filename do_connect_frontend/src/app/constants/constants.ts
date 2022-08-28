@@ -7,3 +7,27 @@ export interface JWTCustomPayload extends JwtPayload {
     email: string;
     name: string;
 }
+
+export interface UserRegisterType {
+    username: string;
+    name: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+}
+
+export interface UserLoginType {
+    username: string;
+    password: string;
+}
+
+export interface QuestionPostType {
+    question: string;
+    topic: string;
+    images: string[];
+}
+
+export interface AnswerPostType {
+    answer: string;
+    images: string[];
+}
