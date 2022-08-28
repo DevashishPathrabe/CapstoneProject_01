@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { UploadFilesService } from '../service/upload-files.service';
+import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -9,29 +8,33 @@ import { UserService } from '../service/user.service';
   templateUrl: './post-question.component.html',
   styleUrls: ['./post-question.component.css'],
 })
+
 export class PostQuestionComponent implements OnInit {
   question = '';
   topic = 'java';
   warning = '';
   uploadedImages: string[] = [];
-  file: File = new File(['init'], 'init.txt');
+  imageFile: File = new File(['init'], 'init.png');
 
   constructor(
-    private _uploadService: UploadFilesService,
+    private _uploadService: UploadImageService,
     private _userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit(): void {}
+
   onChange(event: any) {
-    this.file = event.target.files[0];
+    this.imageFile = event.target.files[0];
   }
-  getImageUrl(image: any) {
-    const imageUrl = 'http://localhost:4000/' + image;
+
+  getImageUrl(imageName: string) {
+    const imageUrl = 'http://localhost:4000/' + imageName;
     return imageUrl;
   }
+
   onUploadImage() {
-    this._uploadService.upload(this.file).subscribe({
+    this._uploadService.uploadImage(this.imageFile).subscribe({
       next: (res) => console.warn(res),
       error: (err) => {
         if (err.status === 200) this.uploadedImages.push(err.error.text);
@@ -39,6 +42,7 @@ export class PostQuestionComponent implements OnInit {
       },
     });
   }
+
   onSubmit() {
     if (this.question === '') {
       this.warning = 'All fields are required!';
@@ -58,4 +62,5 @@ export class PostQuestionComponent implements OnInit {
         error: (err) => this.router.navigate(['/error/' + err.status]),
       });
   }
+
 }
