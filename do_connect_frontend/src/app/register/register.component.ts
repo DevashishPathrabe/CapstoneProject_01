@@ -1,50 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
+
 export class RegisterComponent implements OnInit {
-  username = '';
-  name = '';
-  email = '';
-  password = '';
-  role = 'User';
-  warning = '';
+  public registerForm !: FormGroup;
+
   constructor(private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.registerForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [
+          Validators.required,
+          Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+      ]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      role: new FormControl('user', [Validators.required]),
+  });
+  }
 
-  onRegister() {
-    console.log(this.role);
-    if (this.name === '' || this.email === '' || this.password === '') {
-      this.warning = 'All field required';
-      return;
-    }
-    let isAdmin = this.role === 'User' ? false : true;
-    console.log({
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      username: this.username,
-      isAdmin: isAdmin,
-    });
+  register() {
+    let isAdmin = this.registerForm.value.role === 'user' ? false : true;
     this._userService
       .register({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        username: this.username,
+        name: this.registerForm.value.name,
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password,
+        username: this.registerForm.value.username,
         isAdmin: isAdmin,
       })
       .subscribe({
-        next: (res) => this.router.navigate(['/login']),
-        error: (err) => {
-          if (err.status === 200) this.router.navigate(['/login']);
-          else this.router.navigate(['/error/' + err.status]);
+        next: (result) => {
+          alert(result);
+          this.router.navigate(['/login']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 200) {
+            alert(error.error);
+            this.router.navigate(['/login']);
+          }
+          if (error.status === 400) {
+            alert(error.error);
+          }
+          else {
+            this.router.navigate(['/error/' + error.status]);
+          }
         },
       });
   }
