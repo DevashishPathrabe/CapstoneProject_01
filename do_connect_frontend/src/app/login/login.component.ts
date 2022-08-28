@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
+import { JWTCustomPayload } from '../constants/constants';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -24,10 +25,7 @@ export class LoginComponent implements OnInit {
       .login({ username: this.username, password: this.password })
       .subscribe({
         next: (res: any) => {
-          console.log(jwtDecode(res.token));
-          const jwtData: any = jwtDecode(res.token);
-          localStorage.setItem('isAdmin', jwtData.isAdmin);
-          localStorage.setItem('isLoggedIn', 'true');
+          const jwtData: JWTCustomPayload = jwtDecode(res.token);
           localStorage.setItem('token', res.token);
           if (jwtData.isAdmin) {
             this._userService.setUser({
