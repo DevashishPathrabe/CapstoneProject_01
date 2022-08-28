@@ -17,6 +17,7 @@ import { PostQuestionComponent } from './post-question/post-question.component';
 import { ChatComponent } from './chat/chat.component';
 import { QuestionComponent } from './question/question.component';
 import { ErrorComponent } from './error/error.component';
+import { authInterceptorProviders } from './utils/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { ErrorComponent } from './error/error.component';
     AngularEditorModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
