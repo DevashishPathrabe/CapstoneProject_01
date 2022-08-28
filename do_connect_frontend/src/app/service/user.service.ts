@@ -3,7 +3,7 @@ import { ConditionalExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BASE_URL } from '../constants/constants';
-import { getHeaders } from '../utils/util';
+import { getHeaders, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,8 @@ export class UserService {
   };
 
   constructor(private http: HttpClient) {
-    this.user.isLoggedIn =
-      localStorage.getItem('isLoggedIn') === 'true' ? true : false;
-    this.user.isAdmin =
-      localStorage.getItem('isAdmin') === 'true' ? true : false;
+    this.user.isLoggedIn = isUserLoggedIn();
+    this.user.isAdmin = isUserAdmin();
   }
 
   private intialUser = new BehaviorSubject(this.user);
