@@ -1,91 +1,56 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConditionalExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { BASE_URL } from '../constants/constants';
-import { getHeaders, isUserAdmin, isUserLoggedIn } from '../utils/util';
+import { AnswerPostType, BASE_URL, QuestionPostType, UserLoginType, UserRegisterType } from '../constants/constants';
+import { getHeaders } from '../utils/util';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class UserService {
-  baseURL = BASE_URL;
-  user = {
-    isLoggedIn: false,
-    isAdmin: false,
-  };
 
-  constructor(private http: HttpClient) {
-    this.user.isLoggedIn = isUserLoggedIn();
-    this.user.isAdmin = isUserAdmin();
+  constructor(private http: HttpClient) {}
+
+  register(user: UserRegisterType) {
+    return this.http.post(`${BASE_URL}/register`, user);
   }
 
-  private intialUser = new BehaviorSubject(this.user);
-  currentUser = this.intialUser.asObservable();
-
-  register(user: any) {
-    // console.warn(user);
-    return this.http.post(`${this.baseURL}/register`, user);
-  }
-  login(user: any) {
-    // console.warn(user);
-    return this.http.post(`${this.baseURL}/login`, user);
+  login(user: UserLoginType) {
+    return this.http.post(`${BASE_URL}/login`, user);
   }
 
-  setUser(user: any) {
-    this.intialUser.next(user);
-  }
-
-  getQuestion(id: any) {
+  getQuestion(id: number) {
     const headers = getHeaders();
-    return this.http.get(this.baseURL + '/questions/' + id, { headers });
+    return this.http.get(BASE_URL + '/questions/' + id, { headers });
   }
 
   getApprovedQuestions() {
-    return this.http.get(this.baseURL + '/questions');
+    return this.http.get(BASE_URL + '/questions');
   }
 
-  postQuestion(question: any) {
-    console.log(question);
+  postQuestion(question: QuestionPostType) {
     const headers = getHeaders();
-    console.log(headers);
-    return this.http.post(this.baseURL + '/questions', question, {
-      headers,
-    });
+    return this.http.post(BASE_URL + '/questions', question, { headers });
   }
 
-  postAnswer(quesId: any, answer: any) {
-    console.log(quesId, answer);
+  postAnswer(questionId: number, answer: AnswerPostType) {
     const headers = getHeaders();
-    console.log(headers);
-    return this.http.post(
-      this.baseURL + '/questions/' + quesId + '/answers',
-      answer,
-      {
-        headers,
-      }
-    );
+    return this.http.post(BASE_URL + '/questions/' + questionId + '/answers', answer, { headers });
   }
 
-  searchQuestion(query: any) {
+  searchQuestion(query: string) {
     const headers = getHeaders();
-    console.log(headers);
-    return this.http.get(this.baseURL + '/questions?search=' + query, {
-      headers: headers,
-    });
+    return this.http.get(BASE_URL + '/questions?search=' + query, { headers });
   }
 
-  getAnswers(quesId: any) {
+  getAnswers(quesId: number) {
     const headers = getHeaders();
-    return this.http.get(this.baseURL + '/questions/' + quesId + '/answers', {
-      headers,
-    });
+    return this.http.get(BASE_URL + '/questions/' + quesId + '/answers', { headers });
   }
 
   logout() {
     const headers = getHeaders();
-    return this.http.get(this.baseURL + '/signout', {
-      headers,
-    });
+    return this.http.get(BASE_URL + '/signout', { headers });
   }
 }
