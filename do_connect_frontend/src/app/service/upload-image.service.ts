@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BASE_URL } from '../constants/constants';
 
 @Injectable({
@@ -9,22 +11,12 @@ import { BASE_URL } from '../constants/constants';
 
 export class UploadImageService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
-  uploadImage(file: any): Observable<any> {
+  uploadImage(file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('image', file, file.name); // Store form name as "file" with file data
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
-    return this.http.post(`${BASE_URL}/images`, formData, { headers }); // Make http post request over api with formData as req
-  }
-
-  getImage(imageName: string): Observable<any> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    });
-    return this.http.get(`${BASE_URL}/images/${imageName}`, { headers });
+    formData.append('image', file); // Store form name as "file" with file data
+    return this.http.post(`${BASE_URL}/images`, formData); // Make http post request over api with formData as req
   }
 
 }
