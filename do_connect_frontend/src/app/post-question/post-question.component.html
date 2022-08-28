@@ -25,7 +25,9 @@
     </div>
     <div class="form-group py-3 d-flex">
       <div *ngFor="let image of uploadedImages" class="p-3">
-        <img [src]="sanitizeImageUrl('C:/do_connect_images/' + image)" alt="" />
+        <a [href]="getImageUrl(image)" target="_blank">
+          <img [src]="getImageUrl(image)" alt="image" height="100" />
+        </a>
       </div>
     </div>
     <div class="form-group py-3">

@@ -1,18 +1,21 @@
 <div class="chatbox">
   <h4 class="text-center">Chat Here</h4>
-
-  <div class="msgbox border"
-  *ngFor="let message of chatList">
-    <p>{{message.postedBy}}</p>
-    <p>{{message.message}}</p>
-    <p style="text-align: right;">{{message.postAt}}</p>
-
-    
+  <div id="msgbox" class="msgbox border overflow-auto">
+    <p *ngFor="let message of chatList">
+      <span>{{ message.postedBy }}</span
+      ><br />
+      <span>{{ message.message }}</span>
+      <span style="text-align: right">{{ message.postAt }}</span>
+    </p>
   </div>
   <div class="inputbox input-group text-center py-4">
     <input
-    [(ngModel)]="message"
-    class="form-control" type="text" name="" id="" />
-    <button class="btn btn-primary" (click)="onclick()">send</button>
+      [(ngModel)]="message"
+      class="form-control"
+      type="text"
+      name=""
+      id=""
+    />
+    <button class="btn btn-primary" (click)="onSend()">send</button>
   </div>
 </div>

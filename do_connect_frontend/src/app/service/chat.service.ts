@@ -4,18 +4,17 @@ import { BASE_URL } from '../constants/constants';
 import { getHeaders } from '../utils/util';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChatService {
-
-  constructor(private http:HttpClient) { }
-  baseUrl = BASE_URL
-  createChat(data:any){
+  constructor(private http: HttpClient) {}
+  baseUrl = BASE_URL;
+  createChat(data: any) {
     const headers = getHeaders();
-    return this.http.post(this.baseUrl+"/messages",data,{headers});
+    return this.http.post(this.baseUrl + '/messages', data, { headers });
   }
-  getChatList(){
+  getChatList() {
     const headers = getHeaders();
-    return this.http.get(this.baseUrl+"/messages",{headers});
+    return this.http.get(this.baseUrl + '/messages', { headers });
   }
 }

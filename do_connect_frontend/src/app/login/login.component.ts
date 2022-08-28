@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import jwtDecode from 'jwt-decode';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
   warning = '';
-  constructor(private roter: Router, private _userService: UserService) {}
+  constructor(private router: Router, private _userService: UserService) {}
 
   ngOnInit(): void {}
   onLogin() {
@@ -21,15 +22,31 @@ export class LoginComponent implements OnInit {
     }
     this._userService
       .login({ username: this.username, password: this.password })
-      .subscribe(
-        (res: any) => {
-          console.log(res);
+      .subscribe({
+        next: (res: any) => {
+          console.log(jwtDecode(res.token));
+          const jwtData: any = jwtDecode(res.token);
+          localStorage.setItem('isAdmin', jwtData.isAdmin);
+          localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('token', res.token);
-          this.roter.navigate(['/']);
+          if (jwtData.isAdmin) {
+            this._userService.setUser({
+              isLoggedIn: true,
+              isAdmin: true,
+            });
+            this.router.navigate(['/dashboard']);
+          } else {
+            this._userService.setUser({
+              isLoggedIn: true,
+              isAdmin: false,
+            });
+            this.router.navigate(['/']);
+          }
         },
-        (error: any) => {
+        error: (err) => {
           alert('Invalid Credentials');
-        }
-      );
+          // this.router.navigate(['/error/' + err.status]);
+        },
+      });
   }
 }

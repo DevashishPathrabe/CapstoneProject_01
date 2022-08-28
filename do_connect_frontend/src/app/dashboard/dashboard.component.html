@@ -27,9 +27,9 @@
           <tr *ngFor="let question of data">
             <td>{{ question.id }}</td>
             <td style="width: 40%">{{ question.question }}</td>
-            <td>{{ null }}</td>
+            <td>{{ question.topic }}</td>
             <td>{{ question.postedBy }}</td>
-            <td>{{ question.date }}</td>
+            <td>{{ question.postedAt }}</td>
             <td>
               <button
                 class="btn btn-success mx-1"
@@ -52,27 +52,29 @@
       <table class="table table-dark text-center">
         <thead>
           <th>Id</th>
+          <th>Question</th>
           <th>Answer</th>
           <th>Posted By</th>
           <th>Date</th>
           <th>Status</th>
         </thead>
         <tbody>
-          <tr *ngFor="let answer of data[1].answers">
+          <tr *ngFor="let answer of data">
             <td>{{ answer.id }}</td>
-            <td style="width: 40%">{{ answer.answer }}</td>
+            <td style="width: 30%">{{ answer.question.question }}</td>
+            <td style="width: 30%">{{ answer.answer }}</td>
             <td>{{ answer.postedBy }}</td>
-            <td>{{ answer.date }}</td>
+            <td>{{ answer.postedAt }}</td>
             <td>
               <button
                 class="btn btn-success mx-1"
-                (click)="onApproveAnswer(answer.id)"
+                (click)="onApproveAnswer(answer)"
               >
                 Approve
               </button>
               <button
                 class="btn btn-danger mx-1"
-                (click)="onRejectAnswer(answer.id)"
+                (click)="onRejectAnswer(answer)"
               >
                 Reject
               </button>
@@ -84,16 +86,18 @@
     <div *ngIf="mode === 'Users'">
       <table class="table table-dark text-center">
         <thead>
+          <th>Id</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Phone</th>
+          <th>Role</th>
           <th>Action</th>
         </thead>
         <tbody>
           <tr *ngFor="let user of data">
+            <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.phone }}</td>
+            <td>{{ user.isAdmin === true ? "Admin" : "User" }}</td>
             <td>
               <button class="btn btn-danger mx-1" (click)="onDelete(user.id)">
                 Delete

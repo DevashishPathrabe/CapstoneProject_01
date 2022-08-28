@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from '../service/search.service';
+import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -8,20 +8,37 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private _userService: UserService,private _searchService:SearchService) {}
+  user = {
+    isLoggedIn: false,
+    isAdmin: false,
+  };
 
-  searchedQuestion=''
-  data:any;
+  constructor(private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
-
-  onSearch() {
-    if(this.searchedQuestion!=''){
-      this._searchService.onOpen(this.searchedQuestion).subscribe(res=>{
-        this.data = res;
-        console.log(this.data);
-      })
-    }
-    console.log(this.searchedQuestion);
+  ngOnInit(): void {
+    this._userService.currentUser.subscribe((user) => {
+      this.user = user;
+      console.log(user);
+    });
+  }
+  onLogout() {
+    this._userService.setUser({
+      isLoggedIn: false,
+      isAdmin: false,
+    });
+    this._userService.logout().subscribe({
+      next: (res) => {
+        localStorage.clear();
+        alert('Logged Out Successfully!');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        if (err.status === 200) {
+          localStorage.clear();
+          alert('Logged Out Successfully!');
+          this.router.navigate(['/']);
+        } else this.router.navigate(['/error/' + err.status]);
+      },
+    });
   }
 }
