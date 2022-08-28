@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark px-5">
-  <a class="navbar-brand" routerLink="/">Do Connect</a>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark px-4" >
+  <a class="navbar-brand h1" routerLink="{{ (isAdmin === true && isLoggedIn === true) ? '/dashboard' : '/' }}">DoConnect</a>
   <button
     class="navbar-toggler"
     type="button"
@@ -11,27 +11,21 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div
-    class="collapse navbar-collapse justify-content-end"
-    id="navbarNavAltMarkup"
-  >
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
     <ul class="navbar-nav">
-      <li *ngIf="user.isAdmin === true" class="nav-item">
+      <li *ngIf="isAdmin === true && isLoggedIn === true" class="nav-item">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li
-        *ngIf="user.isAdmin === false && user.isLoggedIn === true"
-        class="nav-item"
-      >
-        <a class="nav-link" routerLink="/post-question">Post Question </a>
+      <li *ngIf="isAdmin === false && isLoggedIn === true" class="nav-item">
+        <a class="nav-link" routerLink="/post-question">Post Question</a>
       </li>
-      <li *ngIf="user.isLoggedIn === false" class="nav-item">
-        <a class="nav-link" routerLink="/login">Login </a>
+      <li *ngIf="isLoggedIn === false" class="nav-item">
+        <a class="nav-link" routerLink="/login">Login</a>
       </li>
-      <li *ngIf="user.isLoggedIn === false" class="nav-item">
-        <a class="nav-link" routerLink="/register">Register </a>
+      <li *ngIf="isLoggedIn === false" class="nav-item">
+        <a class="nav-link" routerLink="/register">Register</a>
       </li>
-      <li *ngIf="user.isLoggedIn === true" class="nav-item">
+      <li *ngIf="isLoggedIn === true" class="nav-item">
         <button class="btn nav-link" (click)="onLogout()">Logout</button>
       </li>
     </ul>
