@@ -25,10 +25,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="isAdmin == false" [style.display]="chatbox">
+  <div *ngIf="isAdmin == false && isUserLoggedIn == true" [style.display]="chatbox">
     <app-chat></app-chat>
   </div>
-  <button *ngIf="isAdmin == false" id="chatButton" class="btn btn-primary chat-button" (click)="toggleChatBox()">
+  <button *ngIf="isAdmin == false && isUserLoggedIn == true" id="chatButton" class="btn btn-primary chat-button" (click)="toggleChatBox()">
     <i class="fa {{ (chatbox == 'none') ? 'fa-chevron-up' : 'fa-chevron-down' }}"></i> {{ chatButton }}
   </button>
 </div>
