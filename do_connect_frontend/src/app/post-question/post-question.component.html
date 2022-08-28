@@ -24,10 +24,8 @@
       </select>
     </div>
     <div class="form-group py-3 d-flex">
-      <div *ngFor="let image of uploadedImages" class="p-3">
-        <a [href]="getImageUrl(image)" target="_blank">
-          <img [src]="getImageUrl(image)" alt="image" height="100" />
-        </a>
+      <div *ngFor="let imageName of uploadedImages" class="p-3">
+        <img [attr.src]="getImageUrl(imageName) | secure | async" alt="image" height="100" />
       </div>
     </div>
     <div class="form-group py-3">
