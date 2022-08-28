@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Component({
   selector: 'app-navbar',
@@ -8,28 +9,18 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  user = {
-    isLoggedIn: false,
-    isAdmin: false,
-  };
+
+  isAdmin = isUserAdmin();
+  isLoggedIn = isUserLoggedIn();
 
   constructor(private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {
-    this._userService.currentUser.subscribe((user) => {
-      this.user = user;
-      console.log(user);
-    });
-  }
+  ngOnInit(): void {}
+
   onLogout() {
-    this._userService.setUser({
-      isLoggedIn: false,
-      isAdmin: false,
-    });
     this._userService.logout().subscribe({
-      next: (res) => {
+      next: (result) => {
         localStorage.clear();
-        alert('Logged Out Successfully!');
         this.router.navigate(['/']);
       },
       error: (err) => {
