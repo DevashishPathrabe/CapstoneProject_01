@@ -28,8 +28,8 @@ export class NavbarComponent implements OnInit {
   onLogout() {
     this._userService.logout().subscribe({
       next: (result) => {
-        alert(result);
         localStorage.clear();
+        alert(result);
         this.router.navigate(['/login']);
       },
       error: (error: HttpErrorResponse) => {
