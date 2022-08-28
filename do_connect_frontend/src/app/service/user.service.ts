@@ -51,6 +51,6 @@ export class UserService {
 
   logout() {
     const headers = getHeaders();
-    return this.http.get(BASE_URL + '/signout', { headers });
+    return this.http.get(BASE_URL + '/signout', { headers, responseType: 'text' });
   }
 }
