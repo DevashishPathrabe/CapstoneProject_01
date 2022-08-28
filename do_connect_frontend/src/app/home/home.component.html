@@ -13,24 +13,22 @@
       Search
     </button>
   </div>
-  <div class="row" style="min-height: 55vh">
+  <div class="row">
     <div *ngFor="let question of data" class="col-lg-4 p-3">
       <div class="bg-white text-dark p-3 border-radius-4">
         <p>{{ question.question }}</p>
         <div class="pt-4">
           <button class="btn btn-warning" (click)="openQuestion(question.id)">
-            View Ans
+            View Answers
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div [style.display]="chatbox">
+  <div *ngIf="isAdmin == false" [style.display]="chatbox">
     <app-chat></app-chat>
   </div>
-  <div *ngIf="isAdmin === 'false'" class="d-flex justify-content-end">
-    <button id="chatButton" class="btn btn-primary" (click)="toggleChatBox()">
-      {{ chatButton }}
-    </button>
-  </div>
+  <button *ngIf="isAdmin == false" id="chatButton" class="btn btn-primary chat-button" (click)="toggleChatBox()">
+    <i class="fa {{ (chatbox == 'none') ? 'fa-chevron-up' : 'fa-chevron-down' }}"></i> {{ chatButton }}
+  </button>
 </div>
