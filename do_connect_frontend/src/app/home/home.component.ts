@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
-import { isUserAdmin } from '../utils/util';
+import { isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 const OPEN_CHAT_BUTTON_LABEL = 'Chat';
 
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   search: any;
   chatbox = 'none';
   isAdmin: boolean = isUserAdmin();
+  isUserLoggedIn: boolean = isUserLoggedIn();
   chatButton: string = OPEN_CHAT_BUTTON_LABEL;
 
   constructor(private _userService: UserService, private router: Router) {}
