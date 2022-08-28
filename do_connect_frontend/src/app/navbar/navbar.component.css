@@ -1,0 +1,11 @@
+/* nav {
+  background-color: rgba(61, 61, 61, 0.592);
+} */
+
+button,
+button:focus {
+  color: white;
+  outline: none !important;
+  box-shadow: none;
+  border: none;
+}

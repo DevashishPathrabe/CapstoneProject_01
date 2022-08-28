@@ -1,0 +1,36 @@
+<div class="container text-white pt-4">
+  <h2 class="text-center">All Questions</h2>
+  <div class="input-group w-50 mx-auto">
+    <input
+      [(ngModel)]="search"
+      type="search"
+      class="form-control"
+      placeholder="Search"
+      aria-label="Search"
+      aria-describedby="search-addon"
+    />
+    <button class="btn btn-info" id="search-addon" (click)="onSearch()">
+      Search
+    </button>
+  </div>
+  <div class="row" style="min-height: 55vh">
+    <div *ngFor="let question of data" class="col-lg-4 p-3">
+      <div class="bg-white text-dark p-3 border-radius-4">
+        <p>{{ question.question }}</p>
+        <div class="pt-4">
+          <button class="btn btn-warning" (click)="openQuestion(question.id)">
+            View Answers
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div [style.display]="chatbox">
+    <app-chat></app-chat>
+  </div>
+  <div *ngIf="isAdmin === 'false'" class="d-flex justify-content-end">
+    <button id="chatButton" class="btn btn-primary" (click)="toggleChatBox()">
+      {{ chatButton }}
+    </button>
+  </div>
+</div>
