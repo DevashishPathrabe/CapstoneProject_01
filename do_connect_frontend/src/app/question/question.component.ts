@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { UploadFilesService } from '../service/upload-files.service';
+import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -16,11 +16,12 @@ export class QuestionComponent implements OnInit {
   warning = '';
   uploadedImages: string[] = [];
   file: File = new File(['init'], 'init.txt');
+
   constructor(
     private _userService: UserService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private _uploadService: UploadFilesService
+    private _uploadService: UploadImageService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +42,7 @@ export class QuestionComponent implements OnInit {
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
+
   onChange(event: any) {
     this.file = event.target.files[0];
   }
@@ -49,7 +51,7 @@ export class QuestionComponent implements OnInit {
     return imageUrl;
   }
   onUploadImage() {
-    this._uploadService.upload(this.file).subscribe({
+    this._uploadService.uploadImage(this.file).subscribe({
       next: (res) => console.warn(res),
       error: (err) => {
         if (err.status === 200) this.uploadedImages.push(err.error.text);
