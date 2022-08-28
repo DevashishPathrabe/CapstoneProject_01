@@ -13,7 +13,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   register(user: UserRegisterType) {
-    return this.http.post(`${BASE_URL}/register`, user);
+    return this.http.post(`${BASE_URL}/register`, user, { responseType: 'text' });
   }
 
   login(user: UserLoginType) {
