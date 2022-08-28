@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private _userService: UserService) {}
 
   ngOnInit(): void {}
+
   onLogin() {
     if (this.username === '' || this.password === '') {
       this.warning = 'All field required';
@@ -28,16 +29,8 @@ export class LoginComponent implements OnInit {
           const jwtData: JWTCustomPayload = jwtDecode(res.token);
           localStorage.setItem('token', res.token);
           if (jwtData.isAdmin) {
-            this._userService.setUser({
-              isLoggedIn: true,
-              isAdmin: true,
-            });
             this.router.navigate(['/dashboard']);
           } else {
-            this._userService.setUser({
-              isLoggedIn: true,
-              isAdmin: false,
-            });
             this.router.navigate(['/']);
           }
         },
