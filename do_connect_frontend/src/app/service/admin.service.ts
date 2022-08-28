@@ -49,10 +49,14 @@ export class AdminService {
       { headers: headers }
     );
   }
-  approveAnswer(id: any) {
+  approveAnswer(answer: any) {
     const headers = getHeaders();
     return this.http.put(
-      this.baseURL + '/questions/' + id,
+      this.baseURL +
+        '/questions/' +
+        answer.question.id +
+        '/answers/' +
+        answer.id,
       {
         isApproved: true,
       },
@@ -65,10 +69,17 @@ export class AdminService {
       headers: headers,
     });
   }
-  deleteAnswer(id: any) {
+  deleteAnswer(answer: any) {
     const headers = getHeaders();
-    return this.http.delete(this.baseURL + '/questions/' + id, {
-      headers: headers,
-    });
+    return this.http.delete(
+      this.baseURL +
+        '/questions/' +
+        answer.question.id +
+        '/answers/' +
+        answer.id,
+      {
+        headers: headers,
+      }
+    );
   }
 }

@@ -25,6 +25,13 @@ export class RegisterComponent implements OnInit {
       return;
     }
     let isAdmin = this.role === 'User' ? false : true;
+    console.log({
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      username: this.username,
+      isAdmin: isAdmin,
+    });
     this._userService
       .register({
         name: this.name,
@@ -33,9 +40,12 @@ export class RegisterComponent implements OnInit {
         username: this.username,
         isAdmin: isAdmin,
       })
-      .subscribe((res: any) => {
-        console.log(res);
-        this.router.navigate(['/login']);
+      .subscribe({
+        next: (res) => this.router.navigate(['/login']),
+        error: (err) => {
+          if (err.status === 200) this.router.navigate(['/login']);
+          else this.router.navigate(['/error/' + err.status]);
+        },
       });
   }
 }

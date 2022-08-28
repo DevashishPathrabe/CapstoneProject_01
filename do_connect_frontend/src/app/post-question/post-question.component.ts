@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { UploadFilesService } from '../service/upload-files.service';
 import { UserService } from '../service/user.service';
 
@@ -18,37 +18,44 @@ export class PostQuestionComponent implements OnInit {
 
   constructor(
     private _uploadService: UploadFilesService,
-    private sanitizer: DomSanitizer,
-    private _userService: UserService
+    private _userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
   onChange(event: any) {
     this.file = event.target.files[0];
   }
-  sanitizeImageUrl(imageUrl: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  getImageUrl(image: any) {
+    const imageUrl = 'http://localhost:4000/' + image;
+    return imageUrl;
   }
   onUploadImage() {
-    console.log(this.file);
-    this._uploadService.upload(this.file).subscribe(
-      (res: any) => {
-        console.warn(res);
+    this._uploadService.upload(this.file).subscribe({
+      next: (res) => console.warn(res),
+      error: (err) => {
+        if (err.status === 200) this.uploadedImages.push(err.error.text);
+        else this.router.navigate(['/error/' + err.status]);
       },
-      (error) => {
-        console.warn(error);
-        this.uploadedImages.push(error.error.text);
-      }
-    );
+    });
   }
   onSubmit() {
     if (this.question === '') {
       this.warning = 'All fields are required!';
+      return;
     }
     this._userService
-      .postQuestion({ question: this.question, topic: this.topic })
-      .subscribe((res) => {
-        console.warn(res);
+      .postQuestion({
+        question: this.question,
+        topic: this.topic,
+        images: this.uploadedImages,
+      })
+      .subscribe({
+        next: (res) => {
+          alert('Successfully Submitted');
+          this.router.navigate(['/']);
+        },
+        error: (err) => this.router.navigate(['/error/' + err.status]),
       });
   }
 }

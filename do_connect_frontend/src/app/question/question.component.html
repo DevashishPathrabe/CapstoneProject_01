@@ -6,6 +6,13 @@
       <h4>
         {{ data.question }}
       </h4>
+      <div class="d-flex">
+        <div *ngFor="let image of data.images" class="p-3">
+          <a [href]="getImageUrl(image)" target="_blank">
+            <img [src]="getImageUrl(image)" alt="image" height="100" />
+          </a>
+        </div>
+      </div>
     </div>
     <div class="mt-4 bg-white p-3 text-dark">
       <h4>Write your answer</h4>
@@ -17,6 +24,25 @@
           id="answer"
           rows="5"
         ></textarea>
+        <div class="form-group py-3 d-flex">
+          <div *ngFor="let image of uploadedImages" class="p-3">
+            <a [href]="getImageUrl(image)" target="_blank">
+              <img [src]="getImageUrl(image)" alt="image" height="100" />
+            </a>
+          </div>
+        </div>
+        <div class="form-group py-3">
+          <label style="padding-right: 1rem" for="password">Images</label>
+          <input
+            type="file"
+            name="images"
+            id="images"
+            (change)="onChange($event)"
+          />
+          <button class="btn btn-secondary" (click)="onUploadImage()">
+            Upload Image
+          </button>
+        </div>
         <div class="d-flex justify-content-end pt-3">
           <button class="btn btn-success" (click)="onSubmit()">Submit</button>
         </div>
@@ -24,9 +50,16 @@
     </div>
     <div class="mt-4 bg-white p-3 text-dark">
       <h3>Answers</h3>
-      <div *ngFor="let answer of data.answers" class="col-lg-12 p-3">
+      <div *ngFor="let answer of answersList" class="col-lg-12 p-3">
         <div class="bg-white text-dark p-3 border">
           <h5>{{ answer.answer }}</h5>
+          <div class="d-flex">
+            <div *ngFor="let image of answer.images" class="p-3">
+              <a [href]="getImageUrl(image)" target="_blank">
+                <img [src]="getImageUrl(image)" alt="image" height="100" />
+              </a>
+            </div>
+          </div>
           <p>Posted By: {{ answer.postedBy }}</p>
         </div>
       </div>
