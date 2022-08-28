@@ -6,14 +6,19 @@ import { getHeaders } from '../utils/util';
 @Injectable({
   providedIn: 'root',
 })
+
 export class ChatService {
-  constructor(private http: HttpClient) {}
+
   baseUrl = BASE_URL;
+
+  constructor(private http: HttpClient) {}
+
   createChat(data: any) {
     const headers = getHeaders();
     return this.http.post(this.baseUrl + '/messages', data, { headers });
   }
-  getChatList() {
+
+  getChatMessagesList() {
     const headers = getHeaders();
     return this.http.get(this.baseUrl + '/messages', { headers });
   }
