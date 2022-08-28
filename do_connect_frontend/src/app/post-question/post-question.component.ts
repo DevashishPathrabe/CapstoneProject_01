@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BASE_URL } from '../constants/constants';
+import { BASE_URL, QUESTIONS_TOPICS } from '../constants/constants';
 import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
 
@@ -12,10 +12,10 @@ import { UserService } from '../service/user.service';
 
 export class PostQuestionComponent implements OnInit {
   question = '';
-  topic = 'java';
+  topic = '';
+  topicOptions: string[] = QUESTIONS_TOPICS;
   warning = '';
   uploadedImages: string[] = [];
-  imageFile: File = new File(['init'], 'init.png');
 
   constructor(
     private _uploadService: UploadImageService,
@@ -26,21 +26,20 @@ export class PostQuestionComponent implements OnInit {
   ngOnInit(): void {}
 
   onChange(event: any) {
-    this.imageFile = event.target.files[0];
+    const imageFile = event.target.files[0];
+    if (imageFile) {
+      this._uploadService.uploadImage(imageFile).subscribe({
+        next: (res) => console.warn(res),
+        error: (err) => {
+          if (err.status === 200) this.uploadedImages.push(err.error.text);
+          else this.router.navigate(['/error/' + err.status]);
+        },
+      });
+    }
   }
 
   getImageUrl(imageName: string) {
     return `${BASE_URL}/images/${imageName}`;
-  }
-
-  onUploadImage() {
-    this._uploadService.uploadImage(this.imageFile).subscribe({
-      next: (res) => console.warn(res),
-      error: (err) => {
-        if (err.status === 200) this.uploadedImages.push(err.error.text);
-        else this.router.navigate(['/error/' + err.status]);
-      },
-    });
   }
 
   onSubmit() {
