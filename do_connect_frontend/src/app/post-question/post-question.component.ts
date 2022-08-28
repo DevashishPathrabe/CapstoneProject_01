@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BASE_URL } from '../constants/constants';
 import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
 
@@ -29,8 +30,7 @@ export class PostQuestionComponent implements OnInit {
   }
 
   getImageUrl(imageName: string) {
-    const imageUrl = 'http://localhost:4000/' + imageName;
-    return imageUrl;
+    return `${BASE_URL}/images/${imageName}`;
   }
 
   onUploadImage() {
