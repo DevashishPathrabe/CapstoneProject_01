@@ -18,6 +18,7 @@ import { ChatComponent } from './chat/chat.component';
 import { QuestionComponent } from './question/question.component';
 import { ErrorComponent } from './error/error.component';
 import { authInterceptorProviders } from './utils/auth.interceptor';
+import { SecurePipe } from './utils/secure.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { authInterceptorProviders } from './utils/auth.interceptor';
     ChatComponent,
     QuestionComponent,
     ErrorComponent,
+    SecurePipe,
   ],
   imports: [
     BrowserModule,
