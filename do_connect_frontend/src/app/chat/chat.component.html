@@ -1,14 +1,14 @@
 <div class="chatbox">
-  <h4 class="text-center">Chat Here</h4>
-  <div id="msgbox" class="msgbox border overflow-auto">
-    <p *ngFor="let message of chatList">
-      <span>{{ message.postedBy }}</span
-      ><br />
-      <span>{{ message.message }}</span>
-      <span style="text-align: right">{{ message.postAt }}</span>
-    </p>
+  <div id="msgbox" class="message-box">
+    <div *ngFor="let message of chatMessageList" class="message">
+      <div class="message-header">
+        <span class="font-weight-light">{{ message.postedBy }}</span>
+        <span class="font-weight-light">{{ message.postedAt | date: 'medium' }}</span>
+      </div>
+      <span class="{{ (currentUsername === message.postedBy) ? 'message-right' : 'message-left' }}">{{ message.message }}</span>
+    </div>
   </div>
-  <div class="inputbox input-group text-center py-4">
+  <div class="inputbox input-group text-center">
     <input
       [(ngModel)]="message"
       class="form-control"
@@ -16,6 +16,6 @@
       name=""
       id=""
     />
-    <button class="btn btn-primary" (click)="onSend()">send</button>
+    <button class="btn btn-primary" (click)="onSendMessage()">Send</button>
   </div>
 </div>
