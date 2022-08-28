@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
@@ -15,20 +16,29 @@ export class NavbarComponent implements OnInit {
 
   constructor(private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event.constructor.name === "NavigationEnd") {
+        this.isAdmin = isUserAdmin();
+        this.isLoggedIn = isUserLoggedIn();
+      }
+    });
+  }
 
   onLogout() {
     this._userService.logout().subscribe({
       next: (result) => {
+        alert(result);
         localStorage.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       },
-      error: (err) => {
-        if (err.status === 200) {
-          localStorage.clear();
-          alert('Logged Out Successfully!');
-          this.router.navigate(['/']);
-        } else this.router.navigate(['/error/' + err.status]);
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          alert(error.error);
+        }
+        else {
+          this.router.navigate(['/error/' + error.status]);
+        }
       },
     });
   }
