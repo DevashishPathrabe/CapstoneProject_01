@@ -11,5 +11,6 @@
 }
 
 .routes-container {
-    height: calc(100vh - 112px);
+    height: calc(100vh - 98px);
+    overflow: auto;
 }
