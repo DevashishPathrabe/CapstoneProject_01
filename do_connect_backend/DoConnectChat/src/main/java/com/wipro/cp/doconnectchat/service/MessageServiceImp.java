@@ -27,11 +27,25 @@ public class MessageServiceImp implements IMessageService {
 		return new MessageResponseDTO(message.getMessage(), message.getPostedAt(), message.getPostedBy());
 	}
 
+	/*
+	* @Author: Komal Anil Lawand
+	* Modified Date: 26-08-2022
+	* Description: Get all messages
+	* Params: None
+	* Return Type: MessageResponseDTO list
+	*/
 	@Override
 	public List<MessageResponseDTO> getAllMessages() {
 		return messageRepository.findAllByOrderByPostedAtAsc().stream().map(message -> convertMessageToMessageResponseDTO(message)).collect(Collectors.toList());
 	}
 
+	/*
+	* @Author: Komal Anil Lawand
+	* Modified Date: 26-08-2022
+	* Description: Create message
+	* Params: MessageRequestDTO object
+	* Return Type: Boolean
+	*/
 	@Override
 	public boolean createMessage(MessageRequestDTO messageRequestDTO) {
 		try {
