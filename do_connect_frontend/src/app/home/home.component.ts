@@ -48,10 +48,27 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`/question/${id}`]);
   }
 
-  onSearch() {
-    this._userService.searchQuestion(this.search, (this.topic === 'All') ? '' : this.topic).subscribe({
+  searchHelper(query: string, topic: string) {
+    this._userService.searchQuestion(query, (topic === 'All') ? '' : topic).subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
-      error: (err) => this.router.navigate(['/error/' + err.status]),
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          alert(error.error);
+        }
+        else {
+          this.router.navigate(['/error/' + error.status]);
+        }
+      },
     });
+  }
+
+  onSearch() {
+    this.searchHelper(this.search, (this.topic === 'All') ? '' : this.topic);
+  }
+
+  onTopicSelected(value: string) {
+    this.topic = value;
+    this.search = '';
+    this.searchHelper(this.search, (this.topic === 'All') ? '' : this.topic);
   }
 }
