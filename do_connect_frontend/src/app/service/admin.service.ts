@@ -23,7 +23,7 @@ export class AdminService {
   }
 
   deleteUser(id: number) {
-    return this.http.delete(BASE_URL + '/users/' + id);
+    return this.http.delete(BASE_URL + '/users/' + id, { responseType: 'text' });
   }
 
   approveQuestion(id: number) {
