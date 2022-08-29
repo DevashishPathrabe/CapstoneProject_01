@@ -8,8 +8,9 @@ import { UserService } from '../service/user.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
+
 export class DashboardComponent implements OnInit {
-  mode = 'Questions';
+  mode = 'questions';
   data: any;
   constructor(
     private _userService: UserService,
@@ -22,7 +23,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUnapprovedQuestions() {
-    this.mode = 'Questions';
+    this.mode = 'questions';
     this._adminService.getUnapprovedQuestions().subscribe({
       next: (res) => (this.data = res),
       error: (err) => this.router.navigate(['/error/' + err.status]),
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUnapprovedAnswers() {
-    this.mode = 'Answers';
+    this.mode = 'answers';
     this._adminService.getUnapprovedAnswers().subscribe({
       next: (res) => (this.data = res),
       error: (err) => this.router.navigate(['/error/' + err.status]),
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getUsers() {
-    this.mode = 'Users';
+    this.mode = 'users';
     this._adminService.getUsers().subscribe({
       next: (res) => (this.data = res),
       error: (err) => this.router.navigate(['/error/' + err.status]),
@@ -46,7 +47,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDelete(id: any) {
-    if (confirm('Confirm to delete the user')) {
+    if (confirm('Are you sure you want to remove this user? This action cannot be reverted.')) {
       this._adminService.deleteUser(id).subscribe({
         next: (res) => this.getUsers(),
         error: (err) => {
@@ -57,17 +58,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onApproveQuestion(id: any) {
-    if (confirm('Confirm to approve')) {
-      this._adminService.approveQuestion(id).subscribe({
-        next: (res) => this.getUnapprovedQuestions(),
-        error: (err) => this.router.navigate(['/error/' + err.status]),
-      });
-    }
+  onApproveQuestion(id: number) {
+    this._adminService.approveQuestion(id).subscribe({
+      next: (res) => this.getUnapprovedQuestions(),
+      error: (err) => this.router.navigate(['/error/' + err.status]),
+    });
   }
 
-  onRejectQuestion(id: any) {
-    if (confirm('Confirm to reject')) {
+  onRejectQuestion(id: number) {
+    if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteQuestion(id).subscribe({
         next: (res) => this.getUnapprovedQuestions(),
         error: (err) => {
@@ -79,19 +78,17 @@ export class DashboardComponent implements OnInit {
   }
 
   onApproveAnswer(answer: any) {
-    if (confirm('Confirm to approve')) {
-      this._adminService.approveAnswer(answer).subscribe({
-        next: (res) => this.getUnapprovedAnswers(),
-        error: (err) => {
-          if (err.status === 200) this.getUnapprovedAnswers();
-          else this.router.navigate(['/error/' + err.status]);
-        },
-      });
-    }
+    this._adminService.approveAnswer(answer).subscribe({
+      next: (res) => this.getUnapprovedAnswers(),
+      error: (err) => {
+        if (err.status === 200) this.getUnapprovedAnswers();
+        else this.router.navigate(['/error/' + err.status]);
+      },
+    });
   }
 
   onRejectAnswer(answer: any) {
-    if (confirm('Confirm to reject')) {
+    if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteAnswer(answer).subscribe({
         next: (res) => this.getUnapprovedAnswers(),
         error: (err) => {
