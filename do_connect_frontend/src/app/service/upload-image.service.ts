@@ -16,7 +16,7 @@ export class UploadImageService {
   uploadImage(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('image', file); // Store form name as "file" with file data
-    return this.http.post(`${BASE_URL}/images`, formData); // Make http post request over api with formData as req
+    return this.http.post(`${BASE_URL}/images`, formData, { responseType: 'text' }); // Make http post request over api with formData as req
   }
 
 }
