@@ -14,7 +14,10 @@
   </div>
   <div class="row pt-3">
     <div *ngIf="mode == 'questions'">
-      <table class="table table-dark text-center">
+      <div *ngIf="questionList.length === 0" class="d-flex justify-content-center mt-2">
+        <span>No questions to approve</span>
+      </div>
+      <table *ngIf="questionList.length !== 0" class="table table-dark text-center">
         <thead>
           <th>Question</th>
           <th>Topic</th>
@@ -47,7 +50,10 @@
       </table>
     </div>
     <div *ngIf="mode == 'answers'">
-      <table class="table table-dark text-center">
+      <div *ngIf="answerList.length === 0" class="d-flex justify-content-center mt-2">
+        <span>No answers to approve</span>
+      </div>
+      <table *ngIf="answerList.length !== 0" class="table table-dark text-center">
         <thead>
           <th>Question</th>
           <th>Answer</th>
@@ -80,7 +86,10 @@
       </table>
     </div>
     <div *ngIf="mode == 'users'">
-      <table class="table table-dark text-center">
+      <div *ngIf="userList.length === 0" class="d-flex justify-content-center mt-2">
+        <span>No users exist</span>
+      </div>
+      <table *ngIf="userList.length !== 0" class="table table-dark text-center">
         <thead>
           <th>Username</th>
           <th>Name</th>

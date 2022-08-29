@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Email Service
+*/
+
 package com.wipro.cp.doconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +27,13 @@ public class EmailServiceImp implements IEmailService {
 	@Value("${spring.mail.username}")
 	private String sender;
 
+	/*
+	* @Author: Devashish Ashok Pathrabe
+	* Modified Date: 26-08-2022
+	* Description: Send email notification
+	* Params: EmailDTO object
+	* Return Type: Boolean
+	*/
 	@Override
 	public boolean sendNotificationEmail(EmailDTO emailDTO) {
 		try {

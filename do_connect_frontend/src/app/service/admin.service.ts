@@ -23,7 +23,7 @@ export class AdminService {
   }
 
   deleteUser(id: number) {
-    return this.http.delete(BASE_URL + '/users/' + id);
+    return this.http.delete(BASE_URL + '/users/' + id, { responseType: 'text' });
   }
 
   approveQuestion(id: number) {
@@ -35,11 +35,11 @@ export class AdminService {
   }
 
   deleteQuestion(id: number) {
-    return this.http.delete(BASE_URL + '/questions/' + id);
+    return this.http.delete(BASE_URL + '/questions/' + id, { responseType: 'text' });
   }
 
   deleteAnswer(answer: AnswerType) {
-    return this.http.delete(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id);
+    return this.http.delete(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id, { responseType: 'text' });
   }
 
 }

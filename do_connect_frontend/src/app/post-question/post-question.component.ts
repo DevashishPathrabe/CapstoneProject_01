@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BASE_URL, QUESTIONS_TOPICS } from '../constants/constants';
 import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
+import { handleErrorResponse } from '../utils/util';
 
 @Component({
   selector: 'app-post-question',
@@ -34,14 +35,7 @@ export class PostQuestionComponent implements OnInit {
         next: (result) => {
           this.uploadedImages.push(result);
         },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === 400) {
-            alert(error.error);
-          }
-          else {
-            this.router.navigate(['/error/' + error.status]);
-          }
-        },
+        error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
       });
     }
   }
@@ -62,7 +56,7 @@ export class PostQuestionComponent implements OnInit {
           alert('Your question submission was successful.');
           this.router.navigate(['/']);
         },
-        error: (error) => this.router.navigate(['/error/' + error.status]),
+        error: (error) => handleErrorResponse(error, this.router),
       });
   }
 

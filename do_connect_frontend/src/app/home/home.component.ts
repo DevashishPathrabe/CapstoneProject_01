@@ -7,7 +7,7 @@ import { SearchService } from '../service/search.service';
 import { QUESTIONS_TOPICS, QuestionType } from '../constants/constants';
 >>>>>>> b2d856484c80090035edd85e6485363fa11457f6
 import { UserService } from '../service/user.service';
-import { isUserAdmin, isUserLoggedIn } from '../utils/util';
+import { handleErrorResponse, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 const OPEN_CHAT_BUTTON_LABEL = 'Chat';
 
@@ -40,14 +40,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._userService.getApprovedQuestions().subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          alert(error.error);
-        }
-        else {
-          this.router.navigate(['/error/' + error.status]);
-        }
-      },
+      error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
     });
   }
 <<<<<<< HEAD
@@ -67,14 +60,7 @@ export class HomeComponent implements OnInit {
   searchHelper(query: string, topic: string) {
     this._userService.searchQuestion(query, (topic === 'All') ? '' : topic).subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          alert(error.error);
-        }
-        else {
-          this.router.navigate(['/error/' + error.status]);
-        }
-      },
+      error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { isUserAdmin } from '../utils/util';
 
 @Component({
   selector: 'app-error',
@@ -7,12 +7,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
-  statusCode: any;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  isUserAdmin = isUserAdmin();
 
-  ngOnInit(): void {
-    let urlParams = this.activatedRoute.snapshot.params;
-    this.statusCode = urlParams['status'];
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
+
 }
