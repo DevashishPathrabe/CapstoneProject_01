@@ -45,7 +45,14 @@ public class AnswerServiceImp implements IAnswerService {
 	
 	@Autowired
 	private Utilities utilities;
-	
+
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Get all answers for a particular answer status
+	* Params: AnswerStatus string
+	* Return Type: AnswerResponseDTO List wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<List<AnswerResponseDTO>> getAllAnswers(String answerStatus) {
 		if (answerStatus.equalsIgnoreCase("all")) {
@@ -62,6 +69,13 @@ public class AnswerServiceImp implements IAnswerService {
 		}
 	}
 
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Get all answers for a particular question ID and answer status
+	* Params: QuestionID long, AnswerStatus string
+	* Return Type: AnswerResponseDTO List wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<List<AnswerResponseDTO>> getAllAnswersForQuestionId(Long questionId, String answerStatus) {
 		if (answerStatus.equalsIgnoreCase("all")) {
@@ -78,6 +92,13 @@ public class AnswerServiceImp implements IAnswerService {
 		}
 	}
 	
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Create answer for a particular question ID
+	* Params: QuestionID long, AnswerRequestDTO object, PostedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<AnswerResponseDTO> createAnswerForQuestionId(Long questionId, AnswerRequestDTO answerRequestDTO, String postedBy) {
 		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
@@ -95,6 +116,13 @@ public class AnswerServiceImp implements IAnswerService {
 		return new StatusDTO<AnswerResponseDTO>("", true, utilities.convertAnswerToAnswerResponseDTO(savedAnswer));
 	}
 	
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<AnswerResponseDTO> updateAnswerForQuestionId(Long questionId, Long answerId, AnswerUpdateDTO answerUpdateDTO, String approvedBy) {
 		boolean questionExists = questionRepository.existsById(questionId);
@@ -111,6 +139,13 @@ public class AnswerServiceImp implements IAnswerService {
 		return new StatusDTO<AnswerResponseDTO>("", true, utilities.convertAnswerToAnswerResponseDTO(answerRepository.save(answer)));
 	}
 	
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Delete a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long
+	* Return Type: Boolean wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<Boolean> deleteAnswerForQuestionById(Long questionId, Long answerId) {
 		boolean questionExists = questionRepository.existsById(questionId);
