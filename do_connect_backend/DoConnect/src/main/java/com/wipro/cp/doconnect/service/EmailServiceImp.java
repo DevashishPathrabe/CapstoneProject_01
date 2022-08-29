@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Email Service
+*/
+
 package com.wipro.cp.doconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
