@@ -13,17 +13,14 @@
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
     <ul class="navbar-nav">
-      <li *ngIf="isAdmin === true && isLoggedIn === true" class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-      </li>
       <li *ngIf="isAdmin === false && isLoggedIn === true" class="nav-item">
         <a class="nav-link" routerLink="/post-question">Ask Question</a>
       </li>
       <li *ngIf="isLoggedIn === false" class="nav-item">
-        <a class="nav-link" routerLink="/login">Login</a>
+        <a class="nav-link" routerLink="/register">Register</a>
       </li>
       <li *ngIf="isLoggedIn === false" class="nav-item">
-        <a class="nav-link" routerLink="/register">Register</a>
+        <a class="nav-link" routerLink="/login">Login</a>
       </li>
       <li *ngIf="isLoggedIn === true" class="nav-item">
         <button class="btn nav-link" (click)="onLogout()">Logout</button>
