@@ -41,6 +41,13 @@ public class QuestionServiceImp implements IQuestionService {
 	@Autowired
 	private Utilities utilities;
 	
+	/*
+	* @Author: Jaddu Sai Prasad
+	* Modified Date: 26-08-2022
+	* Description: Get all questions for a particular status, search and topic
+	* Params: Status string, Search string, Topic string
+	* Return Type: QuestionResponseDTO List wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search, String topic) {
 		if (search == null && topic == null) {
@@ -82,7 +89,14 @@ public class QuestionServiceImp implements IQuestionService {
 			}
 		}
 	}
-	
+
+	/*
+	* @Author: Jaddu Sai Prasad
+	* Modified Date: 26-08-2022
+	* Description: Get question for a particular question ID
+	* Params: QuestionID long
+	* Return Type: QuestionResponseDTO wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<QuestionResponseDTO> getQuestionById(Long questionId) {
 		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
@@ -91,7 +105,14 @@ public class QuestionServiceImp implements IQuestionService {
 		}
 		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(optionalQuestion.get()));
 	}
-	
+
+	/*
+	* @Author: Jaddu Sai Prasad
+	* Modified Date: 26-08-2022
+	* Description: Create question
+	* Params: QuestionRequestDTO object, PostedBy string
+	* Return Type: QuestionResponseDTO wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<QuestionResponseDTO> createQuestion(QuestionRequestDTO questionRequestDTO, String postedBy) {
 		Question question = new Question(questionRequestDTO.getQuestion(), questionRequestDTO.getTopic(), questionRequestDTO.getImages(), postedBy);
@@ -105,6 +126,13 @@ public class QuestionServiceImp implements IQuestionService {
 		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(savedQuestion));
 	}
 	
+	/*
+	* @Author: Jaddu Sai Prasad
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular question ID
+	* Params: QuestionUpdateDTO object, QuestionID long, ApprovedBy string
+	* Return Type: QuestionResponseDTO wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<QuestionResponseDTO> updateQuestion(QuestionUpdateDTO questionUpdateDTO, Long questionId, String approvedBy) {
 		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
@@ -117,6 +145,13 @@ public class QuestionServiceImp implements IQuestionService {
 		return new StatusDTO<QuestionResponseDTO>("", true, utilities.convertQuestionToQuestionResponseDTO(questionRepository.save(question)));
 	}
 	
+	/*
+	* @Author: Jaddu Sai Prasad
+	* Modified Date: 26-08-2022
+	* Description: Delete a particular question ID
+	* Params: QuestionID long
+	* Return Type: Boolean wrapped with StatusDTO
+	*/
 	@Override
 	public StatusDTO<Boolean> deleteQuestionById(Long questionId) {
 		Optional<Question> optionalQuestion = questionRepository.findById(questionId);
