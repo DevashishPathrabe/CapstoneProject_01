@@ -1,24 +1,36 @@
 <div class="container text-white">
   <h2 class="text-center py-4">All Questions</h2>
-  <div *ngIf="isAdmin == false && isUserLoggedIn == true" class="d-flex flex-wrap flex-row justify-content-center">
-    <div class="">
-      Hello
-    </div>
-    <div class="input-group">
-      <input [(ngModel)]="search" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-      <button class="btn btn-info" id="search-addon" (click)="onSearch()">
-        Search
-      </button>
-    </div>
+  <div *ngIf="isAdmin == false && isUserLoggedIn == true" class="input-group">
+    <select class='select-option' #topicSelect (change)='onTopicSelected(topicSelect.value)' style="border-radius: 0.5rem; margin-right: 1rem;">
+      <option class='option' *ngFor='let option of topicOptions' [value]="option">{{ option }}</option>
+    </select>
+    <input [(ngModel)]="search" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" style="border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; transition: none;" />
+    <button class="btn btn-info" id="search-addon" [disabled]="search == ''" (click)="onSearch()">
+      <i class="fa fa-search fa-lg"></i>
+    </button>
   </div>
   <div class="row d-flex flex-wrap mt-2">
     <div *ngFor="let question of questionList" class="col-lg-4 col-md-6 p-2">
       <div class="bg-white text-dark p-2 question-card">
         <p class="mb-0">{{ question.question }}</p>
-        <div class="pt-2" *ngIf="isAdmin == false && isUserLoggedIn == true">
-          <button class="btn btn-warning" (click)="openQuestion(question.id)">
-            View Answers
-          </button>
+        <div class="d-flex flex-column mt-2">
+          <div class="d-flex flex-row justify-content-between">
+            <strong>Topic</strong>
+            <span>{{ question.topic }}</span>
+          </div>
+          <div class="d-flex flex-row justify-content-between">
+            <strong>Posted By</strong>
+            <span>{{ question.postedBy }}</span>
+          </div>
+          <div class="d-flex flex-row justify-content-between">
+            <strong>Posted At</strong>
+            <span>{{ question.postedAt | date:'medium' }}</span>
+          </div>
+          <div class="pt-2" *ngIf="isAdmin == false && isUserLoggedIn == true">
+            <button class="btn btn-warning" (click)="openQuestion(question.id)">
+              View Answers
+            </button>
+          </div>
         </div>
       </div>
     </div>
