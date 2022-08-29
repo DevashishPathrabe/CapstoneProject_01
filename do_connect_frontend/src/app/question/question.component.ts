@@ -29,7 +29,7 @@ export class QuestionComponent implements OnInit {
   }
 
   getData() {
-    let urlParams = this.activatedRoute.snapshot.params;
+    const urlParams = this.activatedRoute.snapshot.params;
     this.questionId = urlParams['id'];
     if (this.questionId) {
       this._userService.getQuestion(this.questionId).subscribe({
