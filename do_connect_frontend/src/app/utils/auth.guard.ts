@@ -21,7 +21,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const url = getResolvedUrl(route);
-    console.log({url});
     if (this.isUserLoggedIn) {
       if (['/register', '/login'].includes(url)) {
         if (this.isUserAdmin) {
