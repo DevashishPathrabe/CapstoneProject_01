@@ -41,7 +41,7 @@ public class QuestionController {
 	private Utilities utilities;
 	
 	@GetMapping("/questions")
-	public ResponseEntity<?> getAllQuestions(@RequestParam(name="status") Optional<String> optionalStatus, @RequestParam(name="search") Optional<String> optionalSearch) {
+	public ResponseEntity<?> getAllQuestions(@RequestParam(name="status") Optional<String> optionalStatus, @RequestParam(name="search") Optional<String> optionalSearch, @RequestParam(name="topic") Optional<String> optionalTopic) {
 		String status = "approved";
 		if (optionalStatus.isPresent()) {
 			status = optionalStatus.get();
@@ -50,7 +50,11 @@ public class QuestionController {
 		if (optionalSearch.isPresent()) {
 			search = optionalSearch.get();
 		}
-		StatusDTO<List<QuestionResponseDTO>> questionStatus = questionServiceImp.getAllQuestions(status, search);
+		String topic = null;
+		if (optionalTopic.isPresent()) {
+			topic = optionalTopic.get();
+		}
+		StatusDTO<List<QuestionResponseDTO>> questionStatus = questionServiceImp.getAllQuestions(status, search, topic);
 		if (!questionStatus.getIsValid()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(questionStatus.getStatusMessage());
 		}
