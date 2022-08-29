@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { QUESTIONS_TOPICS, QuestionType } from '../constants/constants';
 import { UserService } from '../service/user.service';
-import { isUserAdmin, isUserLoggedIn } from '../utils/util';
+import { handleErrorResponse, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 const OPEN_CHAT_BUTTON_LABEL = 'Chat';
 
@@ -29,14 +29,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this._userService.getApprovedQuestions().subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          alert(error.error);
-        }
-        else {
-          this.router.navigate(['/error/' + error.status]);
-        }
-      },
+      error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
     });
   }
 
@@ -51,14 +44,7 @@ export class HomeComponent implements OnInit {
   searchHelper(query: string, topic: string) {
     this._userService.searchQuestion(query, (topic === 'All') ? '' : topic).subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          alert(error.error);
-        }
-        else {
-          this.router.navigate(['/error/' + error.status]);
-        }
-      },
+      error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
     });
   }
 
