@@ -35,8 +35,8 @@ export class UserService {
     return this.http.post(BASE_URL + '/questions/' + questionId + '/answers', answer);
   }
 
-  searchQuestion(query: string) {
-    return this.http.get(BASE_URL + '/questions?search=' + query);
+  searchQuestion(query: string, topic: string) {
+    return this.http.get(`${BASE_URL}/questions?search=${query}&topic=${topic}`);
   }
 
   getAnswers(quesId: number) {
