@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onRejectQuestion(id: number) {
+  onDeleteQuestion(id: number) {
     if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteQuestion(id).subscribe({
         next: (res) => this.getUnapprovedQuestions(),
@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onApproveAnswer(answer: any) {
+  onApproveAnswer(answer: AnswerType) {
     this._adminService.approveAnswer(answer).subscribe({
       next: (res) => this.getUnapprovedAnswers(),
       error: (err) => {
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onRejectAnswer(answer: any) {
+  onDeleteAnswer(answer: AnswerType) {
     if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteAnswer(answer).subscribe({
         next: (res) => this.getUnapprovedAnswers(),
