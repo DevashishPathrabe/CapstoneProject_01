@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
-import { getCurrentUsername, isUserAdmin, isUserLoggedIn } from '../utils/util';
+import { getCurrentUsername, handleErrorResponse, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Component({
   selector: 'app-navbar',
@@ -33,14 +33,7 @@ export class NavbarComponent implements OnInit {
         alert(result);
         this.router.navigate(['/login']);
       },
-      error: (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          alert(error.error);
-        }
-        else {
-          this.router.navigate(['/error/' + error.status]);
-        }
-      },
+      error: (error: HttpErrorResponse) => handleErrorResponse(error, this.router),
     });
   }
 }
