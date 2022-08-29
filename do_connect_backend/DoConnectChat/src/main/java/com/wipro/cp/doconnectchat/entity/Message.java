@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Message Entity
+*/
+
 package com.wipro.cp.doconnectchat.entity;
 
 import java.util.Date;
