@@ -27,6 +27,14 @@ export interface QuestionPostType {
     images: string[];
 }
 
+export interface QuestionType extends QuestionPostType {
+    id: number;
+    postedBy: string;
+	postedAt: Date;
+	approvedBy: string;
+	isApproved: boolean;
+}
+
 export interface AnswerPostType {
     answer: string;
     images: string[];
