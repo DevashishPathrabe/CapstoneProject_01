@@ -8,17 +8,18 @@ export interface JWTCustomPayload extends JwtPayload {
     name: string;
 }
 
-export interface UserRegisterType {
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    isAdmin: boolean;
-}
-
 export interface UserLoginType {
     username: string;
     password: string;
+}
+export interface UserRegisterType extends UserLoginType {
+    name: string;
+    email: string;
+    isAdmin: boolean;
+}
+
+export interface UserType extends Omit<UserRegisterType, 'password'> {
+    id: number;
 }
 
 export interface QuestionPostType {
