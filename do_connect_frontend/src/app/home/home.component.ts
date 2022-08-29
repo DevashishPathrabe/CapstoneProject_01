@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { QuestionType } from '../constants/constants';
 import { UserService } from '../service/user.service';
 import { isUserAdmin, isUserLoggedIn } from '../utils/util';
 
@@ -13,8 +14,9 @@ const OPEN_CHAT_BUTTON_LABEL = 'Chat';
 })
 
 export class HomeComponent implements OnInit {
-  data: any;
-  search: any;
+
+  questionList: QuestionType[] = [];
+  search: string = '';
   chatbox = 'none';
   isAdmin: boolean = isUserAdmin();
   isUserLoggedIn: boolean = isUserLoggedIn();
@@ -24,24 +26,29 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.getApprovedQuestions().subscribe({
-      next: (res) => (this.data = res),
-      error: (err) => this.router.navigate(['/error/' + err.status]),
+      next: (result) => (this.questionList = result as QuestionType[]),
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          alert(error.error);
+        }
+        else {
+          this.router.navigate(['/error/' + error.status]);
+        }
+      },
     });
   }
 
   toggleChatBox() {
     this.chatbox = this.chatbox === 'block' ? 'none' : 'block';
-    var elem: any = document.getElementById('msgbox');
-    elem.scrollTop = elem.scrollHeight;
   }
 
-  openQuestion(id: any) {
+  openQuestion(id: number) {
     this.router.navigate([`/question/${id}`]);
   }
 
   onSearch() {
     this._userService.searchQuestion(this.search).subscribe({
-      next: (res) => (this.data = res),
+      next: (result) => (this.questionList = result as QuestionType[]),
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
