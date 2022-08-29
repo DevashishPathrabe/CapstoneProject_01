@@ -1,6 +1,4 @@
-<div class="text-center text-white" style="font-size: 5rem; padding-top: 10%">
-  <p *ngIf="statusCode === '0'">Internal Server Error!</p>
-  <p *ngIf="statusCode === '401'">Login Required!</p>
-  <p *ngIf="statusCode === '403'">Unauthorized Access!</p>
-  <p *ngIf="statusCode === '404'">Bad Request!</p>
+<div class="text-center text-white" style="font-size: 2rem; padding-top: 2rem">
+  <p>You are not authorized to access this page / resource</p>
+  <button routerLink="{{ (isUserAdmin === true) ? '/dashboard' : '/' }}" class="btn btn-primary mt-2">Home</button>
 </div>
