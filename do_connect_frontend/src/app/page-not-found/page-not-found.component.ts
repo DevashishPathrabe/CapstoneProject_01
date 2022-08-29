@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Component({
   selector: 'app-page-not-found',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageNotFoundComponent implements OnInit {
 
-  constructor() { }
+  isUserAdmin = isUserAdmin();
 
-  ngOnInit(): void {
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
 
 }
