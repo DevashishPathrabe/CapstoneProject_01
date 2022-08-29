@@ -24,7 +24,7 @@ export class PostQuestionComponent implements OnInit {
       question: new FormControl('', [Validators.required]),
       topic: new FormControl(QUESTIONS_TOPICS[0], [Validators.required]),
       images: new FormControl('')
-    })
+    });
   }
 
   onChange(event: any) {
@@ -32,7 +32,6 @@ export class PostQuestionComponent implements OnInit {
     if (imageFile) {
       this._uploadService.uploadImage(imageFile).subscribe({
         next: (result) => {
-          console.log('***', result);
           this.uploadedImages.push(result);
         },
         error: (error: HttpErrorResponse) => {
@@ -63,7 +62,7 @@ export class PostQuestionComponent implements OnInit {
           alert('Your question submission was successful.');
           this.router.navigate(['/']);
         },
-        error: (err) => this.router.navigate(['/error/' + err.status]),
+        error: (error) => this.router.navigate(['/error/' + error.status]),
       });
   }
 
