@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
-import { isUserAdmin, isUserLoggedIn } from '../utils/util';
+import { getCurrentUsername, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
 
   isAdmin = isUserAdmin();
   isLoggedIn = isUserLoggedIn();
+  username = getCurrentUsername();
 
   constructor(private _userService: UserService, private router: Router) {}
 
