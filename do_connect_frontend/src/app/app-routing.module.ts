@@ -42,7 +42,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'error/:status',
+    path: 'unauthorized',
     component: ErrorComponent
   },
   {
