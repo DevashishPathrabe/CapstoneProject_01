@@ -112,7 +112,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 							String statusValue = getParameterValue(parameterMap, "status");
 							String searchValue = getParameterValue(parameterMap, "search");
 							String topicValue = getParameterValue(parameterMap, "topic");
-							if (topicValue == null && searchValue == null && statusValue != null) {
+							if (topicValue == null && searchValue == null && statusValue == null && !isUserAdmin) {
+								return true;
+							}
+							else if (topicValue == null && searchValue == null && statusValue != null) {
 								if (statusValue.equalsIgnoreCase("approved")) {
 									return true;
 								}
