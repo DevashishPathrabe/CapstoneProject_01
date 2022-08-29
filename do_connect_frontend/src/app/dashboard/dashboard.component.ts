@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AnswerType, QuestionType, UserType } from '../constants/constants';
 import { AdminService } from '../service/admin.service';
-import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,13 +10,13 @@ import { UserService } from '../service/user.service';
 })
 
 export class DashboardComponent implements OnInit {
+
   mode = 'questions';
-  data: any;
-  constructor(
-    private _userService: UserService,
-    private _adminService: AdminService,
-    private router: Router
-  ) {}
+  questionList: QuestionType[] = [];
+  answerList: AnswerType[] = [];
+  userList: UserType[] = [];
+
+  constructor(private _adminService: AdminService, private router: Router) {}
 
   ngOnInit(): void {
     this.getUnapprovedQuestions();
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   getUnapprovedQuestions() {
     this.mode = 'questions';
     this._adminService.getUnapprovedQuestions().subscribe({
-      next: (res) => (this.data = res),
+      next: (result) => (this.questionList = result as QuestionType[]),
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   getUnapprovedAnswers() {
     this.mode = 'answers';
     this._adminService.getUnapprovedAnswers().subscribe({
-      next: (res) => (this.data = res),
+      next: (result) => (this.answerList = result as AnswerType[]),
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
@@ -41,12 +41,12 @@ export class DashboardComponent implements OnInit {
   getUsers() {
     this.mode = 'users';
     this._adminService.getUsers().subscribe({
-      next: (res) => (this.data = res),
+      next: (result) => (this.userList = result as UserType[]),
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
 
-  onDelete(id: any) {
+  onDelete(id: number) {
     if (confirm('Are you sure you want to remove this user? This action cannot be reverted.')) {
       this._adminService.deleteUser(id).subscribe({
         next: (res) => this.getUsers(),
