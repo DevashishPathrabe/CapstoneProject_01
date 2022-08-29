@@ -12,18 +12,16 @@ function getResolvedUrl(route: ActivatedRouteSnapshot): string {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
 
-  isUserLoggedIn = isUserLoggedIn();
-  isUserAdmin = isUserAdmin();
+export class AuthGuard implements CanActivate {
 
   constructor(public router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const url = getResolvedUrl(route);
-    if (this.isUserLoggedIn) {
+    if (isUserLoggedIn()) {
       if (['/register', '/login'].includes(url)) {
-        if (this.isUserAdmin) {
+        if (isUserAdmin()) {
           this.router.navigate(['dashboard']);
           return false;
         }
@@ -33,7 +31,7 @@ export class AuthGuard implements CanActivate {
         }
       }
       else if (['/', '/post-question'].includes(url) || url.startsWith('/question/')) {
-        if (this.isUserAdmin) {
+        if (isUserAdmin()) {
           this.router.navigate(['dashboard']);
           return false;
         }
@@ -42,7 +40,7 @@ export class AuthGuard implements CanActivate {
         }
       }
       else if (['/dashboard'].includes(url)) {
-        if (this.isUserAdmin) {
+        if (isUserAdmin()) {
           return true;
         }
         else {
