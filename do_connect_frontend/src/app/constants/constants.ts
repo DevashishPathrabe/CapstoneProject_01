@@ -40,6 +40,15 @@ export interface AnswerPostType {
     images: string[];
 }
 
+export interface AnswerType extends AnswerPostType {
+    id: number;
+    postedBy: string;
+	postedAt: Date;
+	approvedBy: string;
+	isApproved: boolean;
+    question: QuestionType;
+}
+
 export const QUESTIONS_TOPICS = [
     'Actors',
     'Algebra',
