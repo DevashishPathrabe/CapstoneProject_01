@@ -4,7 +4,7 @@
     <div class="col-xl-4 col-lg-6 col-md-8 my-auto" style="max-height: 100%">
       <div class="py-3 text-center"><h2>Login</h2></div>
       <div class="form-group py-2">
-        <label for="username" class="form-label">Username</label>
+        <label for="username" class="form-label">Username*</label>
         <input class="form-control" formControlName="username" type="text" id="username" required/>
         <div
           *ngIf="(loginForm.get('username')?.dirty || loginForm.get('username')?.touched) && loginForm.get('username')?.errors?.['required']">
@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="form-group py-2">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">Password*</label>
         <input class="form-control" formControlName="password" type="password" id="password" required />
         <div
           *ngIf="(loginForm.get('password')?.dirty || loginForm.get('password')?.touched) && loginForm.get('password')?.errors?.['required']">
