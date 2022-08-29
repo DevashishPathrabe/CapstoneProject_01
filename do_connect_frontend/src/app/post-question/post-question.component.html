@@ -4,7 +4,7 @@
     <div class="col-xl-4 col-lg-6 col-md-8 my-auto" style="max-height: 100%">
       <div class="py-3 text-center"><h2>Ask Question</h2></div>
       <div class="form-group py-2">
-        <label for="topic" class="form-label">Topic</label>
+        <label for="topic" class="form-label">Topic*</label>
         <select class="form-select" formControlName="topic" id="topic" required>
           <option *ngFor="let topic of topicOptions" value="{{ topic }}">{{ topic }}</option>
         </select>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="form-group py-2">
-        <label for="question" class="form-label">Question</label>
+        <label for="question" class="form-label">Question*</label>
         <textarea class="form-control" formControlName="question" rows="5" id="question" maxlength="1000" required></textarea>
       </div>
       <div
