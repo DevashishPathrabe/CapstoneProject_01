@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Message Response DTO
+*/
+
 package com.wipro.cp.doconnectchat.dto;
 
 import java.util.Date;
