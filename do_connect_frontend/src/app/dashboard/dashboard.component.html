@@ -19,7 +19,7 @@
           <th>Question</th>
           <th>Topic</th>
           <th>Posted By</th>
-          <th>Date</th>
+          <th>Posted At</th>
           <th>Actions</th>
         </thead>
         <tbody>
@@ -52,15 +52,15 @@
           <th>Question</th>
           <th>Answer</th>
           <th>Posted By</th>
-          <th>Date</th>
+          <th>Posted At</th>
           <th>Actions</th>
         </thead>
         <tbody>
           <tr *ngFor="let answer of data">
-            <td class="align-middle" style="width: 30%">{{ answer.question.question }}</td>
+            <td class="align-middle" style="width: 30%">{{ answer.question?.question }}</td>
             <td class="align-middle" style="width: 30%">{{ answer.answer }}</td>
             <td class="align-middle">{{ answer.postedBy }}</td>
-            <td class="align-middle">{{ answer.postedAt }}</td>
+            <td class="align-middle">{{ answer.postedAt | date:'medium' }}</td>
             <td class="align-middle">
               <button
                 class="btn btn-success mx-1"
