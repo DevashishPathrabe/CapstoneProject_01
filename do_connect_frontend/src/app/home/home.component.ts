@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { QuestionType } from '../constants/constants';
+import { QUESTIONS_TOPICS, QuestionType } from '../constants/constants';
 import { UserService } from '../service/user.service';
 import { isUserAdmin, isUserLoggedIn } from '../utils/util';
 
@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
 
   questionList: QuestionType[] = [];
   search: string = '';
+  topic: string = 'All';
+  topicOptions: string[] = [ 'All', ...QUESTIONS_TOPICS ];
   chatbox = 'none';
   isAdmin: boolean = isUserAdmin();
   isUserLoggedIn: boolean = isUserLoggedIn();
@@ -47,7 +49,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSearch() {
-    this._userService.searchQuestion(this.search).subscribe({
+    this._userService.searchQuestion(this.search, (this.topic === 'All') ? '' : this.topic).subscribe({
       next: (result) => (this.questionList = result as QuestionType[]),
       error: (err) => this.router.navigate(['/error/' + err.status]),
     });
