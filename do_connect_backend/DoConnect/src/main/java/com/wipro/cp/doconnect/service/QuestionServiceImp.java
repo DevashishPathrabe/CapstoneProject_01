@@ -36,8 +36,8 @@ public class QuestionServiceImp implements IQuestionService {
 	private Utilities utilities;
 	
 	@Override
-	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search) {
-		if (search == null) {
+	public StatusDTO<List<QuestionResponseDTO>> getAllQuestions(String status, String search, String topic) {
+		if (search == null && topic == null) {
 			if (status.equalsIgnoreCase("all")) {
 				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findAll()));
 			}
@@ -51,9 +51,25 @@ public class QuestionServiceImp implements IQuestionService {
 				return new StatusDTO<List<QuestionResponseDTO>>("Provided invalid status. Should be one of 'all', 'approved' or 'unapproved'.", false, null);
 			}
 		}
-		else {
+		else if (search != null && topic == null) {
 			if (status.equalsIgnoreCase("approved")) {
 				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByQuestionContainingIgnoreCaseAndIsApprovedTrue(search)));
+			}
+			else {
+				return new StatusDTO<List<QuestionResponseDTO>>("Question search only works with 'approved' status.", false, null);
+			}
+		}
+		else if (search == null && topic != null) {
+			if (status.equalsIgnoreCase("approved")) {
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByTopicContainingIgnoreCaseAndIsApprovedTrue(topic)));
+			}
+			else {
+				return new StatusDTO<List<QuestionResponseDTO>>("Question search only works with 'approved' status.", false, null);
+			}
+		}
+		else {
+			if (status.equalsIgnoreCase("approved")) {
+				return new StatusDTO<List<QuestionResponseDTO>>("", true, utilities.convertQuestionListToQuestionResponseDTOList(questionRepository.findByTopicContainingIgnoreCaseAndQuestionContainingIgnoreCaseAndIsApprovedTrue(topic, search)));
 			}
 			else {
 				return new StatusDTO<List<QuestionResponseDTO>>("Question search only works with 'approved' status.", false, null);

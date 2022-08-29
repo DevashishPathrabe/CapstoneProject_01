@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
-import { UploadFilesService } from '../service/upload-files.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BASE_URL, QUESTIONS_TOPICS } from '../constants/constants';
+import { UploadImageService } from '../service/upload-image.service';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -9,46 +11,59 @@ import { UserService } from '../service/user.service';
   templateUrl: './post-question.component.html',
   styleUrls: ['./post-question.component.css'],
 })
+
 export class PostQuestionComponent implements OnInit {
-  question = '';
-  topic = 'java';
-  warning = '';
+  public questionForm !: FormGroup;
+  topicOptions: string[] = QUESTIONS_TOPICS;
   uploadedImages: string[] = [];
-  file: File = new File(['init'], 'init.txt');
 
-  constructor(
-    private _uploadService: UploadFilesService,
-    private sanitizer: DomSanitizer,
-    private _userService: UserService
-  ) {}
+  constructor(private _uploadService: UploadImageService, private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.questionForm = new FormGroup({
+      question: new FormControl('', [Validators.required]),
+      topic: new FormControl(QUESTIONS_TOPICS[0], [Validators.required]),
+      images: new FormControl('')
+    });
+  }
+
   onChange(event: any) {
-    this.file = event.target.files[0];
-  }
-  sanitizeImageUrl(imageUrl: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-  }
-  onUploadImage() {
-    console.log(this.file);
-    this._uploadService.upload(this.file).subscribe(
-      (res: any) => {
-        console.warn(res);
-      },
-      (error) => {
-        console.warn(error);
-        this.uploadedImages.push(error.error.text);
-      }
-    );
-  }
-  onSubmit() {
-    if (this.question === '') {
-      this.warning = 'All fields are required!';
+    const imageFile = event.target.files[0];
+    if (imageFile) {
+      this._uploadService.uploadImage(imageFile).subscribe({
+        next: (result) => {
+          this.uploadedImages.push(result);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            alert(error.error);
+          }
+          else {
+            this.router.navigate(['/error/' + error.status]);
+          }
+        },
+      });
     }
+  }
+
+  getImageUrl(imageName: string) {
+    return `${BASE_URL}/images/${imageName}`;
+  }
+
+  submit() {
     this._userService
-      .postQuestion({ question: this.question, topic: this.topic })
-      .subscribe((res) => {
-        console.warn(res);
+      .postQuestion({
+        question: this.questionForm.value.question,
+        topic: this.questionForm.value.topic,
+        images: this.uploadedImages,
+      })
+      .subscribe({
+        next: (result) => {
+          alert('Your question submission was successful.');
+          this.router.navigate(['/']);
+        },
+        error: (error) => this.router.navigate(['/error/' + error.status]),
       });
   }
+
 }

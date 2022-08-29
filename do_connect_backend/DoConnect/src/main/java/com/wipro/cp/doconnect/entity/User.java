@@ -1,3 +1,9 @@
+/*
+ * @Author: Devashish Ashok Pathrabe
+ * Modified Date: 23-08-2022
+ * Description: User Entity
+ */
+
 package com.wipro.cp.doconnect.entity;
 
 import javax.persistence.Column;

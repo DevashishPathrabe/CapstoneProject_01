@@ -1,74 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BASE_URL } from '../constants/constants';
-import { getHeaders } from '../utils/util';
+import { AnswerType, BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AdminService {
-  baseURL = BASE_URL;
 
   constructor(private http: HttpClient) {}
 
   getUnapprovedQuestions() {
-    const headers = getHeaders();
-    return this.http.get(this.baseURL + '/questions?status=unapproved', {
-      headers: headers,
-    });
+    return this.http.get(BASE_URL + '/questions?status=unapproved');
   }
+
   getUnapprovedAnswers() {
-    const headers = getHeaders();
-    console.log(headers);
-    return this.http.get(this.baseURL + '/answers?status=unapproved', {
-      headers: headers,
-    });
+    return this.http.get(BASE_URL + '/answers?status=unapproved');
   }
 
   getUsers() {
-    const headers = getHeaders();
-    return this.http.get(this.baseURL + '/users', {
-      headers: headers,
-    });
+    return this.http.get(BASE_URL + '/users');
   }
 
-  deleteUser(id: any) {
-    const headers = getHeaders();
-    return this.http.delete(this.baseURL + '/users/' + id, {
-      headers: headers,
-    });
+  deleteUser(id: number) {
+    return this.http.delete(BASE_URL + '/users/' + id);
   }
 
-  approveQuestion(id: any) {
-    const headers = getHeaders();
-    return this.http.put(
-      this.baseURL + '/questions/' + id,
-      {
-        isApproved: true,
-      },
-      { headers: headers }
-    );
+  approveQuestion(id: number) {
+    return this.http.put(BASE_URL + '/questions/' + id, { isApproved: true });
   }
-  approveAnswer(id: any) {
-    const headers = getHeaders();
-    return this.http.put(
-      this.baseURL + '/questions/' + id,
-      {
-        isApproved: true,
-      },
-      { headers: headers }
-    );
+
+  approveAnswer(answer: AnswerType) {
+    return this.http.put(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id, { isApproved: true });
   }
-  deleteQuestion(id: any) {
-    const headers = getHeaders();
-    return this.http.delete(this.baseURL + '/questions/' + id, {
-      headers: headers,
-    });
+
+  deleteQuestion(id: number) {
+    return this.http.delete(BASE_URL + '/questions/' + id);
   }
-  deleteAnswer(id: any) {
-    const headers = getHeaders();
-    return this.http.delete(this.baseURL + '/questions/' + id, {
-      headers: headers,
-    });
+
+  deleteAnswer(answer: AnswerType) {
+    return this.http.delete(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id);
   }
+
 }

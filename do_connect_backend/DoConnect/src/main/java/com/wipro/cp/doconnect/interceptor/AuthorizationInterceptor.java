@@ -41,7 +41,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 		final String currentURI = request.getRequestURI().toString();
 		final Map<String, String[]> parameterMap = request.getParameterMap();
 		if (currentURI.equalsIgnoreCase("/api/v1/questions") && HttpMethod.GET.matches(currentMethod)) {
-			if (!parameterMap.containsKey("status") && !parameterMap.containsKey("search")) {
+			if (!parameterMap.containsKey("status") && !parameterMap.containsKey("search") && !parameterMap.containsKey("topic")) {
 				return true;
 			}
 		}
@@ -111,7 +111,11 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 						else if (HttpMethod.GET.matches(currentMethod)) {
 							String statusValue = getParameterValue(parameterMap, "status");
 							String searchValue = getParameterValue(parameterMap, "search");
-							if (searchValue == null && statusValue != null) {
+							String topicValue = getParameterValue(parameterMap, "topic");
+							if (topicValue == null && searchValue == null && statusValue == null && !isUserAdmin) {
+								return true;
+							}
+							else if (topicValue == null && searchValue == null && statusValue != null) {
 								if (statusValue.equalsIgnoreCase("approved")) {
 									return true;
 								}
@@ -123,7 +127,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 									return false;
 								}
 							}
-							else if (searchValue != null && statusValue == null) {
+							else if ((topicValue != null || searchValue != null) && statusValue == null) {
 								if (!isUserAdmin) {
 									return true;
 								}

@@ -16,4 +16,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 	List<Question> findByIsApprovedFalse();
 	
 	List<Question> findByQuestionContainingIgnoreCaseAndIsApprovedTrue(String question);
+	List<Question> findByTopicContainingIgnoreCaseAndIsApprovedTrue(String topic);
+	List<Question> findByTopicContainingIgnoreCaseAndQuestionContainingIgnoreCaseAndIsApprovedTrue(String topic, String question);
 }

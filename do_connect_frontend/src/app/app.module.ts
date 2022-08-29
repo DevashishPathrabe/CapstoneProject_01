@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
@@ -16,7 +16,9 @@ import { HomeComponent } from './home/home.component';
 import { PostQuestionComponent } from './post-question/post-question.component';
 import { ChatComponent } from './chat/chat.component';
 import { QuestionComponent } from './question/question.component';
-import { SearchComponent } from './search/search.component';
+import { ErrorComponent } from './error/error.component';
+import { authInterceptorProviders } from './utils/auth.interceptor';
+import { SecurePipe } from './utils/secure.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { SearchComponent } from './search/search.component';
     PostQuestionComponent,
     ChatComponent,
     QuestionComponent,
-    SearchComponent,
+    ErrorComponent,
+    SecurePipe,
   ],
   imports: [
     BrowserModule,
@@ -39,8 +42,9 @@ import { SearchComponent } from './search/search.component';
     FormsModule,
     HttpClientModule,
     AngularEditorModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from '../service/search.service';
+import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { getCurrentUsername, isUserAdmin, isUserLoggedIn } from '../utils/util';
 
 @Component({
   selector: 'app-navbar',
@@ -8,20 +10,37 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private _userService: UserService,private _searchService:SearchService) {}
 
-  searchedQuestion=''
-  data:any;
+  isAdmin = isUserAdmin();
+  isLoggedIn = isUserLoggedIn();
+  username = getCurrentUsername();
 
-  ngOnInit(): void {}
+  constructor(private _userService: UserService, private router: Router) {}
 
-  onSearch() {
-    if(this.searchedQuestion!=''){
-      this._searchService.onOpen(this.searchedQuestion).subscribe(res=>{
-        this.data = res;
-        console.log(this.data);
-      })
-    }
-    console.log(this.searchedQuestion);
+  ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event.constructor.name === "NavigationEnd") {
+        this.isAdmin = isUserAdmin();
+        this.isLoggedIn = isUserLoggedIn();
+      }
+    });
+  }
+
+  onLogout() {
+    this._userService.logout().subscribe({
+      next: (result) => {
+        localStorage.clear();
+        alert(result);
+        this.router.navigate(['/login']);
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          alert(error.error);
+        }
+        else {
+          this.router.navigate(['/error/' + error.status]);
+        }
+      },
+    });
   }
 }

@@ -1,45 +1,49 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConditionalExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { BASE_URL } from '../constants/constants';
-import { getHeaders } from '../utils/util';
+import { AnswerPostType, BASE_URL, QuestionPostType, UserLoginType, UserRegisterType } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class UserService {
-  baseURL = BASE_URL;
 
   constructor(private http: HttpClient) {}
 
-  register(user: any) {
-    // console.warn(user);
-    return this.http.post(`${this.baseURL}/register`, user);
-  }
-  login(user: any) {
-    // console.warn(user);
-    return this.http.post(`${this.baseURL}/login`, user);
+  register(user: UserRegisterType) {
+    return this.http.post(`${BASE_URL}/register`, user, { responseType: 'text' });
   }
 
-  setUser(user: any) {}
+  login(user: UserLoginType) {
+    return this.http.post(`${BASE_URL}/login`, user);
+  }
 
-  getQuestion(id: any) {
-    const headers = getHeaders();
-    return this.http.get(this.baseURL + '/questions/' + id, {
-      headers
-    });
+  getQuestion(id: number) {
+    return this.http.get(BASE_URL + '/questions/' + id);
   }
 
   getApprovedQuestions() {
-    return this.http.get(this.baseURL + '/questions');
+    return this.http.get(BASE_URL + '/questions');
   }
 
-  postQuestion(question: any) {
-    console.log(question);
-    const headers = getHeaders();
-    console.log(headers);
-    return this.http.post(this.baseURL + '/questions', question, {
-      headers: headers,
-    });
+  postQuestion(question: QuestionPostType) {
+    return this.http.post(BASE_URL + '/questions', question);
+  }
+
+  postAnswer(questionId: number, answer: AnswerPostType) {
+    return this.http.post(BASE_URL + '/questions/' + questionId + '/answers', answer);
+  }
+
+  searchQuestion(query: string, topic: string) {
+    return this.http.get(`${BASE_URL}/questions?search=${query}&topic=${topic}`);
+  }
+
+  getAnswers(quesId: number) {
+    return this.http.get(BASE_URL + '/questions/' + quesId + '/answers');
+  }
+
+  logout() {
+    return this.http.get(BASE_URL + '/signout', { responseType: 'text' });
   }
 }

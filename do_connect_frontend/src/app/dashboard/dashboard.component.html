@@ -1,102 +1,102 @@
 <div class="container text-white pt-4">
   <div class="row">
     <div class="d-flex justify-content-around">
-      <button class="btn btn-primary" (click)="getUnapprovedQuestions()">
+      <button class="btn {{ (mode === 'questions') ? 'btn-primary' : 'btn-secondary' }}" (click)="getUnapprovedQuestions()">
         Unapproved Questions
       </button>
-      <button class="btn btn-primary" (click)="getUnapprovedAnswers()">
+      <button class="btn {{ (mode === 'answers') ? 'btn-primary' : 'btn-secondary' }}" (click)="getUnapprovedAnswers()">
         Unapproved Answers
       </button>
-      <button class="btn btn-primary" (click)="getUsers()">
+      <button class="btn {{ (mode === 'users') ? 'btn-primary' : 'btn-secondary' }}" (click)="getUsers()">
         All Users List
       </button>
     </div>
   </div>
-  <div class="row pt-5">
-    <div *ngIf="mode === 'Questions'">
+  <div class="row pt-3">
+    <div *ngIf="mode == 'questions'">
       <table class="table table-dark text-center">
         <thead>
-          <th>Id</th>
           <th>Question</th>
           <th>Topic</th>
           <th>Posted By</th>
-          <th>Date</th>
-          <th>Status</th>
+          <th>Posted At</th>
+          <th>Actions</th>
         </thead>
         <tbody>
-          <tr *ngFor="let question of data">
-            <td>{{ question.id }}</td>
-            <td style="width: 40%">{{ question.question }}</td>
-            <td>{{ null }}</td>
-            <td>{{ question.postedBy }}</td>
-            <td>{{ question.date }}</td>
-            <td>
+          <tr *ngFor="let question of questionList">
+            <td class="align-middle">{{ question.question }}</td>
+            <td class="align-middle">{{ question.topic }}</td>
+            <td class="align-middle">{{ question.postedBy }}</td>
+            <td class="align-middle">{{ question.postedAt | date: 'medium' }}</td>
+            <td class="align-middle">
               <button
                 class="btn btn-success mx-1"
                 (click)="onApproveQuestion(question.id)"
               >
-                Approve
+                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
               </button>
               <button
                 class="btn btn-danger mx-1"
-                (click)="onRejectQuestion(question.id)"
+                (click)="onDeleteQuestion(question.id)"
               >
-                Reject
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div *ngIf="mode === 'Answers'">
+    <div *ngIf="mode == 'answers'">
       <table class="table table-dark text-center">
         <thead>
-          <th>Id</th>
+          <th>Question</th>
           <th>Answer</th>
           <th>Posted By</th>
-          <th>Date</th>
-          <th>Status</th>
+          <th>Posted At</th>
+          <th>Actions</th>
         </thead>
         <tbody>
-          <tr *ngFor="let answer of data[1].answers">
-            <td>{{ answer.id }}</td>
-            <td style="width: 40%">{{ answer.answer }}</td>
-            <td>{{ answer.postedBy }}</td>
-            <td>{{ answer.date }}</td>
-            <td>
+          <tr *ngFor="let answer of answerList">
+            <td class="align-middle">{{ answer.question?.question }}</td>
+            <td class="align-middle">{{ answer.answer }}</td>
+            <td class="align-middle">{{ answer.postedBy }}</td>
+            <td class="align-middle">{{ answer.postedAt | date:'medium' }}</td>
+            <td class="align-middle">
               <button
                 class="btn btn-success mx-1"
-                (click)="onApproveAnswer(answer.id)"
+                (click)="onApproveAnswer(answer)"
               >
-                Approve
+                <i class="fa fa-check fa-lg" aria-hidden="true"></i>
               </button>
               <button
                 class="btn btn-danger mx-1"
-                (click)="onRejectAnswer(answer.id)"
+                (click)="onDeleteAnswer(answer)"
               >
-                Reject
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div *ngIf="mode === 'Users'">
+    <div *ngIf="mode == 'users'">
       <table class="table table-dark text-center">
         <thead>
+          <th>Username</th>
           <th>Name</th>
           <th>Email</th>
-          <th>Phone</th>
+          <th>Role</th>
           <th>Action</th>
         </thead>
         <tbody>
-          <tr *ngFor="let user of data">
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.phone }}</td>
-            <td>
+          <tr *ngFor="let user of userList">
+            <td class="align-middle">{{ user.username }}</td>
+            <td class="align-middle">{{ user.name }}</td>
+            <td class="align-middle">{{ user.email }}</td>
+            <td class="align-middle">{{ user.isAdmin === true ? "Admin" : "User" }}</td>
+            <td class="align-middle">
               <button class="btn btn-danger mx-1" (click)="onDelete(user.id)">
-                Delete
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
