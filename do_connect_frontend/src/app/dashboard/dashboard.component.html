@@ -82,6 +82,7 @@
     <div *ngIf="mode === 'users'">
       <table class="table table-dark text-center">
         <thead>
+          <th>Username</th>
           <th>Name</th>
           <th>Email</th>
           <th>Role</th>
@@ -89,6 +90,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let user of data">
+            <td class="align-middle">{{ user.username }}</td>
             <td class="align-middle">{{ user.name }}</td>
             <td class="align-middle">{{ user.email }}</td>
             <td class="align-middle">{{ user.isAdmin === true ? "Admin" : "User" }}</td>
