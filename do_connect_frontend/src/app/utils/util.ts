@@ -1,4 +1,5 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import jwtDecode from 'jwt-decode';
 import { JWTCustomPayload } from '../constants/constants';
 
@@ -29,4 +30,33 @@ export const getCurrentUsername = () => {
     return undefined;
   }
   return undefined;
+};
+
+export const handleErrorResponse = (error: HttpErrorResponse, router: Router) => {
+  if (error.status === 400) {
+    if (error?.error) {
+      alert(error.error);
+    }
+    return;
+  }
+  else if (error.status === 401) {
+    if (error?.error) {
+      alert(error.error);
+    }
+    router.navigate(['login']);
+    return;
+  }
+  else if (error.status === 403) {
+    if (error?.error) {
+      alert(error.error);
+    }
+    router.navigate(['unauthorized']);
+    return;
+  }
+  else {
+    if (error?.error) {
+      alert(error.error);
+    }
+    router.navigate(['page-not-found']);
+  }
 };
