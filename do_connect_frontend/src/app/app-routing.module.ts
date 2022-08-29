@@ -8,16 +8,47 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { PostQuestionComponent } from './post-question/post-question.component';
 import { QuestionComponent } from './question/question.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './utils/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'post-question', component: PostQuestionComponent },
-  { path: 'question/:id', component: QuestionComponent },
-  { path: 'error/:status', component: ErrorComponent },
-  { path: '**', component: PageNotFoundComponent },
+  {
+    path: '',
+    component: HomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'post-question',
+    component: PostQuestionComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'question/:id',
+    component: QuestionComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'error/:status',
+    component: ErrorComponent
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  },
 ];
 
 @NgModule({
