@@ -1,4 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BASE_URL, QUESTIONS_TOPICS } from '../constants/constants';
 import { UploadImageService } from '../service/upload-image.service';
@@ -11,28 +13,34 @@ import { UserService } from '../service/user.service';
 })
 
 export class PostQuestionComponent implements OnInit {
-  question = '';
-  topic = '';
+  public questionForm !: FormGroup;
   topicOptions: string[] = QUESTIONS_TOPICS;
-  warning = '';
   uploadedImages: string[] = [];
 
-  constructor(
-    private _uploadService: UploadImageService,
-    private _userService: UserService,
-    private router: Router
-  ) {}
+  constructor(private _uploadService: UploadImageService, private _userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.questionForm = new FormGroup({
+      question: new FormControl('', [Validators.required]),
+      topic: new FormControl(QUESTIONS_TOPICS[0], [Validators.required]),
+      images: new FormControl('')
+    })
+  }
 
   onChange(event: any) {
     const imageFile = event.target.files[0];
     if (imageFile) {
       this._uploadService.uploadImage(imageFile).subscribe({
-        next: (res) => console.warn(res),
-        error: (err) => {
-          if (err.status === 200) this.uploadedImages.push(err.error.text);
-          else this.router.navigate(['/error/' + err.status]);
+        next: (result) => {
+          this.uploadedImages.push(result);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            alert(error.error);
+          }
+          else {
+            this.router.navigate(['/error/' + error.status]);
+          }
         },
       });
     }
@@ -42,20 +50,16 @@ export class PostQuestionComponent implements OnInit {
     return `${BASE_URL}/images/${imageName}`;
   }
 
-  onSubmit() {
-    if (this.question === '') {
-      this.warning = 'All fields are required!';
-      return;
-    }
+  submit() {
     this._userService
       .postQuestion({
-        question: this.question,
-        topic: this.topic,
-        images: this.uploadedImages,
+        question: this.questionForm.value.question,
+        topic: this.questionForm.value.topic,
+        images: this.questionForm.value.uploadedImages,
       })
       .subscribe({
-        next: (res) => {
-          alert('Successfully Submitted');
+        next: (result) => {
+          alert('Your question submission was successful.');
           this.router.navigate(['/']);
         },
         error: (err) => this.router.navigate(['/error/' + err.status]),
