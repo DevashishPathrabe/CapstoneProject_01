@@ -50,10 +50,7 @@ export class DashboardComponent implements OnInit {
     if (confirm('Are you sure you want to remove this user? This action cannot be reverted.')) {
       this._adminService.deleteUser(id).subscribe({
         next: (res) => this.getUsers(),
-        error: (err) => {
-          if (err.status === 200) this.getUsers();
-          else this.router.navigate(['/error/' + err.status]);
-        },
+        error: (err) => this.router.navigate(['/error/' + err.status]),
       });
     }
   }
@@ -69,10 +66,7 @@ export class DashboardComponent implements OnInit {
     if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteQuestion(id).subscribe({
         next: (res) => this.getUnapprovedQuestions(),
-        error: (err) => {
-          if (err.status === 200) this.getUnapprovedQuestions();
-          else this.router.navigate(['/error/' + err.status]);
-        },
+        error: (err) => this.router.navigate(['/error/' + err.status]),
       });
     }
   }
@@ -80,10 +74,7 @@ export class DashboardComponent implements OnInit {
   onApproveAnswer(answer: AnswerType) {
     this._adminService.approveAnswer(answer).subscribe({
       next: (res) => this.getUnapprovedAnswers(),
-      error: (err) => {
-        if (err.status === 200) this.getUnapprovedAnswers();
-        else this.router.navigate(['/error/' + err.status]);
-      },
+      error: (err) => this.router.navigate(['/error/' + err.status]),
     });
   }
 
@@ -91,10 +82,7 @@ export class DashboardComponent implements OnInit {
     if (confirm('Are you sure? This action cannot be reverted.')) {
       this._adminService.deleteAnswer(answer).subscribe({
         next: (res) => this.getUnapprovedAnswers(),
-        error: (err) => {
-          if (err.status === 200) this.getUnapprovedAnswers();
-          else this.router.navigate(['/error/' + err.status]);
-        },
+        error: (err) => this.router.navigate(['/error/' + err.status]),
       });
     }
   }
