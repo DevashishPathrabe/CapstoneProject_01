@@ -32,6 +32,7 @@ export class PostQuestionComponent implements OnInit {
     if (imageFile) {
       this._uploadService.uploadImage(imageFile).subscribe({
         next: (result) => {
+          console.log('***', result);
           this.uploadedImages.push(result);
         },
         error: (error: HttpErrorResponse) => {
@@ -55,7 +56,7 @@ export class PostQuestionComponent implements OnInit {
       .postQuestion({
         question: this.questionForm.value.question,
         topic: this.questionForm.value.topic,
-        images: this.questionForm.value.uploadedImages,
+        images: this.uploadedImages,
       })
       .subscribe({
         next: (result) => {
