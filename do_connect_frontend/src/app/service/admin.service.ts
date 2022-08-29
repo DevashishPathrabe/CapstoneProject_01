@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BASE_URL } from '../constants/constants';
+import { AnswerType, BASE_URL } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -22,23 +22,23 @@ export class AdminService {
     return this.http.get(BASE_URL + '/users');
   }
 
-  deleteUser(id: any) {
+  deleteUser(id: number) {
     return this.http.delete(BASE_URL + '/users/' + id);
   }
 
-  approveQuestion(id: any) {
+  approveQuestion(id: number) {
     return this.http.put(BASE_URL + '/questions/' + id, { isApproved: true });
   }
 
-  approveAnswer(answer: any) {
+  approveAnswer(answer: AnswerType) {
     return this.http.put(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id, { isApproved: true });
   }
 
-  deleteQuestion(id: any) {
+  deleteQuestion(id: number) {
     return this.http.delete(BASE_URL + '/questions/' + id);
   }
 
-  deleteAnswer(answer: any) {
+  deleteAnswer(answer: AnswerType) {
     return this.http.delete(BASE_URL + '/questions/' + answer.question.id + '/answers/' + answer.id);
   }
 
