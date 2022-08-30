@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Logout Token Entity
+*/
+
 package com.wipro.cp.doconnect.entity;
 
 import javax.persistence.Entity;
