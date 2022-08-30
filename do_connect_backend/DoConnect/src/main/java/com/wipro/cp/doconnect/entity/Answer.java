@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Answer Entity
+*/
+
 package com.wipro.cp.doconnect.entity;
 
 import java.util.Date;
