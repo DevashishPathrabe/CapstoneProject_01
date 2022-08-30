@@ -27,7 +27,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let question of questionList">
-            <td class="align-middle">{{ question.question }}</td>
+            <td class="align-middle text-start" style="max-width: max(35vw, 300px);">{{ question.question }}</td>
             <td class="align-middle">{{ question.topic }}</td>
             <td class="align-middle">{{ question.postedBy }}</td>
             <td class="align-middle">{{ question.postedAt | date: 'medium' }}</td>
@@ -63,8 +63,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let answer of answerList">
-            <td class="align-middle">{{ answer.question?.question }}</td>
-            <td class="align-middle">{{ answer.answer }}</td>
+            <td class="align-middle text-start" style="max-width: max(25vw, 300px);">{{ answer.question?.question }}</td>
+            <td class="align-middle text-start" style="max-width: max(25vw, 300px);">{{ answer.answer }}</td>
             <td class="align-middle">{{ answer.postedBy }}</td>
             <td class="align-middle">{{ answer.postedAt | date:'medium' }}</td>
             <td class="align-middle">
