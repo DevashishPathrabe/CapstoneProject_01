@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: Answer Request DTO
+*/
+
 package com.wipro.cp.doconnect.dto;
 
 import java.util.List;
