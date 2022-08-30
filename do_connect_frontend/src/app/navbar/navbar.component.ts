@@ -18,10 +18,12 @@ export class NavbarComponent implements OnInit {
   constructor(private _userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
+    
     this.router.events.subscribe(event => {
       if (event.constructor.name === "NavigationEnd") {
         this.isAdmin = isUserAdmin();
         this.isLoggedIn = isUserLoggedIn();
+        this.username = getCurrentUsername();
       }
     });
   }
