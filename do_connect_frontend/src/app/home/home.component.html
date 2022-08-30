@@ -1,32 +1,3 @@
-<<<<<<< HEAD
-<div class="container text-white pt-4">
-  <h2 class="text-center">All Questions</h2>
-
-  <div class="input-group">
-    <input
-    [(ngModel)]="searchedQuestion"
-      type="search"
-      class="form-control"
-      placeholder="Search"
-      aria-label="Search"
-      aria-describedby="search-addon"
-    />
-    <button class="btn btn-info" id="search-addon" (click)="onSearch()">
-      Search
-    </button>
-  </div>
-
-  <div class="row">
-    <div *ngFor="let question of data" class="col-lg-4 p-3">
-      <div class="bg-white text-dark p-3">
-        <p>{{ question.question }}</p>
-        <div class="pt-4">
-          <button class="btn btn-warning" (click)="openQuestion(question.id)">
-            View Ans
-          </button>
-
-
-=======
 <div class="container text-white">
   <h2 class="text-center py-4">All Questions</h2>
   <div *ngIf="isAdmin == false && isUserLoggedIn == true" class="input-group">
@@ -60,7 +31,6 @@
               View Answers
             </button>
           </div>
->>>>>>> b2d856484c80090035edd85e6485363fa11457f6
         </div>
       </div>
     </div>

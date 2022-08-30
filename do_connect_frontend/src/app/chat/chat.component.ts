@@ -31,26 +31,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-<<<<<<< HEAD
-    this._chatservice.getChatList().subscribe(res=>{
-      this.chatList = res;
-      
-    })
-  }
-  onclick(){
-    this._chatservice.createChat({message:this.message}).subscribe(res=>{
-      this.data = res;
-      console.log(this.data)
-    })
-    console.log(this.message);
-=======
     if (!this.isUserAdmin) {
       this.fetchChatMessages();
       this.interval = window.setInterval(() => {
         this.fetchChatMessages();
       }, CHAT_REFRESH_FRQUENCY_IN_SECONDS * 1000);
     }
->>>>>>> b2d856484c80090035edd85e6485363fa11457f6
   }
 
   ngOnDestroy(): void {

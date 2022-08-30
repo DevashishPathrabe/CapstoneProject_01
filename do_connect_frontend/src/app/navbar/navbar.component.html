@@ -13,31 +13,11 @@
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
     <ul class="navbar-nav">
-<<<<<<< HEAD
-      <!-- <li class="nav-item"> -->
-        <!-- <div class="input-group">
-          <input
-          [(ngModel)]="searchedQuestion"
-            type="search"
-            class="form-control"
-            placeholder="Search"
-            aria-label="Search"
-            aria-describedby="search-addon"
-          />
-          <button class="btn btn-info" id="search-addon" (click)="onSearch()">
-            Search
-          </button>
-        </div> -->
-      <!-- </li> -->
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-=======
       <li *ngIf="isLoggedIn === true" class="nav-item d-flex align-items-center" style="padding-right: 1rem;">
         <span class="text-white">Welcome {{ username }}</span>
       </li>
       <li *ngIf="isAdmin === false && isLoggedIn === true" class="nav-item">
         <a class="nav-link" routerLink="/post-question">Ask Question</a>
->>>>>>> b2d856484c80090035edd85e6485363fa11457f6
       </li>
       <li *ngIf="isLoggedIn === false" class="nav-item">
         <a class="nav-link" routerLink="/register">Register</a>
