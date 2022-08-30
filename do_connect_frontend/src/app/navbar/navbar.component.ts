@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
       if (event.constructor.name === "NavigationEnd") {
         this.isAdmin = isUserAdmin();
         this.isLoggedIn = isUserLoggedIn();
+        this.username = getCurrentUsername();
       }
     });
   }
