@@ -1,3 +1,13 @@
+/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
+
+
+
 package com.wipro.cp.doconnect.service;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +23,13 @@ class EmailServiceImpTest {
 
 	@Autowired
 	IEmailService service;
-	
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 	@Test
 	void testSendNotificationEmail() {
 		String[] recipients = new String[]{"tapassaha6685@gmail.com"};

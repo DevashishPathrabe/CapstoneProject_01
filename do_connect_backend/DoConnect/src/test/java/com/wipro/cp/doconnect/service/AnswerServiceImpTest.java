@@ -1,3 +1,12 @@
+/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
+
+
 package com.wipro.cp.doconnect.service;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,18 +28,38 @@ class AnswerServiceImpTest {
 
 	@Autowired
 	IAnswerService service;
-	
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 	@Test
 	void testGetAllAnswers() {
 		StatusDTO<List<AnswerResponseDTO>> response = service.getAllAnswers("all");
 		assertNotNull(response);
 	}
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 
 	@Test
 	void testGetAllAnswersForQuestionId() {
 		StatusDTO<List<AnswerResponseDTO>> response = service.getAllAnswersForQuestionId(1l, "all");
 		assertNotNull(response);
 	}
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 
 	@Test
 	void testCreateAnswerForQuestionId() {
@@ -41,6 +70,13 @@ class AnswerServiceImpTest {
 		StatusDTO<AnswerResponseDTO> ansresponse = service.createAnswerForQuestionId(1l, ans, "TapasUser");
 		assertNotNull(ansresponse);
 	}
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 
 	@Test
 	void testUpdateAnswerForQuestionId() {
@@ -48,6 +84,13 @@ class AnswerServiceImpTest {
 		StatusDTO<AnswerResponseDTO> response = service.updateAnswerForQuestionId(1l, 1l, ansupdate, "TapasAdmin");
 		assertNotNull(response);
 	}
+	/*
+	* @Author: Tapas Kumar Saha
+	* Modified Date: 26-08-2022
+	* Description: Update approval status of a particular answer for a particular question ID
+	* Params: QuestionID long, AnswerID long, AnswerUpdateDTO object, ApprovedBy string
+	* Return Type: AnswerResponseDTO wrapped with StatusDTO
+	*/
 
 	@Test
 	void testDeleteAnswerForQuestionById() {
