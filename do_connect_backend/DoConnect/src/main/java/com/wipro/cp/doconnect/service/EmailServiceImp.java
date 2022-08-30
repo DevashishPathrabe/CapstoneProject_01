@@ -43,6 +43,7 @@ public class EmailServiceImp implements IEmailService {
 			simpleMailMessage.setSubject(emailDTO.getSubject());
 			simpleMailMessage.setText(emailDTO.getBody());
 			javaMailSender.send(simpleMailMessage);
+			log.info("Notification email sent to " + emailDTO.getRecipients().toString());
 			return true;
 		}
 		catch (Exception e) {
