@@ -1,3 +1,9 @@
+/*
+* @Author: Devashish Ashok Pathrabe
+* Modified Date: 26-08-2022
+* Description: User Login Response DTO
+*/
+
 package com.wipro.cp.doconnect.dto;
 
 import java.io.Serializable;
