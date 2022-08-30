@@ -47,7 +47,7 @@ public class EmailServiceImp implements IEmailService {
 			return true;
 		}
 		catch (Exception e) {
-			log.warn(e.toString());
+			log.warn("Failed to send Notification email. Details: " + e.toString());
 			return false;
 		}
 	}
